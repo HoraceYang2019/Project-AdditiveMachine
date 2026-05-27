@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/NC-block.schema.json",
+  "title": "NC Block",
+  "description": "One line-level NC block extracted from the source MPF program for downstream analysis and visualization.",
+  "type": "object",
+  "required": [
+    "program_id",
+    "line_no",
+    "raw_line",
+    "command",
+    "block_type"
+  ],
+  "properties": {
+    "program_id": {
+      "type": "string"
+    },
+    "line_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "raw_line": {
+      "type": "string"
+    },
+    "command": {
+      "type": "string"
+    },
+    "block_type": {
+      "type": "string",
+      "enum": [
+        "comment",
+        "header",
+        "setup",
+        "motion",
+        "laser_command",
+        "powder_command",
+        "dwell",
+        "transform",
+        "cycle",
+        "tool",
+        "optional_stop",
+        "end",
+        "misc"
+      ]
+    },
+    "m_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "x_mm": {
+      "type": "number"
+    },
+    "y_mm": {
+      "type": "number"
+    },
+    "z_mm": {
+      "type": "number"
+    },
+    "a_deg": {
+      "type": "number"
+    },
+    "c_deg": {
+      "type": "number"
+    },
+    "feed_rate_mm_min": {
+      "type": "number"
+    },
+    "laser_on": {
+      "type": "boolean"
+    },
+    "powder_supply_on": {
+      "type": "boolean"
+    },
+    "optional_block": {
+      "type": "boolean"
+    },
+    "layer_index": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false
+}

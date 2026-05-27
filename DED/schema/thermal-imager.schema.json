@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/thermal-imager.schema.json",
+  "title": "Thermal Imager",
+  "description": "Thermal camera observation summary with representative G_High samples extracted from CSV data.",
+  "type": "object",
+  "required": [
+    "program_id",
+    "sensor_type",
+    "source_file",
+    "start_time",
+    "end_time",
+    "sample_count",
+    "g_high_min",
+    "g_high_max",
+    "g_high_avg",
+    "thermal_trace"
+  ],
+  "$defs": {
+    "thermal_sample": {
+      "type": "object",
+      "required": [
+        "time",
+        "g_high"
+      ],
+      "properties": {
+        "time": {
+          "type": "string"
+        },
+        "g_high": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "program_id": {
+      "type": "string"
+    },
+    "sensor_type": {
+      "type": "string",
+      "enum": [
+        "thermal-camera"
+      ]
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "start_time": {
+      "type": "string"
+    },
+    "end_time": {
+      "type": "string"
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "g_high_min": {
+      "type": "number"
+    },
+    "g_high_max": {
+      "type": "number"
+    },
+    "g_high_avg": {
+      "type": "number"
+    },
+    "thermal_trace": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/thermal_sample"
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}

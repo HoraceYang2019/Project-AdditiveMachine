@@ -1,0 +1,21 @@
+{
+  "program_id": "202603237504150010",
+  "file_name": "202603237504150010_modified.MPF",
+  "source_format": "Siemens MPF",
+  "source_variant": "modified",
+  "cam_system": "Mastercam 2024",
+  "source_cam_file": "C:\\USERS\\USER\\DESKTOP\\掃描檔\\20251120.MCAM",
+  "machine": "AMH-350",
+  "machine_type": "Laser-Directed-Energy-Deposition",
+  "created_date": "MAR-23-2026",
+  "created_time": "2:46 PM",
+  "unit_system": "mm",
+  "coordinate_plane": "G17",
+  "coordinate_mode": "G90",
+  "work_offset": "G54",
+  "path_control_mode": "G64",
+  "transform_mode": "TRAORI(2)",
+  "home_position_used": true,
+  "has_laser_process": true,
+  "has_powder_supply": true
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/laser-process-parameters.schema.json",
+  "title": "Laser Process Parameters",
+  "description": "Laser and powder-process parameters derived from MPF commands such as LASER_PARA, /M717, /M718, /M721, and /M722.",
+  "type": "object",
+  "required": [
+    "parameter_event_id",
+    "program_id",
+    "line_no",
+    "parameter_action",
+    "raw_command"
+  ],
+  "properties": {
+    "parameter_event_id": {
+      "type": "string"
+    },
+    "program_id": {
+      "type": "string"
+    },
+    "line_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "parameter_action": {
+      "type": "string",
+      "enum": [
+        "set",
+        "clear"
+      ]
+    },
+    "raw_command": {
+      "type": "string"
+    },
+    "laser_power_w": {
+      "type": "number"
+    },
+    "spot_diameter_mm": {
+      "type": "number"
+    },
+    "laser_mode": {
+      "type": "integer"
+    },
+    "scan_speed_mm_min": {
+      "type": "number"
+    },
+    "powder_feed_rate_g_min": {
+      "type": "number"
+    },
+    "powder_supply_on": {
+      "type": "boolean"
+    },
+    "powder_emptying_requested": {
+      "type": "boolean"
+    },
+    "safety_lock_on": {
+      "type": "boolean"
+    },
+    "laser_on": {
+      "type": "boolean"
+    },
+    "dwell_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "parameter_group": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

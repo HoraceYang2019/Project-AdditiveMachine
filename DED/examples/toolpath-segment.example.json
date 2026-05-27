@@ -1,0 +1,38 @@
+{
+  "program_id": "202603237504150010",
+  "segment_id": "SEG_L01",
+  "parameter_event_id": "DED_0001",
+  "source_range": "L00037-L00119",
+  "path_type": "deposit",
+  "laser_on": true,
+  "powder_supply_on": true,
+  "feed_rate_mm_min": 1500.0,
+  "work_offset": "G54",
+  "track_index": 1,
+  "layer_index": 1,
+  "z_layer_mm": 109.982,
+  "path_application" : "boundary",
+  "start_point": {
+    "x_mm": 21.867,
+    "y_mm": -24.978,
+    "z_mm": 109.982,
+    "a_deg": 0.0,
+    "c_deg": 0.0
+  },
+  "end_point": {
+    "x_mm": 22.254,
+    "y_mm": -24.937,
+    "z_mm": 109.982,
+    "a_deg": 0.0,
+    "c_deg": 0.0
+  },
+  "point_count": 84,
+  "bounding_box": {
+    "x_min_mm": -24.622,
+    "x_max_mm": 24.169,
+    "y_min_mm": -24.978,
+    "y_max_mm": 22.822,
+    "z_min_mm": 109.982,
+    "z_max_mm": 109.982
+  }
+}

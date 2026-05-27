@@ -1,0 +1,18 @@
+{
+  "program_id": "202603237504150010",
+  "line_no": 37,
+  "raw_line": "G1 X21.867 Y-24.978 Z109.982 A0. C0. F1500.",
+  "command": "G1",
+  "block_type": "motion",
+  "m_codes": [],
+  "x_mm": 21.867,
+  "y_mm": -24.978,
+  "z_mm": 109.982,
+  "a_deg": 0.0,
+  "c_deg": 0.0,
+  "feed_rate_mm_min": 1500.0,
+  "laser_on": true,
+  "powder_supply_on": true,
+  "optional_block": false,
+  "layer_index": 1
+}
