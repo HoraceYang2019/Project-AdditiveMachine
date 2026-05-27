@@ -1,0 +1,636 @@
+@prefix lpbf: <http://example.org/lpbf#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# LPBF Output TTL
+#################################################################
+
+lpbf:LPBF_Output_TTL
+    a owl:Ontology ;
+    rdfs:label "LPBF Output TTL"@en ;
+    rdfs:label "LPBF 輸出 TTL"@zh ;
+    rdfs:comment "This TTL describes LPBF output data including project data, batches, process quality thresholds, runtime batch selector, runtime monitoring window, runtime sensor values, inferred process state, inferred surface quality, defect state, and Layer/LaserPath/STL alignment. This version adds class-level restrictions to improve ontology graph relationship visualization."@en .
+
+#################################################################
+# Classes
+#################################################################
+
+lpbf:LPBFProject
+    a owl:Class ;
+    rdfs:label "LPBF 專案資料"@zh .
+
+lpbf:LPBFProcessKnowledgeBatch
+    a owl:Class ;
+    rdfs:label "LPBF Batch A / B / C"@zh .
+
+lpbf:LPBFQualityThreshold
+    a owl:Class ;
+    rdfs:label "LPBF 製程品質門檻"@zh .
+
+lpbf:LPBFRuntimeBatchSelector
+    a owl:Class ;
+    rdfs:label "LPBF RuntimeBatchSelector"@zh .
+
+lpbf:LPBFRuntimeMonitoringWindow
+    a owl:Class ;
+    rdfs:label "LPBF Runtime 監測視窗"@zh .
+
+lpbf:LPBFRuntimeObservation
+    a owl:Class ;
+    rdfs:label "雷射功率、掃描速度、熔池影像、熱場、冷卻時間、表面高度"@zh .
+
+lpbf:LPBFProcessState
+    a owl:Class ;
+    rdfs:label "ProcessStable / ProcessWarning / ProcessAbnormal"@en ;
+    rdfs:label "LPBF 加工狀態"@zh .
+
+lpbf:LPBFSurfaceQuality
+    a owl:Class ;
+    rdfs:label "SurfaceHeight_Good / Warning / Poor"@en ;
+    rdfs:label "LPBF 表面品質"@zh .
+
+lpbf:LPBFDefectState
+    a owl:Class ;
+    rdfs:label "LPBF 異常狀態，例如 LackOfFusionRisk / OverMeltingRisk / BallingRisk"@zh .
+
+lpbf:LPBFGeometryAlignment
+    a owl:Class ;
+    rdfs:label "Layer / LaserPath / STL 對齊資料"@zh .
+
+lpbf:STLModel
+    a owl:Class ;
+    rdfs:subClassOf lpbf:LPBFGeometryAlignment ;
+    rdfs:label "STL 工件模型"@zh .
+
+lpbf:LayerData
+    a owl:Class ;
+    rdfs:subClassOf lpbf:LPBFGeometryAlignment ;
+    rdfs:label "Layer 資料"@zh .
+
+lpbf:LaserPathData
+    a owl:Class ;
+    rdfs:subClassOf lpbf:LPBFGeometryAlignment ;
+    rdfs:label "LaserPath 資料"@zh .
+
+lpbf:LaserPathSegment
+    a owl:Class ;
+    rdfs:subClassOf lpbf:LPBFGeometryAlignment ;
+    rdfs:label "LaserPath 片段"@zh .
+
+#################################################################
+# Object Properties
+#################################################################
+
+lpbf:hasBatch
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFProject ;
+    rdfs:range lpbf:LPBFProcessKnowledgeBatch ;
+    rdfs:label "具有批次"@zh .
+
+lpbf:hasQualityThreshold
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFProcessKnowledgeBatch ;
+    rdfs:range lpbf:LPBFQualityThreshold ;
+    rdfs:label "具有製程品質門檻"@zh .
+
+lpbf:activeProject
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeBatchSelector ;
+    rdfs:range lpbf:LPBFProject ;
+    rdfs:label "目前專案"@zh .
+
+lpbf:activeBatch
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeBatchSelector ;
+    rdfs:range lpbf:LPBFProcessKnowledgeBatch ;
+    rdfs:label "目前批次"@zh .
+
+lpbf:hasRuntimeWindow
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFProject ;
+    rdfs:range lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:label "具有 Runtime 監測視窗"@zh .
+
+lpbf:belongsToBatch
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LPBFProcessKnowledgeBatch ;
+    rdfs:label "所屬批次"@zh .
+
+lpbf:hasRuntimeObservation
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LPBFRuntimeObservation ;
+    rdfs:label "具有 Runtime 感測數值"@zh .
+
+lpbf:hasProcessState
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LPBFProcessState ;
+    rdfs:label "具有加工狀態"@zh .
+
+lpbf:hasSurfaceQuality
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LPBFSurfaceQuality ;
+    rdfs:label "具有表面品質"@zh .
+
+lpbf:hasDefectState
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LPBFDefectState ;
+    rdfs:label "具有 LPBF 異常狀態"@zh .
+
+lpbf:alignedWithSTL
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:STLModel ;
+    rdfs:label "對齊 STL"@zh .
+
+lpbf:alignedWithLayer
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LayerData ;
+    rdfs:label "對齊 Layer"@zh .
+
+lpbf:alignedWithLaserPath
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LaserPathData ;
+    rdfs:label "對齊 LaserPath"@zh .
+
+lpbf:alignedWithLaserPathSegment
+    a owl:ObjectProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range lpbf:LaserPathSegment ;
+    rdfs:label "對齊 LaserPath 片段"@zh .
+
+#################################################################
+# Class-level Restrictions
+# 這一段是讓關聯圖更容易出現線的重點
+#################################################################
+
+lpbf:LPBFProject
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasBatch ;
+          owl:someValuesFrom lpbf:LPBFProcessKnowledgeBatch
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasRuntimeWindow ;
+          owl:someValuesFrom lpbf:LPBFRuntimeMonitoringWindow
+        ] .
+
+lpbf:LPBFProcessKnowledgeBatch
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasQualityThreshold ;
+          owl:someValuesFrom lpbf:LPBFQualityThreshold
+        ] .
+
+lpbf:LPBFRuntimeBatchSelector
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:activeProject ;
+          owl:someValuesFrom lpbf:LPBFProject
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:activeBatch ;
+          owl:someValuesFrom lpbf:LPBFProcessKnowledgeBatch
+        ] .
+
+lpbf:LPBFRuntimeMonitoringWindow
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:belongsToBatch ;
+          owl:someValuesFrom lpbf:LPBFProcessKnowledgeBatch
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasRuntimeObservation ;
+          owl:someValuesFrom lpbf:LPBFRuntimeObservation
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasProcessState ;
+          owl:someValuesFrom lpbf:LPBFProcessState
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasSurfaceQuality ;
+          owl:someValuesFrom lpbf:LPBFSurfaceQuality
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:hasDefectState ;
+          owl:someValuesFrom lpbf:LPBFDefectState
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithSTL ;
+          owl:someValuesFrom lpbf:STLModel
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLayer ;
+          owl:someValuesFrom lpbf:LayerData
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLaserPath ;
+          owl:someValuesFrom lpbf:LaserPathData
+        ] ,
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLaserPathSegment ;
+          owl:someValuesFrom lpbf:LaserPathSegment
+        ] .
+
+lpbf:STLModel
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithSTL ;
+          owl:someValuesFrom lpbf:LPBFRuntimeMonitoringWindow
+        ] .
+
+lpbf:LayerData
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLayer ;
+          owl:someValuesFrom lpbf:LPBFRuntimeMonitoringWindow
+        ] .
+
+lpbf:LaserPathData
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLaserPath ;
+          owl:someValuesFrom lpbf:LPBFRuntimeMonitoringWindow
+        ] .
+
+lpbf:LaserPathSegment
+    rdfs:subClassOf
+        [ a owl:Restriction ;
+          owl:onProperty lpbf:alignedWithLaserPathSegment ;
+          owl:someValuesFrom lpbf:LPBFRuntimeMonitoringWindow
+        ] .
+
+#################################################################
+# Data Properties
+#################################################################
+
+lpbf:hasProjectId
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFProject ;
+    rdfs:range xsd:string ;
+    rdfs:label "專案 ID"@zh .
+
+lpbf:hasProjectName
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFProject ;
+    rdfs:range xsd:string ;
+    rdfs:label "專案名稱"@zh .
+
+lpbf:hasBatchId
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFProcessKnowledgeBatch ;
+    rdfs:range xsd:string ;
+    rdfs:label "批次 ID"@zh .
+
+lpbf:hasThresholdMetric
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFQualityThreshold ;
+    rdfs:range xsd:string ;
+    rdfs:label "門檻指標"@zh .
+
+lpbf:hasMinValue
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFQualityThreshold ;
+    rdfs:range xsd:double ;
+    rdfs:label "最小值"@zh .
+
+lpbf:hasMaxValue
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFQualityThreshold ;
+    rdfs:range xsd:double ;
+    rdfs:label "最大值"@zh .
+
+lpbf:hasUnit
+    a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "單位"@zh .
+
+lpbf:selectionTimestamp
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeBatchSelector ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "批次選擇時間"@zh .
+
+lpbf:hasWindowId
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range xsd:string ;
+    rdfs:label "Runtime 視窗 ID"@zh .
+
+lpbf:hasLayerId
+    a owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "Layer ID"@zh .
+
+lpbf:hasTrackId
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range xsd:integer ;
+    rdfs:label "Track ID"@zh .
+
+lpbf:hasTimestamp
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeMonitoringWindow ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "時間戳記"@zh .
+
+lpbf:hasLaserPower
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "雷射功率"@zh .
+
+lpbf:hasScanSpeed
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "掃描速度"@zh .
+
+lpbf:hasMeltPoolImage
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:string ;
+    rdfs:label "熔池影像"@zh .
+
+lpbf:hasThermalFieldData
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:string ;
+    rdfs:label "熱場資料"@zh .
+
+lpbf:hasCoolingTime
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "冷卻時間"@zh .
+
+lpbf:hasSurfaceHeight
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "表面高度"@zh .
+
+lpbf:hasSimulatedSurfaceHeight
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "模擬表面高度"@zh .
+
+lpbf:hasActualSurfaceHeight
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "實際表面高度"@zh .
+
+lpbf:hasSurfaceHeightDeviation
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFRuntimeObservation ;
+    rdfs:range xsd:double ;
+    rdfs:label "表面高度差"@zh .
+
+lpbf:hasZHeight
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LayerData ;
+    rdfs:range xsd:double ;
+    rdfs:label "Z 高度"@zh .
+
+lpbf:hasX1
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LaserPathSegment ;
+    rdfs:range xsd:double ;
+    rdfs:label "X1"@zh .
+
+lpbf:hasY1
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LaserPathSegment ;
+    rdfs:range xsd:double ;
+    rdfs:label "Y1"@zh .
+
+lpbf:hasX2
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LaserPathSegment ;
+    rdfs:range xsd:double ;
+    rdfs:label "X2"@zh .
+
+lpbf:hasY2
+    a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LaserPathSegment ;
+    rdfs:range xsd:double ;
+    rdfs:label "Y2"@zh .
+
+#################################################################
+# Individuals: LPBF 專案資料
+#################################################################
+
+lpbf:LPBF_Project_001
+    a lpbf:LPBFProject ;
+    lpbf:hasProjectId "LPBF_Project_001" ;
+    lpbf:hasProjectName "LPBF Output TTL Project" ;
+    lpbf:hasBatch lpbf:LPBF_Batch_A ;
+    lpbf:hasBatch lpbf:LPBF_Batch_B ;
+    lpbf:hasBatch lpbf:LPBF_Batch_C ;
+    lpbf:hasRuntimeWindow lpbf:RuntimeWindow_Layer001_W0001 ;
+    rdfs:label "LPBF 專案資料"@zh .
+
+#################################################################
+# Individuals: LPBF Batch A / B / C
+#################################################################
+
+lpbf:LPBF_Batch_A
+    a lpbf:LPBFProcessKnowledgeBatch ;
+    lpbf:hasBatchId "LPBF_Batch_A" ;
+    rdfs:label "LPBF Batch A"@en ;
+    rdfs:label "LPBF 批次 A"@zh .
+
+lpbf:LPBF_Batch_B
+    a lpbf:LPBFProcessKnowledgeBatch ;
+    lpbf:hasBatchId "LPBF_Batch_B" ;
+    lpbf:hasQualityThreshold lpbf:Threshold_SurfaceHeight_Good ;
+    lpbf:hasQualityThreshold lpbf:Threshold_SurfaceHeight_Warning ;
+    lpbf:hasQualityThreshold lpbf:Threshold_SurfaceHeight_Poor ;
+    rdfs:label "LPBF Batch B"@en ;
+    rdfs:label "LPBF 批次 B"@zh .
+
+lpbf:LPBF_Batch_C
+    a lpbf:LPBFProcessKnowledgeBatch ;
+    lpbf:hasBatchId "LPBF_Batch_C" ;
+    rdfs:label "LPBF Batch C"@en ;
+    rdfs:label "LPBF 批次 C"@zh .
+
+#################################################################
+# Individuals: LPBF 製程品質門檻
+#################################################################
+
+lpbf:Threshold_SurfaceHeight_Good
+    a lpbf:LPBFQualityThreshold ;
+    lpbf:hasThresholdMetric "SurfaceHeightDeviation" ;
+    lpbf:hasMinValue "0.0"^^xsd:double ;
+    lpbf:hasMaxValue "20.0"^^xsd:double ;
+    lpbf:hasUnit "um" ;
+    rdfs:label "SurfaceHeight Good Threshold"@en ;
+    rdfs:label "表面高度良好門檻"@zh .
+
+lpbf:Threshold_SurfaceHeight_Warning
+    a lpbf:LPBFQualityThreshold ;
+    lpbf:hasThresholdMetric "SurfaceHeightDeviation" ;
+    lpbf:hasMinValue "20.0"^^xsd:double ;
+    lpbf:hasMaxValue "50.0"^^xsd:double ;
+    lpbf:hasUnit "um" ;
+    rdfs:label "SurfaceHeight Warning Threshold"@en ;
+    rdfs:label "表面高度警告門檻"@zh .
+
+lpbf:Threshold_SurfaceHeight_Poor
+    a lpbf:LPBFQualityThreshold ;
+    lpbf:hasThresholdMetric "SurfaceHeightDeviation" ;
+    lpbf:hasMinValue "50.0"^^xsd:double ;
+    lpbf:hasMaxValue "999.0"^^xsd:double ;
+    lpbf:hasUnit "um" ;
+    rdfs:label "SurfaceHeight Poor Threshold"@en ;
+    rdfs:label "表面高度不良門檻"@zh .
+
+#################################################################
+# Individual: LPBF RuntimeBatchSelector
+#################################################################
+
+lpbf:RuntimeBatchSelector_001
+    a lpbf:LPBFRuntimeBatchSelector ;
+    lpbf:activeProject lpbf:LPBF_Project_001 ;
+    lpbf:activeBatch lpbf:LPBF_Batch_B ;
+    lpbf:selectionTimestamp "2026-04-27T09:00:00+08:00"^^xsd:dateTime ;
+    rdfs:label "LPBF RuntimeBatchSelector"@zh .
+
+#################################################################
+# Individuals: Layer / LaserPath / STL 對齊資料
+#################################################################
+
+lpbf:STL_OverhangPart
+    a lpbf:STLModel ;
+    rdfs:label "STL 工件模型"@zh .
+
+lpbf:Layer_001
+    a lpbf:LayerData ;
+    lpbf:hasLayerId "1"^^xsd:integer ;
+    lpbf:hasZHeight "0.03"^^xsd:double ;
+    lpbf:hasUnit "mm" ;
+    rdfs:label "Layer 001"@en ;
+    rdfs:label "第 001 層"@zh .
+
+lpbf:LaserPath_Batch_B
+    a lpbf:LaserPathData ;
+    rdfs:label "LaserPath Batch B"@en ;
+    rdfs:label "Batch B LaserPath 資料"@zh .
+
+lpbf:LaserPathSegment_001_034
+    a lpbf:LaserPathSegment ;
+    lpbf:hasX1 "1.25"^^xsd:double ;
+    lpbf:hasY1 "0.80"^^xsd:double ;
+    lpbf:hasX2 "4.75"^^xsd:double ;
+    lpbf:hasY2 "0.80"^^xsd:double ;
+    lpbf:hasUnit "mm" ;
+    rdfs:label "LaserPath Segment 001-034"@en ;
+    rdfs:label "雷射路徑片段 001-034"@zh .
+
+#################################################################
+# Individual: LPBF Runtime 監測視窗
+#################################################################
+
+lpbf:RuntimeWindow_Layer001_W0001
+    a lpbf:LPBFRuntimeMonitoringWindow ;
+    lpbf:belongsToBatch lpbf:LPBF_Batch_B ;
+    lpbf:hasWindowId "Layer001_W0001" ;
+    lpbf:hasLayerId "1"^^xsd:integer ;
+    lpbf:hasTrackId "34"^^xsd:integer ;
+    lpbf:hasTimestamp "2026-04-27T09:01:00+08:00"^^xsd:dateTime ;
+    lpbf:hasRuntimeObservation lpbf:Observation_Layer001_W0001 ;
+    lpbf:hasProcessState lpbf:ProcessWarning ;
+    lpbf:hasSurfaceQuality lpbf:SurfaceHeight_Warning ;
+    lpbf:hasDefectState lpbf:LackOfFusionRisk ;
+    lpbf:alignedWithSTL lpbf:STL_OverhangPart ;
+    lpbf:alignedWithLayer lpbf:Layer_001 ;
+    lpbf:alignedWithLaserPath lpbf:LaserPath_Batch_B ;
+    lpbf:alignedWithLaserPathSegment lpbf:LaserPathSegment_001_034 ;
+    rdfs:label "LPBF Runtime 監測視窗"@zh .
+
+#################################################################
+# Individual: Runtime 感測數值
+#################################################################
+
+lpbf:Observation_Layer001_W0001
+    a lpbf:LPBFRuntimeObservation ;
+    lpbf:hasLaserPower "200.0"^^xsd:double ;
+    lpbf:hasScanSpeed "800.0"^^xsd:double ;
+    lpbf:hasMeltPoolImage "meltpool_layer001_w0001.png" ;
+    lpbf:hasThermalFieldData "thermal_field_layer001_w0001.csv" ;
+    lpbf:hasCoolingTime "0.0035"^^xsd:double ;
+    lpbf:hasSurfaceHeight "186.7"^^xsd:double ;
+    lpbf:hasSimulatedSurfaceHeight "152.3"^^xsd:double ;
+    lpbf:hasActualSurfaceHeight "186.7"^^xsd:double ;
+    lpbf:hasSurfaceHeightDeviation "34.4"^^xsd:double ;
+    lpbf:hasUnit "um" ;
+    rdfs:label "雷射功率、掃描速度、熔池影像、熱場、冷卻時間、表面高度"@zh .
+
+#################################################################
+# Individuals: ProcessStable / ProcessWarning / ProcessAbnormal
+#################################################################
+
+lpbf:ProcessStable
+    a lpbf:LPBFProcessState ;
+    rdfs:label "ProcessStable"@en ;
+    rdfs:label "加工穩定"@zh .
+
+lpbf:ProcessWarning
+    a lpbf:LPBFProcessState ;
+    rdfs:label "ProcessWarning"@en ;
+    rdfs:label "加工警告"@zh .
+
+lpbf:ProcessAbnormal
+    a lpbf:LPBFProcessState ;
+    rdfs:label "ProcessAbnormal"@en ;
+    rdfs:label "加工異常"@zh .
+
+#################################################################
+# Individuals: SurfaceHeight_Good / Warning / Poor
+#################################################################
+
+lpbf:SurfaceHeight_Good
+    a lpbf:LPBFSurfaceQuality ;
+    rdfs:label "SurfaceHeight_Good"@en ;
+    rdfs:label "表面高度良好"@zh .
+
+lpbf:SurfaceHeight_Warning
+    a lpbf:LPBFSurfaceQuality ;
+    rdfs:label "SurfaceHeight_Warning"@en ;
+    rdfs:label "表面高度警告"@zh .
+
+lpbf:SurfaceHeight_Poor
+    a lpbf:LPBFSurfaceQuality ;
+    rdfs:label "SurfaceHeight_Poor"@en ;
+    rdfs:label "表面高度不良"@zh .
+
+#################################################################
+# Individuals: LPBF 異常狀態
+#################################################################
+
+lpbf:LackOfFusionRisk
+    a lpbf:LPBFDefectState ;
+    rdfs:label "LackOfFusionRisk"@en ;
+    rdfs:label "熔融不足風險"@zh .
+
+lpbf:OverMeltingRisk
+    a lpbf:LPBFDefectState ;
+    rdfs:label "OverMeltingRisk"@en ;
+    rdfs:label "過度熔融風險"@zh .
+
+lpbf:BallingRisk
+    a lpbf:LPBFDefectState ;
+    rdfs:label "BallingRisk"@en ;
+    rdfs:label "球化風險"@zh .
