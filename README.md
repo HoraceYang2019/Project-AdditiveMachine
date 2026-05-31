@@ -1,3 +1,4 @@
+### Ontology Development
 1. **Prepare ontology**:
    
    location: ontology/MC_ontology_*.ttl
@@ -38,3 +39,5 @@
 
 7. **Run inference**:
    > python rdf_native_infer_sparql.py
+---
+###
