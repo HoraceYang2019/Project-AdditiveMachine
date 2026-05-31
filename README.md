@@ -41,3 +41,10 @@
    > python rdf_native_infer_sparql.py
 ---
 ###
+[20260601] updated
+Add the five stages: sensing, identifying, inference, evaluation, and adaptation to the ontology 
+1. The sensing stage has the location of a laser spot, flow, and images of chamber and laser-roi.
+2. The identification stage uses the sensing data to identify states of processing (normal, alarm, and fault), and states of meltpool, coating, and spatter
+3. The inference stage infers failure causes and responses of filter and quality (accepted, margin, and reject) based on identified states.
+4. The evaluation stage evaluates the meltpool width, length, and depth, and quality based on the responses of causes.
+5. The adaptation stage suggests process management with components and scan-path changed.
