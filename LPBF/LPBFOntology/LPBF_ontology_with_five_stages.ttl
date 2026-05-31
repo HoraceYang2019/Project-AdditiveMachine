@@ -1,0 +1,1988 @@
+@prefix : <http://nkust.edu.tw/mislab/lpbf/ontology/process#LPBFExtendedOntology> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix lpbf: <http://nkust.edu.tw/mislab/lpbf/ontology/process#> .
+@prefix lpbftr: <http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#> .
+@prefix mis: <http://nkust.edu.tw/mislab#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+mis:BBT30-v2 a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:36:15+00:00"^^xsd:dateTime .
+
+mis:BBT40-v2 a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:58:58+00:00"^^xsd:dateTime .
+
+mis:BT40-v2 a owl:NamedIndividual ;
+    mis:hasUnbalance ""^^owl:rational ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:56:57+00:00"^^xsd:dateTime .
+
+mis:BT50-v2 a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-13T08:22:41+00:00"^^xsd:dateTime .
+
+mis:Coefficient a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:40:48+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf mis:LPBFMonitor .
+
+mis:Comm_Fail a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:07:12+00:00"^^xsd:dateTime .
+
+mis:Comm_Stable a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:04:12+00:00"^^xsd:dateTime .
+
+mis:Comm_Unstable a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:04:41+00:00"^^xsd:dateTime .
+
+mis:FANUC_ a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-13T08:16:20+00:00"^^xsd:dateTime .
+
+mis:FlexSpin-1 a mis:DesignStlFile,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:18:08+00:00"^^xsd:dateTime .
+
+mis:Heavy_Load a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T03:14:19+00:00"^^xsd:dateTime .
+
+mis:LPBF-AM400 a lpbf:LPBFMachine,
+        owl:NamedIndividual ;
+    mis:LocatedAt "TMTS 2026 / 東台精機" ;
+    mis:hasController mis:Siemens_840D ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:27:54+00:00"^^xsd:dateTime .
+
+mis:LPBF-AMP160 a lpbf:LPBFMachine,
+        owl:NamedIndividual ;
+    mis:LocatedAt "雲林-丞威" ;
+    mis:hasController mis:FANUC_alpha-T21iFb ;
+    dc:creator "hao" ;
+    dc:date "2026-04-27T00:35:38+00:00"^^xsd:dateTime .
+
+mis:LPBF-M290 a lpbf:LPBFMachine,
+        owl:NamedIndividual ;
+    mis:LocatedAt "TT" ;
+    mis:hasController mis:Syntec_21 .
+
+mis:LPBFFiveStagePipeline a mis:LPBFClosedLoopPipeline,
+        owl:NamedIndividual ;
+    rdfs:label "LPBF five-stage sensing-identification-inference-evaluation-adaptation pipeline"@en ;
+    mis:hasStage mis:Stage01_Sensing,
+        mis:Stage02_Identification,
+        mis:Stage03_Inference,
+        mis:Stage04_Evaluation,
+        mis:Stage05_Adaption .
+
+mis:LPBFMonitorStrain_t1 a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T09:57:48+00:00"^^xsd:dateTime .
+
+mis:LPBFMonitor_Available a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:07:23+00:00"^^xsd:dateTime .
+
+mis:LPBFMonitor_Check a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:07:40+00:00"^^xsd:dateTime .
+
+mis:LPBFMonitor_NA a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:07:48+00:00"^^xsd:dateTime .
+
+mis:Light_Load a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T03:14:00+00:00"^^xsd:dateTime .
+
+mis:LocatedAt a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:45:42+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+mis:Low_Battery a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:06:30+00:00"^^xsd:dateTime .
+
+mis:Need_Charge a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:05:30+00:00"^^xsd:dateTime .
+
+mis:Normal_Battery a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T06:06:56+00:00"^^xsd:dateTime .
+
+mis:Normal_Load a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T03:14:11+00:00"^^xsd:dateTime .
+
+mis:PredictionSequence a owl:Class ;
+    rdfs:subClassOf mis:Prediction .
+
+mis:RFF-Dahlih-1 a lpbf:LPBFMachine,
+        owl:NamedIndividual ;
+    mis:LocatedAt "隆富發" ;
+    mis:hasController mis:FANUC_0i-MD ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T03:03:56+00:00"^^xsd:dateTime .
+
+mis:RFF-Dahlih-2 a lpbf:LPBFMachine,
+        owl:NamedIndividual ;
+    mis:LocatedAt "隆富發" ;
+    mis:hasController mis:FANUC_0i-MF ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T00:50:14+00:00"^^xsd:dateTime .
+
+mis:Ra_Good a lpbf:SurfaceRoughness,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T21:40:10+00:00"^^xsd:dateTime .
+
+mis:Ra_Poor a lpbf:SurfaceRoughness,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T21:40:18+00:00"^^xsd:dateTime .
+
+mis:Ra_Warning a lpbf:SurfaceRoughness,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T21:40:33+00:00"^^xsd:dateTime .
+
+mis:RuntimeObservation a owl:Class ;
+    rdfs:subClassOf mis:RunTime .
+
+mis:RuntimeSelector a owl:Class ;
+    rdfs:subClassOf mis:RunTime .
+
+mis:S45C a mis:Material,
+        owl:NamedIndividual .
+
+mis:State_Stable a lpbf:ProcessState,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T21:39:04+00:00"^^xsd:dateTime .
+
+mis:State_Transition a lpbf:ProcessState,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T21:39:20+00:00"^^xsd:dateTime .
+
+mis:TMV720_Project a mis:Project,
+        owl:NamedIndividual ;
+    rdfs:label "TMV-720 machine center project" .
+
+mis:activeBatch a owl:ObjectProperty ;
+    rdfs:domain mis:Project ;
+    rdfs:range mis:Batch .
+
+mis:batchId a owl:DatatypeProperty ;
+    rdfs:subPropertyOf mis:Data .
+
+mis:belongsToBatch a owl:ObjectProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range mis:Batch .
+
+mis:belongsToProject a owl:ObjectProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range mis:Project .
+
+mis:confidence a owl:DatatypeProperty ;
+    rdfs:label "confidence"@en ;
+    rdfs:comment "Confidence score associated with the threshold knowledge record."@en ;
+    rdfs:domain mis:BatchKnowledge ;
+    rdfs:range xsd:double .
+
+mis:consumesData a owl:ObjectProperty ;
+    rdfs:label "consumes data"@en ;
+    rdfs:domain mis:LPBFStage ;
+    rdfs:range lpbf:Entity .
+
+mis:datasetId a owl:DatatypeProperty ;
+    rdfs:subPropertyOf mis:Data .
+
+mis:derivedFromDataset a owl:DatatypeProperty ;
+    rdfs:label "derived from dataset"@en ;
+    rdfs:comment "Dataset identifier or provenance tag from which the thresholds were calibrated."@en ;
+    rdfs:domain mis:BatchKnowledge ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf mis:Data .
+
+mis:derivedFromSignal a owl:ObjectProperty ;
+    rdfs:label "derived from signal"@en ;
+    rdfs:domain mis:DerivedLPBFFeature ;
+    rdfs:range mis:SensingData .
+
+mis:derivedFromStage a owl:ObjectProperty ;
+    rdfs:label "derived from stage"@en ;
+    rdfs:domain lpbf:Entity ;
+    rdfs:range mis:LPBFStage .
+
+mis:evaluatesResult a owl:ObjectProperty ;
+    rdfs:label "evaluates result"@en ;
+    rdfs:domain mis:EvaluationStage ;
+    rdfs:range mis:EvaluationResult .
+
+mis:forBatch a owl:ObjectProperty ;
+    rdfs:label "for batch"@en ;
+    rdfs:comment "Links a batch-knowledge individual to the batch for which the thresholds are valid."@en ;
+    rdfs:domain mis:BatchKnowledge ;
+    rdfs:range mis:Batch .
+
+mis:forProcessState a owl:ObjectProperty ;
+    rdfs:label "for state"@en ;
+    rdfs:comment "Links a batch-knowledge individual to the state inferred when the threshold condition is satisfied."@en ;
+    rdfs:domain mis:BatchKnowledge .
+
+mis:hasAcousticRMS a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:Acoustic .
+
+mis:hasBatteryLevel a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:39:29+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:State .
+
+mis:hasBatteryState a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T21:26:11+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasCoefficient a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T08:30:16+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasCommScore a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:39:13+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:State .
+
+mis:hasCommunicationState a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T21:26:24+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasController a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:32:32+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:LPBFMachine ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasDescription a owl:DatatypeProperty ;
+    rdfs:label "has description"@en ;
+    rdfs:comment "Human-readable description of the knowledge record."@en ;
+    rdfs:domain mis:BatchKnowledge ;
+    rdfs:range xsd:string .
+
+mis:hasEdge a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:25:39+00:00"^^xsd:dateTime ;
+    rdfs:domain mis:Project,
+        lpbf:LPBFMachine .
+
+mis:hasKnowledgeCategory a owl:DatatypeProperty ;
+    rdfs:label "has knowledge category"@en ;
+    rdfs:comment "Classifies a knowledge record, for example melt_pool_state, layer_quality, defect_state, or process_state."@en ;
+    rdfs:domain mis:BatchKnowledge ;
+    rdfs:range xsd:string .
+
+mis:hasLPBFMonitor a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-19T06:33:12+00:00"^^xsd:dateTime .
+
+mis:hasLPBFMonitorState a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-27T00:52:06+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasLoadState a owl:ObjectProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasLocalIP a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:09:33+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf mis:Machine .
+
+mis:hasMeasuredRa a owl:DatatypeProperty ;
+    rdfs:domain mis:BatchKnowledge,
+        lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:PartQuality .
+
+mis:hasPort a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-19T07:38:46+00:00"^^xsd:dateTime ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf mis:Router .
+
+mis:hasProgressRatio a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:Progress .
+
+mis:hasQualitySpec a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T06:43:10+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:ScanPathFile ;
+    rdfs:range lpbf:QualityMetric .
+
+mis:hasRUL a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:51:15+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:State .
+
+mis:hasRecommendationText a owl:DatatypeProperty ;
+    rdfs:label "has recommendation text"@en ;
+    rdfs:domain mis:AdaptationAction ;
+    rdfs:range xsd:string .
+
+mis:hasRouter a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-19T06:31:01+00:00"^^xsd:dateTime .
+
+mis:hasRouterIP a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:21:54+00:00"^^xsd:dateTime ;
+    rdfs:range rdf:langString ;
+    rdfs:subPropertyOf mis:Router .
+
+mis:hasSTL a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-15T01:05:44+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:ScanPathFile ;
+    rdfs:range rdf:langString ;
+    rdfs:subPropertyOf mis:ProcessParameter .
+
+mis:hasSamplingRate a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:38:07+00:00"^^xsd:dateTime ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf mis:Specification .
+
+mis:hasSequenceIndex a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf mis:Data .
+
+mis:hasSpecification a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T08:26:51+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+mis:hasStage a owl:ObjectProperty ;
+    rdfs:label "has stage"@en ;
+    rdfs:domain mis:LPBFClosedLoopPipeline ;
+    rdfs:range mis:LPBFStage .
+
+mis:hasStageOrder a owl:DatatypeProperty ;
+    rdfs:label "has stage order"@en ;
+    rdfs:domain mis:LPBFStage ;
+    rdfs:range xsd:integer .
+
+mis:hasSurfaceQuality a owl:ObjectProperty ;
+    rdfs:domain lpbf:ScanPathFile ;
+    rdfs:range lpbf:SurfaceRoughness .
+
+mis:hasTimestamp a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:dateTime .
+
+mis:hasTolerance a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T07:57:24+00:00"^^xsd:dateTime ;
+    rdfs:domain mis:BatchKnowledge,
+        lpbf:ScanPathFile ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf mis:PartQuality .
+
+mis:hasURI a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:27:25+00:00"^^xsd:dateTime ;
+    rdfs:range rdf:langString ;
+    rdfs:subPropertyOf mis:Edge .
+
+mis:hasUnbalance a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:50:11+00:00"^^xsd:dateTime ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:State .
+
+mis:hasVibrationRMS a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:Vibration .
+
+mis:hasWindowId a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf mis:Data .
+
+mis:identifiesState a owl:ObjectProperty ;
+    rdfs:label "identifies state"@en ;
+    rdfs:domain mis:IdentificationStage ;
+    rdfs:range mis:IdentifiedState .
+
+mis:infersCause a owl:ObjectProperty ;
+    rdfs:label "infers LPBF failure cause"@en ;
+    rdfs:domain mis:InferenceStage ;
+    rdfs:range lpbftr:FailureCause .
+
+mis:infersQualityAcceptance a owl:ObjectProperty ;
+    rdfs:label "infers quality acceptance"@en ;
+    rdfs:domain mis:InferenceStage ;
+    rdfs:range mis:QualityAcceptanceState .
+
+mis:maxMeasuredRa a owl:DatatypeProperty ;
+    rdfs:label "maximum measured Ra"@en ;
+    rdfs:domain mis:BatchKnowledge,
+        lpbf:ScanPathFile ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:PartQuality .
+
+mis:minMeasuredRa a owl:DatatypeProperty ;
+    rdfs:label "minimum measured Ra"@en ;
+    rdfs:domain mis:BatchKnowledge,
+        lpbf:ScanPathFile ;
+    rdfs:range xsd:double ;
+    rdfs:subPropertyOf mis:PartQuality .
+
+mis:nextStage a owl:ObjectProperty,
+        owl:TransitiveProperty ;
+    rdfs:label "next stage"@en ;
+    rdfs:domain mis:LPBFStage ;
+    rdfs:range mis:LPBFStage .
+
+mis:producesData a owl:ObjectProperty ;
+    rdfs:label "produces data"@en ;
+    rdfs:domain mis:LPBFStage ;
+    rdfs:range lpbf:Entity .
+
+mis:setDefaultRouterPass a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:23:13+00:00"^^xsd:dateTime ;
+    rdfs:range rdf:langString ;
+    rdfs:subPropertyOf mis:Router .
+
+mis:suggestsAction a owl:ObjectProperty ;
+    rdfs:label "suggests adaptation action"@en ;
+    rdfs:domain mis:AdaptionStage ;
+    rdfs:range mis:AdaptationAction .
+
+mis:suggestsResponse a owl:ObjectProperty ;
+    rdfs:label "suggests LPBF response"@en ;
+    rdfs:domain mis:InferenceStage ;
+    rdfs:range lpbftr:FailureResponse .
+
+mis:usesMachine a owl:ObjectProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T03:01:45+00:00"^^xsd:dateTime ;
+    rdfs:domain mis:Project ;
+    rdfs:range lpbf:LPBFMachine .
+
+lpbf:DiagSeq_001 a lpbf:DiagnosisSequence,
+        owl:NamedIndividual ;
+    lpbf:hasMachineId "TMV-720" ;
+    lpbf:hasName "Diagnosis sequence for LPBF window progression" ;
+    lpbf:mapsToJSONField lpbf:Field_diagnosis_sequence ;
+    lpbf:mapsToMQTTTopic lpbf:Topic_DiagnosisSequence ;
+    lpbf:mapsToOPCUANode lpbf:OPCUA_DiagnosisSequence .
+
+lpbf:Field_block a lpbf:JSONField,
+        owl:NamedIndividual ;
+    lpbf:hasJSONKey "block_id" .
+
+lpbf:Field_diagnosis_label a lpbf:JSONField,
+        owl:NamedIndividual ;
+    lpbf:hasJSONKey "state_label" .
+
+lpbf:Field_window a lpbf:JSONField,
+        owl:NamedIndividual ;
+    lpbf:hasJSONKey "window_id" .
+
+: a owl:Ontology ;
+    rdfs:label "Extended LPBF Process Monitor Ontology with Build Job File and Sensing Windows"@en,
+        "LPBF ontology extended with LPBF troubleshooting knowledge"@en,
+        "LPBF troubleshooting ontology parsed from TEC chart"@en,
+        "LPBF故障对策图谱本体"@zh ;
+    rdfs:comment "Extended with TEC LPBF troubleshooting knowledge: failure modes, causes, and corrective countermeasures parsed from the uploaded LPBF troubleshooting chart."@en,
+        "Generated from uploaded image tec_lpbf_trouble_shooting_01_zh.png. Cell recommendations are based on detected black markers in the chart matrix and should be verified against the original manual before production use."@en,
+        "Ontology for LPBF process monitoring with build job files, scan segments, sensing windows, multi-sensor alignment, diagnosis, prediction, and communication mapping."@en ;
+    owl:imports lpbftr: ;
+    owl:versionInfo "0.1.0" .
+
+lpbf:OPCUA_DiagnosisState a lpbf:OPCUANode,
+        owl:NamedIndividual ;
+    lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Diagnosis.StateLabel" .
+
+lpbf:OPCUA_Window a lpbf:OPCUANode,
+        owl:NamedIndividual ;
+    lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Window.WindowId" .
+
+lpbf:Segment_01 a owl:NamedIndividual ;
+    lpbf:hasName "segment_01" .
+
+lpbf:Topic_Window a lpbf:MQTTTopic,
+        owl:NamedIndividual ;
+    lpbf:hasMQTTTopicString "nkust/mislab/lpbf/factory1/lineA/lpbfA/pm01/window" .
+
+lpbf:affectsQuality a owl:ObjectProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range lpbf:QualityMetric .
+
+lpbf:belongsToWindow a owl:ObjectProperty ;
+    rdfs:domain mis:Batch ;
+    rdfs:range lpbf:MultiSensorWindow .
+
+lpbf:hasConfidence a owl:DatatypeProperty ;
+    rdfs:range xsd:double .
+
+lpbf:hasEndTime a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:dateTime .
+
+lpbf:hasJSONKey a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasMQTTTopicString a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasMachineId a owl:DatatypeProperty ;
+    rdfs:domain lpbf:LPBFMachine ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf mis:Machine .
+
+lpbf:hasModelVersion a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasName a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasNodeId a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasStartTime a owl:DatatypeProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range xsd:dateTime .
+
+lpbf:hasStateLabel a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasUnit a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+lpbf:hasValue a owl:DatatypeProperty ;
+    rdfs:range xsd:double .
+
+lpbf:indicatesProcessState a owl:ObjectProperty ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range lpbf:ProcessState .
+
+lpbf:mapsToJSONField a owl:ObjectProperty ;
+    rdfs:domain mis:Batch ;
+    rdfs:range lpbf:JSONField .
+
+lpbf:mapsToMQTTTopic a owl:ObjectProperty ;
+    rdfs:domain mis:Batch ;
+    rdfs:range lpbf:MQTTTopic .
+
+lpbf:mapsToOPCUANode a owl:ObjectProperty ;
+    rdfs:domain mis:Batch ;
+    rdfs:range lpbf:OPCUANode .
+
+lpbftr:C17_PowderSpatterTooThick a lpbftr:FailureCause,
+        owl:NamedIndividual ;
+    lpbftr:sourceRowIndex 17 ;
+    rdfs:comment "Parsed from row 17 under fault mode BurrGeneration."@en ;
+    skos:altLabel "PowderSpatter thickness too large"@en ;
+    skos:prefLabel "切屑过厚"@zh .
+
+lpbftr:Cell_R01_C01 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R02_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 106 .
+
+lpbftr:Cell_R02_C12 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R02_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 94 .
+
+lpbftr:Cell_R02_C18 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 78 .
+
+lpbftr:Cell_R03_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 86 .
+
+lpbftr:Cell_R03_C10 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 80 .
+
+lpbftr:Cell_R04_C02 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 79 .
+
+lpbftr:Cell_R05_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 84 .
+
+lpbftr:Cell_R05_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 90 .
+
+lpbftr:Cell_R06_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 103 .
+
+lpbftr:Cell_R07_C03 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R07_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 90 .
+
+lpbftr:Cell_R07_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 89 .
+
+lpbftr:Cell_R07_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 82 .
+
+lpbftr:Cell_R07_C09 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R07_C10 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 92 .
+
+lpbftr:Cell_R08_C04 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R08_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 103 .
+
+lpbftr:Cell_R08_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 110 .
+
+lpbftr:Cell_R08_C09 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 77 .
+
+lpbftr:Cell_R08_C10 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R09_C19 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R09_C20 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R09_C21 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R09_C22 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R10_C01 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 78 .
+
+lpbftr:Cell_R10_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 94 .
+
+lpbftr:Cell_R10_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 94 .
+
+lpbftr:Cell_R10_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 92 .
+
+lpbftr:Cell_R11_C04 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R11_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R11_C09 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R11_C10 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 80 .
+
+lpbftr:Cell_R11_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 97 .
+
+lpbftr:Cell_R11_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 91 .
+
+lpbftr:Cell_R12_C17 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 77 .
+
+lpbftr:Cell_R12_C18 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 78 .
+
+lpbftr:Cell_R13_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 84 .
+
+lpbftr:Cell_R13_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 86 .
+
+lpbftr:Cell_R13_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 92 .
+
+lpbftr:Cell_R13_C08 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 89 .
+
+lpbftr:Cell_R13_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 95 .
+
+lpbftr:Cell_R13_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 91 .
+
+lpbftr:Cell_R13_C15 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 91 .
+
+lpbftr:Cell_R13_C19 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R13_C20 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R13_C21 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R13_C22 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R14_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R14_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 95 .
+
+lpbftr:Cell_R14_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R14_C12 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R14_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 95 .
+
+lpbftr:Cell_R14_C15 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 95 .
+
+lpbftr:Cell_R14_C20 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 79 .
+
+lpbftr:Cell_R15_C19 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R15_C20 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R15_C21 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R15_C22 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 74 .
+
+lpbftr:Cell_R16_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R16_C12 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R16_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R16_C15 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R17_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 96 .
+
+lpbftr:Cell_R17_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 86 .
+
+lpbftr:Cell_R17_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 92 .
+
+lpbftr:Cell_R18_C08 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R18_C14 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R19_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 95 .
+
+lpbftr:Cell_R19_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 91 .
+
+lpbftr:Cell_R20_C12 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R21_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 89 .
+
+lpbftr:Cell_R21_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 93 .
+
+lpbftr:Cell_R22_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 97 .
+
+lpbftr:Cell_R22_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R23_C12 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R24_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R24_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 101 .
+
+lpbftr:Cell_R24_C07 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R24_C08 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 100 .
+
+lpbftr:Cell_R24_C11 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R24_C13 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R24_C15 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R24_C19 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 79 .
+
+lpbftr:Cell_R24_C20 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 79 .
+
+lpbftr:Cell_R24_C21 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 77 .
+
+lpbftr:Cell_R24_C22 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 78 .
+
+lpbftr:Cell_R25_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 96 .
+
+lpbftr:Cell_R26_C05 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 102 .
+
+lpbftr:Cell_R26_C06 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 103 .
+
+lpbftr:Cell_R27_C14 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 87 .
+
+lpbftr:Cell_R28_C09 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 77 .
+
+lpbftr:Cell_R28_C10 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 98 .
+
+lpbftr:Cell_R28_C15 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 99 .
+
+lpbftr:Cell_R28_C16 a rdf:Statement,
+        owl:NamedIndividual ;
+    lpbftr:sourceCellMarkerCount 78 .
+
+lpbftr:EdgeDefectAndLocalDamage a lpbftr:FailureCategory,
+        owl:NamedIndividual ;
+    skos:altLabel "Edge defects and local damage"@en ;
+    skos:prefLabel "毛刺及崩碎"@zh ;
+    skos:related lpbf:QualityMetric .
+
+lpbftr:R22_OverhangOrMachineClearanceReduce a lpbftr:FailureResponse,
+        owl:NamedIndividual ;
+    lpbftr:hasCountermeasureGroup lpbftr:MachineSetup ;
+    lpbftr:sourceColumnIndex 22 ;
+    skos:altLabel "Reduce overhang and drive/machine clearance"@en ;
+    skos:prefLabel "减小悬伸量；减小动力、机床间隙"@zh .
+
+lpbftr:TEC_LPBFTroubleshootingChart a lpbftr:TroubleshootingChart,
+        owl:NamedIndividual ;
+    rdfs:label "TEC LPBF troubleshooting chart"@en,
+        "TECLPBF故障对策表"@zh ;
+    lpbftr:hasFaultMode lpbftr:FlatnessParallelismDeterioration,
+        lpbftr:LargeSurfaceRoughness,
+        lpbftr:PowderSpatterEntanglementClogging ;
+    dc:creator "hao" ;
+    dc:date "2026-05-31T00:00:00+00:00"^^xsd:dateTime ;
+    rdfs:comment "LPBF troubleshooting knowledge parsed from the uploaded TEC chart and integrated into the LPBF ontology. Verify cell-level recommendations against the original chart before production deployment."@en ;
+    rdfs:seeAlso "tec_lpbf_trouble_shooting_01_zh.png" .
+
+lpbftr:belongsToCategory a owl:ObjectProperty ;
+    rdfs:domain lpbftr:FaultMode ;
+    rdfs:range lpbftr:FailureCategory .
+
+lpbftr:hasCause a owl:ObjectProperty ;
+    rdfs:domain lpbftr:FaultMode ;
+    rdfs:range lpbftr:FailureCause .
+
+lpbftr:hasCountermeasureGroup a owl:ObjectProperty ;
+    rdfs:domain lpbftr:FailureResponse ;
+    rdfs:range lpbftr:ResponseGroup .
+
+lpbftr:hasFaultMode a owl:ObjectProperty ;
+    rdfs:domain lpbftr:TroubleshootingChart ;
+    rdfs:range lpbftr:FaultMode .
+
+lpbftr:hasRecommendedCountermeasure a owl:ObjectProperty ;
+    rdfs:domain lpbftr:FailureCause ;
+    rdfs:range lpbftr:FailureResponse .
+
+lpbftr:hasTroubleshootingCause a owl:ObjectProperty ;
+    rdfs:label "has troubleshooting cause"@en ;
+    rdfs:comment "Links a runtime multi-sensor window to a possible cause inferred from troubleshooting knowledge."@en ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range lpbftr:FailureCause .
+
+lpbftr:hasTroubleshootingCountermeasure a owl:ObjectProperty ;
+    rdfs:label "has troubleshooting countermeasure"@en ;
+    rdfs:comment "Links a runtime multi-sensor window to a corrective action recommended by the troubleshooting chart."@en ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range lpbftr:FailureResponse .
+
+lpbftr:hasTroubleshootingFaultMode a owl:ObjectProperty ;
+    rdfs:label "has troubleshooting fault mode"@en ;
+    rdfs:comment "Links a runtime multi-sensor window to a diagnosed LPBF troubleshooting fault mode."@en ;
+    rdfs:domain lpbf:MultiSensorWindow ;
+    rdfs:range lpbftr:FaultMode .
+
+lpbftr:sourceCellMarkerCount a owl:DatatypeProperty ;
+    rdfs:domain lpbftr:FailureCause ;
+    rdfs:range xsd:integer .
+
+lpbftr:sourceColumnIndex a owl:DatatypeProperty ;
+    rdfs:domain lpbftr:FailureResponse ;
+    rdfs:range xsd:integer .
+
+lpbftr:sourceRowIndex a owl:DatatypeProperty ;
+    rdfs:domain lpbftr:FailureCause ;
+    rdfs:range xsd:integer .
+
+lpbftr:supportsProcessState a owl:ObjectProperty ;
+    rdfs:label "supports process state"@en ;
+    rdfs:comment "Connects a troubleshooting fault mode to the LPBF process-state concept it can support."@en ;
+    rdfs:domain lpbftr:FaultMode ;
+    rdfs:range lpbf:ProcessState .
+
+lpbftr:supportsSurfaceQuality a owl:ObjectProperty ;
+    rdfs:label "supports surface quality"@en ;
+    rdfs:comment "Connects a troubleshooting fault mode to the LPBF surface-quality concept it can support."@en ;
+    rdfs:domain lpbftr:FaultMode ;
+    rdfs:range lpbf:QualityMetric .
+
+dc:creator a owl:AnnotationProperty .
+
+dc:date a owl:AnnotationProperty .
+
+skos:altLabel a owl:AnnotationProperty .
+
+skos:prefLabel a owl:AnnotationProperty .
+
+skos:related a owl:AnnotationProperty .
+
+mis:Acoustic a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-17T20:27:15+00:00"^^xsd:dateTime .
+
+mis:AcousticEmissionSignal a owl:Class ;
+    rdfs:label "acoustic-emission signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:BallingDefectState a owl:Class ;
+    rdfs:label "balling defect state"@en ;
+    rdfs:subClassOf mis:DefectState .
+
+mis:BuildManagementSuggestion a mis:BuildManagementAction,
+        owl:NamedIndividual ;
+    rdfs:label "build management suggestion"@en ;
+    mis:hasRecommendationText "Manage the build according to evaluated thermal field, melt-pool stability, defect risk, layer quality, and part quality."@en .
+
+mis:BuildPauseOrAbortAction a owl:Class ;
+    rdfs:label "build pause or abort action"@en ;
+    rdfs:subClassOf mis:BuildManagementAction .
+
+mis:BuildPauseOrAbortSuggestion a mis:BuildPauseOrAbortAction,
+        owl:NamedIndividual ;
+    rdfs:label "build pause or abort suggestion"@en ;
+    mis:hasRecommendationText "Pause or abort the build when severe recoating failure, persistent keyhole/overheating, large-area porosity risk, or rejected quality is evaluated."@en .
+
+mis:BuildPlatformPositionSignal a owl:Class ;
+    rdfs:label "build-platform position signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:ChamberOxygenSignal a owl:Class ;
+    rdfs:label "chamber oxygen signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:CoaxialMeltPoolVisionSignal a owl:Class ;
+    rdfs:label "coaxial melt-pool vision signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:DefectRiskEvaluation a owl:Class ;
+    rdfs:label "defect-risk evaluation"@en ;
+    rdfs:subClassOf mis:EvaluationResult .
+
+mis:DerivedCoolingRate a owl:Class ;
+    rdfs:label "derived cooling rate"@en ;
+    rdfs:subClassOf mis:DerivedLPBFFeature .
+
+mis:DerivedMeltPoolGeometry a owl:Class ;
+    rdfs:label "derived melt-pool geometry"@en ;
+    rdfs:subClassOf mis:DerivedLPBFFeature .
+
+mis:DerivedThermalGradient a owl:Class ;
+    rdfs:label "derived thermal gradient"@en ;
+    rdfs:subClassOf mis:DerivedLPBFFeature .
+
+mis:DesignStlFile a owl:Class ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:28:36+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf mis:Project .
+
+mis:DiagnosisModel a owl:Class ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T10:01:17+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf mis:Model .
+
+mis:Edge a owl:DatatypeProperty ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+mis:FANUC_0i-MD a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:11:16+00:00"^^xsd:dateTime .
+
+mis:FANUC_0i-MF a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-05-18T01:10:55+00:00"^^xsd:dateTime .
+
+mis:FANUC_alpha-T21iFb a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-27T00:45:13+00:00"^^xsd:dateTime .
+
+mis:GalvoPositionSignal a owl:Class ;
+    rdfs:label "galvo position signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:LaserPowerAdjustmentAction a owl:Class ;
+    rdfs:label "laser power adjustment action"@en ;
+    rdfs:subClassOf mis:ProcessManagementAction .
+
+mis:LaserPowerAdjustmentSuggestion a mis:LaserPowerAdjustmentAction,
+        owl:NamedIndividual ;
+    rdfs:label "laser power adjustment suggestion"@en ;
+    mis:hasRecommendationText "Adjust laser power when melt-pool size, thermal gradient, overheating, lack-of-fusion risk, or keyhole risk exceeds the acceptable range."@en .
+
+mis:LaserPowerSignal a owl:Class ;
+    rdfs:label "laser power signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:LayerQualityEvaluation a owl:Class ;
+    rdfs:label "layer-quality evaluation"@en ;
+    rdfs:subClassOf mis:EvaluationResult .
+
+mis:LayerRescanAction a owl:Class ;
+    rdfs:label "layer re-scan action"@en ;
+    rdfs:subClassOf mis:BuildManagementAction .
+
+mis:LayerRescanSuggestion a mis:LayerRescanAction,
+        owl:NamedIndividual ;
+    rdfs:label "layer re-scan suggestion"@en ;
+    mis:hasRecommendationText "Re-scan a local layer region when the defect risk is localized and recoverable within the current build layer."@en .
+
+mis:Material a owl:Class,
+        owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:48:11+00:00"^^xsd:dateTime,
+        "2026-04-22T02:51:22+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf mis:Project ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+mis:MeltPoolEvaluation a owl:Class ;
+    rdfs:label "melt-pool evaluation"@en ;
+    rdfs:subClassOf mis:EvaluationResult .
+
+mis:MeltPoolFluctuatingState a owl:Class ;
+    rdfs:label "fluctuating melt-pool state"@en ;
+    rdfs:subClassOf mis:MeltPoolState .
+
+mis:MeltPoolLargeState a owl:Class ;
+    rdfs:label "large melt-pool state"@en ;
+    rdfs:subClassOf mis:MeltPoolState .
+
+mis:MeltPoolSmallState a owl:Class ;
+    rdfs:label "small melt-pool state"@en ;
+    rdfs:subClassOf mis:MeltPoolState .
+
+mis:MeltPoolStableState a owl:Class ;
+    rdfs:label "stable melt-pool state"@en ;
+    rdfs:subClassOf mis:MeltPoolState .
+
+mis:Model a owl:Class ;
+    dc:creator "hao" ;
+    dc:date "2026-04-26T10:01:06+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:NoDefectState a owl:Class ;
+    rdfs:label "no-defect state"@en ;
+    rdfs:subClassOf mis:DefectState .
+
+mis:PartQualityEvaluation a owl:Class ;
+    rdfs:label "part-quality evaluation"@en ;
+    rdfs:subClassOf mis:EvaluationResult .
+
+mis:PorosityDefectState a owl:Class ;
+    rdfs:label "porosity defect state"@en ;
+    rdfs:subClassOf mis:DefectState .
+
+mis:PowderBedVisionSignal a owl:Class ;
+    rdfs:label "powder-bed vision signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:PowderShortageState a owl:Class ;
+    rdfs:label "powder-shortage state"@en ;
+    rdfs:subClassOf mis:PowderRecoatingState .
+
+mis:PowderUniformState a owl:Class ;
+    rdfs:label "uniform powder-bed state"@en ;
+    rdfs:subClassOf mis:PowderRecoatingState .
+
+mis:ProcessKeyholeState a owl:Class ;
+    rdfs:label "keyhole process state"@en ;
+    rdfs:subClassOf mis:LPBFProcessState .
+
+mis:ProcessLackOfFusionState a owl:Class ;
+    rdfs:label "lack-of-fusion process state"@en ;
+    rdfs:subClassOf mis:LPBFProcessState .
+
+mis:ProcessNormalState a owl:Class ;
+    rdfs:label "normal LPBF process state"@en ;
+    rdfs:subClassOf mis:LPBFProcessState .
+
+mis:ProcessOverheatingState a owl:Class ;
+    rdfs:label "overheating process state"@en ;
+    rdfs:subClassOf mis:LPBFProcessState .
+
+mis:ProcessParameter a owl:DatatypeProperty .
+
+mis:ProcessUnstableState a owl:Class ;
+    rdfs:label "unstable LPBF process state"@en ;
+    rdfs:subClassOf mis:LPBFProcessState .
+
+mis:Progress a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-02T13:20:38+00:00"^^xsd:dateTime .
+
+mis:PyrometerSignal a owl:Class ;
+    rdfs:label "pyrometer signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:QualityAcceptedState a owl:Class ;
+    rdfs:label "accepted quality state"@en ;
+    rdfs:subClassOf mis:QualityAcceptanceState .
+
+mis:QualityMarginState a owl:Class ;
+    rdfs:label "margin quality state"@en ;
+    rdfs:subClassOf mis:QualityAcceptanceState .
+
+mis:QualityRejectState a owl:Class ;
+    rdfs:label "reject quality state"@en ;
+    rdfs:subClassOf mis:QualityAcceptanceState .
+
+mis:RecoaterSignal a owl:Class ;
+    rdfs:label "recoater signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:RecoaterStreakState a owl:Class ;
+    rdfs:label "recoater-streak state"@en ;
+    rdfs:subClassOf mis:PowderRecoatingState .
+
+mis:RecoatingInterventionAction a owl:Class ;
+    rdfs:label "recoating intervention action"@en ;
+    rdfs:subClassOf mis:BuildManagementAction .
+
+mis:RecoatingInterventionSuggestion a mis:RecoatingInterventionAction,
+        owl:NamedIndividual ;
+    rdfs:label "recoating intervention suggestion"@en ;
+    mis:hasRecommendationText "Trigger recoating inspection, powder refill, recoater cleaning, or layer recoat when powder shortage or recoater streak is identified."@en .
+
+mis:ScanSpeedAdjustmentAction a owl:Class ;
+    rdfs:label "scan-speed adjustment action"@en ;
+    rdfs:subClassOf mis:ProcessManagementAction .
+
+mis:ScanSpeedAdjustmentSuggestion a mis:ScanSpeedAdjustmentAction,
+        owl:NamedIndividual ;
+    rdfs:label "scan-speed adjustment suggestion"@en ;
+    mis:hasRecommendationText "Adjust scan speed when energy density, melt-pool fluctuation, porosity risk, balling, or quality margin/reject state is detected."@en .
+
+mis:ScanSpeedSignal a owl:Class ;
+    rdfs:label "scan speed signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:ScanStrategyUpdateAction a owl:Class ;
+    rdfs:label "scan-strategy update action"@en ;
+    rdfs:subClassOf mis:ProcessManagementAction .
+
+mis:ScanStrategyUpdateSuggestion a mis:ScanStrategyUpdateAction,
+        owl:NamedIndividual ;
+    rdfs:label "scan-strategy update suggestion"@en ;
+    mis:hasRecommendationText "Update hatch spacing, scan order, rotation angle, contour/remelt strategy, or local re-scan path according to inferred failure cause and evaluated quality."@en .
+
+mis:SensingStage a owl:Class ;
+    rdfs:label "sensing stage"@en ;
+    rdfs:comment "Stage that collects laser power/current, scan speed, galvo or axis positions, layer/recoater signals, chamber oxygen, powder-bed images, coaxial melt-pool images, pyrometer or thermal-camera data, plume/acoustic signals, and derived melt-pool geometry and thermal-gradient features."@en ;
+    rdfs:subClassOf mis:LPBFStage .
+
+mis:Siemens_840D a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:33:41+00:00"^^xsd:dateTime .
+
+mis:SpatterDefectState a owl:Class ;
+    rdfs:label "spatter defect state"@en ;
+    rdfs:subClassOf mis:DefectState .
+
+mis:Specification a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:40:10+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf mis:LPBFMonitor .
+
+mis:Stage01_Sensing a mis:SensingStage,
+        owl:NamedIndividual ;
+    rdfs:label "Stage 01 - Sensing"@en ;
+    mis:hasStageOrder 1 ;
+    mis:nextStage mis:Stage02_Identification ;
+    mis:producesData mis:AcousticEmission,
+        mis:BuildPlatformPosition,
+        mis:ChamberOxygen,
+        mis:CoaxialMeltPoolVision,
+        mis:DerivedCoolingRateFeature,
+        mis:DerivedMeltPoolGeometryFeature,
+        mis:DerivedThermalGradientFeature,
+        mis:GalvoPosition,
+        mis:LaserCurrent,
+        mis:LaserPower,
+        mis:PowderBedVision,
+        mis:Pyrometer,
+        mis:RecoaterSignal_01,
+        mis:ScanSpeed,
+        mis:ThermalCamera .
+
+mis:Syntec_21 a owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:34:00+00:00"^^xsd:dateTime .
+
+mis:ThermalCameraSignal a owl:Class ;
+    rdfs:label "thermal-camera signal"@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:ThermalFieldEvaluation a owl:Class ;
+    rdfs:label "thermal-field evaluation"@en ;
+    rdfs:subClassOf mis:EvaluationResult .
+
+mis:UpdatedBuildJobAction a owl:Class ;
+    rdfs:label "updated build-job action"@en ;
+    rdfs:subClassOf mis:BuildManagementAction .
+
+mis:UpdatedBuildJobSuggestion a mis:UpdatedBuildJobAction,
+        owl:NamedIndividual ;
+    rdfs:label "updated build-job suggestion"@en ;
+    mis:hasRecommendationText "Generate or select an updated build job or scan-parameter set when the evaluated response requires laser power, scan speed, hatch spacing, layer strategy, or scan-vector modification."@en .
+
+mis:Vibration a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-02T13:22:23+00:00"^^xsd:dateTime .
+
+lpbf:DiagnosisSequence a owl:Class ;
+    rdfs:subClassOf mis:Diagnosis .
+
+lpbf:Field_diagnosis_sequence a lpbf:JSONField,
+        owl:NamedIndividual ;
+    lpbf:hasJSONKey "diagnosis_windows" .
+
+lpbf:OPCUA_DiagnosisSequence a lpbf:OPCUANode,
+        owl:NamedIndividual ;
+    lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Diagnosis.Sequence" .
+
+lpbf:PhysicalAsset a owl:Class ;
+    rdfs:subClassOf lpbf:Entity .
+
+lpbf:Topic_DiagnosisSequence a lpbf:MQTTTopic,
+        owl:NamedIndividual ;
+    lpbf:hasMQTTTopicString "nkust/mislab/lpbf/factory1/lineA/lpbfA/pm01/diagnosis/sequence" .
+
+lpbftr:C26_PowderSpatterTooThin a lpbftr:FailureCause,
+        owl:NamedIndividual ;
+    lpbftr:sourceRowIndex 26 ;
+    rdfs:comment "Parsed from row 26 under fault mode PowderSpatterEntanglementClogging."@en ;
+    skos:altLabel "PowderSpatter too thin"@en ;
+    skos:prefLabel "切屑太薄"@zh .
+
+lpbftr:C28_PoorPowderSpatterEvacuation a lpbftr:FailureCause,
+        owl:NamedIndividual ;
+    lpbftr:sourceRowIndex 28 ;
+    rdfs:comment "Parsed from row 28 under fault mode PowderSpatterEntanglementClogging."@en ;
+    skos:altLabel "Powder spreading or spatter evacuation issue"@en ;
+    skos:prefLabel "切屑排出不畅"@zh .
+
+lpbftr:FlatnessParallelismDeterioration a lpbftr:FaultMode,
+        owl:NamedIndividual ;
+    lpbftr:belongsToCategory lpbftr:SurfaceAccuracyDeterioration ;
+    lpbftr:supportsSurfaceQuality lpbf:QualityMetric ;
+    skos:altLabel "Flatness / parallelism deterioration"@en ;
+    skos:prefLabel "平面度、平行度恶化"@zh .
+
+lpbftr:LargeSurfaceRoughness a lpbftr:FaultMode,
+        owl:NamedIndividual ;
+    lpbftr:belongsToCategory lpbftr:SurfaceAccuracyDeterioration ;
+    lpbftr:supportsSurfaceQuality lpbf:QualityMetric ;
+    skos:altLabel "Excessive surface roughness"@en ;
+    skos:prefLabel "表面粗糙度大"@zh .
+
+lpbftr:MachineSetup a lpbftr:ResponseGroup,
+        owl:NamedIndividual ;
+    skos:altLabel "Machine setup and clamping"@en ;
+    skos:prefLabel "机床装夹"@zh .
+
+lpbftr:PowderSpatterDisposal a lpbftr:FailureCategory,
+        owl:NamedIndividual ;
+    skos:altLabel "PowderSpatter control"@en ;
+    skos:prefLabel "切屑处理"@zh ;
+    skos:related lpbf:ProcessState .
+
+lpbftr:PowderSpatterEntanglementClogging a lpbftr:FaultMode,
+        owl:NamedIndividual ;
+    lpbftr:belongsToCategory lpbftr:PowderSpatterDisposal ;
+    lpbftr:hasCause lpbftr:C26_PowderSpatterTooThin,
+        lpbftr:C28_PoorPowderSpatterEvacuation ;
+    lpbftr:supportsProcessState lpbf:ProcessState ;
+    skos:altLabel "PowderSpatter entanglement / clogging"@en ;
+    skos:prefLabel "切屑缠绕堵塞"@zh .
+
+mis:AcousticEmission a mis:AcousticEmissionSignal,
+        owl:NamedIndividual ;
+    rdfs:label "acoustic emission"@en .
+
+mis:AdaptionStage a owl:Class ;
+    rdfs:label "adaptation stage"@en,
+        "adaption stage"@en ;
+    rdfs:comment "Stage that suggests build management and process management actions, including laser power adjustment, scan-speed adjustment, hatch-spacing or scan-strategy update, recoating intervention, layer re-scan, pause/abort decision, and updated build job or scan parameters."@en ;
+    rdfs:subClassOf mis:LPBFStage .
+
+mis:BuildPlatformPosition a mis:BuildPlatformPositionSignal,
+        owl:NamedIndividual ;
+    rdfs:label "build-platform position"@en .
+
+mis:ChamberOxygen a mis:ChamberOxygenSignal,
+        owl:NamedIndividual ;
+    rdfs:label "chamber oxygen"@en .
+
+mis:CoaxialMeltPoolVision a mis:CoaxialMeltPoolVisionSignal,
+        owl:NamedIndividual ;
+    rdfs:label "coaxial melt-pool vision"@en .
+
+mis:EvaluationStage a owl:Class ;
+    rdfs:label "evaluation stage"@en ;
+    rdfs:comment "Stage that evaluates thermal field, melt-pool stability, defect risk, layer quality, part quality, and machine/build-health indicators using inferred causes and responses."@en ;
+    rdfs:subClassOf mis:LPBFStage .
+
+mis:GalvoPosition a mis:GalvoPositionSignal,
+        owl:NamedIndividual ;
+    rdfs:label "galvo position"@en .
+
+mis:IdentificationStage a owl:Class ;
+    rdfs:label "identification stage"@en ;
+    rdfs:comment "Stage that converts LPBF sensing data into process states, melt-pool states, powder/recoating states, defect states, and preliminary layer or part-quality states."@en ;
+    rdfs:subClassOf mis:LPBFStage .
+
+mis:InferredLPBFCauseSet a mis:InferredResult,
+        owl:NamedIndividual ;
+    rdfs:label "inferred LPBF failure cause set"@en ;
+    skos:related lpbftr:FailureCause .
+
+mis:InferredLPBFResponseSet a mis:InferredResult,
+        owl:NamedIndividual ;
+    rdfs:label "inferred LPBF response set"@en ;
+    skos:related lpbftr:FailureResponse .
+
+mis:LPBFClosedLoopPipeline a owl:Class ;
+    rdfs:label "LPBF closed-loop monitoring and adaptation pipeline"@en ;
+    rdfs:comment "A five-stage LPBF workflow that transforms layer-wise sensing data into identified process, melt-pool, powder/recoating, defect, and quality states; inferred failure causes and responses; evaluated thermal, defect, and quality indicators; and adaptive build or scan-parameter management actions."@en ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:LaserCurrent a owl:NamedIndividual ;
+    rdfs:label "laser current"@en .
+
+mis:LaserPower a mis:LaserPowerSignal,
+        owl:NamedIndividual ;
+    rdfs:label "laser power"@en .
+
+mis:Machine a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-17T20:29:50+00:00"^^xsd:dateTime .
+
+mis:PowderBedVision a mis:PowderBedVisionSignal,
+        owl:NamedIndividual ;
+    rdfs:label "powder-bed vision"@en .
+
+mis:Pyrometer a mis:PyrometerSignal,
+        owl:NamedIndividual ;
+    rdfs:label "pyrometer"@en .
+
+mis:RecoaterSignal_01 a mis:RecoaterSignal,
+        owl:NamedIndividual ;
+    rdfs:label "recoater signal"@en .
+
+mis:RunTime a owl:Class ;
+    dc:creator "hao" ;
+    dc:date "2026-04-28T23:44:33+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:ScanSpeed a mis:ScanSpeedSignal,
+        owl:NamedIndividual ;
+    rdfs:label "scan speed"@en .
+
+mis:Stage02_Identification a mis:IdentificationStage,
+        owl:NamedIndividual ;
+    rdfs:label "Stage 02 - Identification"@en ;
+    mis:consumesData mis:AcousticEmission,
+        mis:BuildPlatformPosition,
+        mis:ChamberOxygen,
+        mis:CoaxialMeltPoolVision,
+        mis:DerivedCoolingRateFeature,
+        mis:DerivedMeltPoolGeometryFeature,
+        mis:DerivedThermalGradientFeature,
+        mis:GalvoPosition,
+        mis:LaserCurrent,
+        mis:LaserPower,
+        mis:PowderBedVision,
+        mis:Pyrometer,
+        mis:RecoaterSignal_01,
+        mis:ScanSpeed,
+        mis:ThermalCamera ;
+    mis:hasStageOrder 2 ;
+    mis:identifiesState mis:BallingDefect,
+        mis:MeltPoolFluctuating,
+        mis:MeltPoolLarge,
+        mis:MeltPoolSmall,
+        mis:MeltPoolStable,
+        mis:NoDefect,
+        mis:PorosityDefect,
+        mis:PowderShortage,
+        mis:PowderUniform,
+        mis:ProcessKeyhole,
+        mis:ProcessLackOfFusion,
+        mis:ProcessNormal,
+        mis:ProcessOverheating,
+        mis:ProcessUnstable,
+        mis:RecoaterStreak,
+        mis:SpatterDefect ;
+    mis:nextStage mis:Stage03_Inference ;
+    mis:producesData mis:BallingDefect,
+        mis:MeltPoolFluctuating,
+        mis:MeltPoolLarge,
+        mis:MeltPoolSmall,
+        mis:MeltPoolStable,
+        mis:NoDefect,
+        mis:PorosityDefect,
+        mis:PowderShortage,
+        mis:PowderUniform,
+        mis:ProcessKeyhole,
+        mis:ProcessLackOfFusion,
+        mis:ProcessNormal,
+        mis:ProcessOverheating,
+        mis:ProcessUnstable,
+        mis:RecoaterStreak,
+        mis:SpatterDefect .
+
+mis:Stage03_Inference a mis:InferenceStage,
+        owl:NamedIndividual ;
+    rdfs:label "Stage 03 - Inference"@en ;
+    mis:consumesData mis:BallingDefect,
+        mis:MeltPoolFluctuating,
+        mis:MeltPoolLarge,
+        mis:MeltPoolSmall,
+        mis:MeltPoolStable,
+        mis:NoDefect,
+        mis:PorosityDefect,
+        mis:PowderShortage,
+        mis:PowderUniform,
+        mis:ProcessKeyhole,
+        mis:ProcessLackOfFusion,
+        mis:ProcessNormal,
+        mis:ProcessOverheating,
+        mis:ProcessUnstable,
+        mis:RecoaterStreak,
+        mis:SpatterDefect ;
+    mis:hasStageOrder 3 ;
+    mis:infersQualityAcceptance mis:QualityAccepted,
+        mis:QualityMargin,
+        mis:QualityReject ;
+    mis:nextStage mis:Stage04_Evaluation ;
+    mis:producesData mis:InferredLPBFCauseSet,
+        mis:InferredLPBFResponseSet,
+        mis:QualityAccepted,
+        mis:QualityMargin,
+        mis:QualityReject .
+
+mis:Stage04_Evaluation a mis:EvaluationStage,
+        owl:NamedIndividual ;
+    rdfs:label "Stage 04 - Evaluation"@en ;
+    mis:consumesData mis:InferredLPBFCauseSet,
+        mis:InferredLPBFResponseSet,
+        mis:QualityAccepted,
+        mis:QualityMargin,
+        mis:QualityReject ;
+    mis:evaluatesResult mis:DefectRiskEvaluationResult,
+        mis:LayerQualityEvaluationResult,
+        mis:MeltPoolEvaluationResult,
+        mis:PartQualityEvaluationResult,
+        mis:ThermalFieldEvaluationResult ;
+    mis:hasStageOrder 4 ;
+    mis:nextStage mis:Stage05_Adaption ;
+    mis:producesData mis:DefectRiskEvaluationResult,
+        mis:LayerQualityEvaluationResult,
+        mis:MeltPoolEvaluationResult,
+        mis:PartQualityEvaluationResult,
+        mis:ThermalFieldEvaluationResult .
+
+mis:Stage05_Adaption a mis:AdaptionStage,
+        owl:NamedIndividual ;
+    rdfs:label "Stage 05 - Adaptation"@en,
+        "Stage 05 - Adaption"@en ;
+    mis:consumesData mis:DefectRiskEvaluationResult,
+        mis:LayerQualityEvaluationResult,
+        mis:MeltPoolEvaluationResult,
+        mis:PartQualityEvaluationResult,
+        mis:ThermalFieldEvaluationResult ;
+    mis:hasStageOrder 5 ;
+    mis:suggestsAction mis:BuildManagementSuggestion,
+        mis:BuildPauseOrAbortSuggestion,
+        mis:LaserPowerAdjustmentSuggestion,
+        mis:LayerRescanSuggestion,
+        mis:RecoatingInterventionSuggestion,
+        mis:ScanSpeedAdjustmentSuggestion,
+        mis:ScanStrategyUpdateSuggestion,
+        mis:UpdatedBuildJobSuggestion .
+
+mis:ThermalCamera a mis:ThermalCameraSignal,
+        owl:NamedIndividual ;
+    rdfs:label "thermal camera"@en .
+
+lpbf:SensingWindow a owl:Class ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+lpbftr:ResponseGroup a owl:Class ;
+    rdfs:label "group of countermeasures"@en ;
+    rdfs:subClassOf lpbf:Entity .
+
+lpbftr:SurfaceAccuracyDeterioration a lpbftr:FailureCategory,
+        owl:NamedIndividual ;
+    skos:altLabel "Surface accuracy deterioration"@en ;
+    skos:prefLabel "表面精度恶化"@zh ;
+    skos:related lpbf:QualityMetric .
+
+lpbftr:TroubleshootingChart a owl:Class ;
+    rdfs:label "LPBF troubleshooting chart"@en ;
+    rdfs:subClassOf mis:DiagnosisModel .
+
+mis:BallingDefect a mis:BallingDefectState,
+        owl:NamedIndividual ;
+    rdfs:label "balling defect"@en .
+
+mis:DefectRiskEvaluationResult a mis:DefectRiskEvaluation,
+        owl:NamedIndividual ;
+    rdfs:label "defect-risk evaluation result"@en ;
+    skos:related mis:DefectState .
+
+mis:DerivedCoolingRateFeature a mis:DerivedCoolingRate,
+        owl:NamedIndividual ;
+    rdfs:label "derived cooling-rate feature"@en .
+
+mis:DerivedMeltPoolGeometryFeature a mis:DerivedMeltPoolGeometry,
+        owl:NamedIndividual ;
+    rdfs:label "derived melt-pool geometry feature"@en ;
+    rdfs:comment "Derived feature including melt-pool area, width, length, aspect ratio, centroid, brightness, and contour."@en .
+
+mis:DerivedThermalGradientFeature a mis:DerivedThermalGradient,
+        owl:NamedIndividual ;
+    rdfs:label "derived thermal-gradient feature"@en .
+
+mis:InferredResult a owl:Class ;
+    rdfs:label "inferred result"@en ;
+    rdfs:subClassOf mis:Diagnosis .
+
+mis:LayerQualityEvaluationResult a mis:LayerQualityEvaluation,
+        owl:NamedIndividual ;
+    rdfs:label "layer-quality evaluation result"@en ;
+    skos:related lpbf:QualityMetric .
+
+mis:MeltPoolEvaluationResult a mis:MeltPoolEvaluation,
+        owl:NamedIndividual ;
+    rdfs:label "melt-pool evaluation result"@en ;
+    skos:related mis:DerivedMeltPoolGeometryFeature,
+        mis:MeltPoolState .
+
+mis:MeltPoolFluctuating a mis:MeltPoolFluctuatingState,
+        owl:NamedIndividual ;
+    rdfs:label "fluctuating melt pool"@en .
+
+mis:MeltPoolLarge a mis:MeltPoolLargeState,
+        owl:NamedIndividual ;
+    rdfs:label "large melt pool"@en .
+
+mis:MeltPoolSmall a mis:MeltPoolSmallState,
+        owl:NamedIndividual ;
+    rdfs:label "small melt pool"@en .
+
+mis:MeltPoolStable a mis:MeltPoolStableState,
+        owl:NamedIndividual ;
+    rdfs:label "stable melt pool"@en .
+
+mis:NoDefect a mis:NoDefectState,
+        owl:NamedIndividual ;
+    rdfs:label "no defect"@en .
+
+mis:PartQualityEvaluationResult a mis:PartQualityEvaluation,
+        owl:NamedIndividual ;
+    rdfs:label "part-quality evaluation result"@en ;
+    skos:related lpbf:QualityMetric .
+
+mis:PorosityDefect a mis:PorosityDefectState,
+        owl:NamedIndividual ;
+    rdfs:label "porosity defect"@en .
+
+mis:PowderRecoatingState a owl:Class ;
+    rdfs:label "powder/recoating state"@en ;
+    rdfs:subClassOf mis:IdentifiedState .
+
+mis:PowderShortage a mis:PowderShortageState,
+        owl:NamedIndividual ;
+    rdfs:label "powder shortage"@en .
+
+mis:PowderUniform a mis:PowderUniformState,
+        owl:NamedIndividual ;
+    rdfs:label "uniform powder bed"@en .
+
+mis:Prediction a owl:Class ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:ProcessKeyhole a mis:ProcessKeyholeState,
+        owl:NamedIndividual ;
+    rdfs:label "keyhole"@en .
+
+mis:ProcessLackOfFusion a mis:ProcessLackOfFusionState,
+        owl:NamedIndividual ;
+    rdfs:label "lack of fusion"@en .
+
+mis:ProcessManagementAction a owl:Class ;
+    rdfs:label "process management action"@en ;
+    rdfs:subClassOf mis:AdaptationAction .
+
+mis:ProcessNormal a mis:ProcessNormalState,
+        owl:NamedIndividual ;
+    rdfs:label "normal"@en .
+
+mis:ProcessOverheating a mis:ProcessOverheatingState,
+        owl:NamedIndividual ;
+    rdfs:label "overheating"@en .
+
+mis:ProcessUnstable a mis:ProcessUnstableState,
+        owl:NamedIndividual ;
+    rdfs:label "unstable"@en .
+
+mis:QualityAccepted a mis:QualityAcceptedState,
+        owl:NamedIndividual ;
+    rdfs:label "accepted"@en .
+
+mis:QualityMargin a mis:QualityMarginState,
+        owl:NamedIndividual ;
+    rdfs:label "margin"@en .
+
+mis:QualityReject a mis:QualityRejectState,
+        owl:NamedIndividual ;
+    rdfs:label "reject"@en .
+
+mis:RecoaterStreak a mis:RecoaterStreakState,
+        owl:NamedIndividual ;
+    rdfs:label "recoater streak"@en .
+
+mis:Router a owl:DatatypeProperty ;
+    rdfs:subPropertyOf mis:LPBFMonitor .
+
+mis:SpatterDefect a mis:SpatterDefectState,
+        owl:NamedIndividual ;
+    rdfs:label "spatter defect"@en .
+
+mis:ThermalFieldEvaluationResult a mis:ThermalFieldEvaluation,
+        owl:NamedIndividual ;
+    rdfs:label "thermal-field evaluation result"@en ;
+    skos:related mis:DerivedCoolingRateFeature,
+        mis:DerivedThermalGradientFeature .
+
+lpbf:CommunicationAsset a owl:Class ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+lpbf:MQTTTopic a owl:Class ;
+    rdfs:subClassOf lpbf:CommunicationAsset .
+
+mis:AdaptationAction a owl:Class ;
+    rdfs:label "adaptation action"@en,
+        "adaption action"@en ;
+    rdfs:subClassOf mis:Prediction .
+
+mis:DerivedLPBFFeature a owl:Class ;
+    rdfs:label "derived LPBF feature"@en ;
+    rdfs:comment "Feature derived from raw LPBF monitoring data, such as melt-pool area, brightness, aspect ratio, centroid, thermal gradient, cooling rate, plume intensity, or spatter count."@en ;
+    rdfs:subClassOf mis:SensingData .
+
+mis:Diagnosis a owl:Class ;
+    dc:creator "hao" ;
+    dc:date "2026-04-28T23:43:49+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:InferenceStage a owl:Class ;
+    rdfs:label "inference stage"@en ;
+    rdfs:comment "Stage that infers LPBF failure causes, corrective responses, and quality acceptance class from identified process, melt-pool, powder/recoating, and defect states."@en ;
+    rdfs:subClassOf mis:LPBFStage .
+
+mis:LPBFMonitor a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-02T13:12:20+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+mis:PartQuality a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T06:56:12+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf owl:topDataProperty .
+
+mis:QualityAcceptanceState a owl:Class ;
+    rdfs:label "quality acceptance state"@en ;
+    rdfs:subClassOf mis:InferredResult,
+        lpbf:QualityMetric .
+
+mis:State a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-16T07:41:52+00:00"^^xsd:dateTime ;
+    rdfs:subPropertyOf mis:LPBFMonitor .
+
+lpbf:OPCUANode a owl:Class ;
+    rdfs:subClassOf lpbf:CommunicationAsset .
+
+lpbf:SurfaceRoughness a owl:Class ;
+    rdfs:subClassOf lpbf:QualityMetric .
+
+lpbftr:FailureCategory a owl:Class ;
+    rdfs:label "high-level fault category"@en ;
+    rdfs:subClassOf lpbf:Entity .
+
+mis:BuildManagementAction a owl:Class ;
+    rdfs:label "build management action"@en ;
+    rdfs:subClassOf mis:AdaptationAction .
+
+mis:Data a owl:DatatypeProperty ;
+    dc:creator "hao" ;
+    dc:date "2026-05-02T13:19:43+00:00"^^xsd:dateTime .
+
+mis:DefectState a owl:Class ;
+    rdfs:label "defect state"@en ;
+    rdfs:subClassOf mis:IdentifiedState .
+
+mis:IdentifiedState a owl:Class ;
+    rdfs:label "identified state"@en ;
+    rdfs:subClassOf mis:Diagnosis .
+
+mis:LPBFProcessState a owl:Class ;
+    rdfs:label "LPBF process state"@en ;
+    rdfs:subClassOf mis:IdentifiedState,
+        lpbf:LPBFMachine .
+
+mis:MeltPoolState a owl:Class ;
+    rdfs:label "melt-pool state"@en ;
+    rdfs:subClassOf mis:IdentifiedState .
+
+lpbf:JSONField a owl:Class ;
+    rdfs:subClassOf lpbf:CommunicationAsset .
+
+mis:EvaluationResult a owl:Class ;
+    rdfs:label "evaluation result"@en ;
+    rdfs:subClassOf mis:Prediction .
+
+lpbf:ProcessState a owl:Class,
+        owl:NamedIndividual ;
+    rdfs:subClassOf lpbf:LPBFMachine .
+
+lpbf:ScanPathFile a owl:Class ;
+    rdfs:subClassOf mis:Project .
+
+lpbftr:FailureResponse a owl:Class ;
+    rdfs:label "recommended corrective action"@en ;
+    rdfs:subClassOf lpbf:Entity .
+
+mis:Batch a owl:Class ;
+    rdfs:label "Batch"@en ;
+    rdfs:comment "A machining batch, production batch, or experimental batch associated with calibrated knowledge."@en ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:Project a lpbf:Entity,
+        owl:Class,
+        owl:NamedIndividual ;
+    dc:creator "hao" ;
+    dc:date "2026-04-22T02:23:58+00:00"^^xsd:dateTime,
+        "2026-04-22T02:24:23+00:00"^^xsd:dateTime ;
+    rdfs:subClassOf lpbf:Entity .
+
+lpbf:CyberAsset a owl:Class ;
+    rdfs:subClassOf lpbf:Entity .
+
+lpbftr:FaultMode a owl:Class ;
+    rdfs:label "observable LPBF fault mode"@en ;
+    rdfs:subClassOf mis:Diagnosis .
+
+mis:BatchKnowledge a owl:Class ;
+    rdfs:label "Batch knowledge"@en ;
+    rdfs:comment "A batch-specific knowledge individual containing thresholds, state linkage, confidence, and dataset provenance for TMV-720 inference."@en ;
+    rdfs:subClassOf mis:Batch .
+
+lpbftr:FailureCause a owl:Class ;
+    rdfs:label "root or direct cause"@en ;
+    rdfs:subClassOf lpbf:Entity .
+
+lpbf:Entity a owl:Class .
+
+lpbf:LPBFMachine a owl:Class ;
+    rdfs:subClassOf lpbf:PhysicalAsset .
+
+lpbf:QualityMetric a owl:Class,
+        owl:NamedIndividual ;
+    rdfs:subClassOf mis:Project .
+
+mis:LPBFStage a owl:Class ;
+    rdfs:label "LPBF workflow stage"@en ;
+    rdfs:subClassOf lpbf:CyberAsset .
+
+mis:SensingData a owl:Class ;
+    rdfs:label "LPBF sensing data"@en ;
+    rdfs:subClassOf lpbf:SensingWindow .
+
+lpbf:MultiSensorWindow a owl:Class ;
+    rdfs:subClassOf lpbf:SensingWindow .
+
+rdf:Statement a owl:Class .
+
