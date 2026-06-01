@@ -1,0 +1,2965 @@
+@prefix : <http://nkust.edu.tw/mislab/lpbf/ontology/process#LPBFExtendedOntology> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix mis: <http://nkust.edu.tw/mislab#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix lpbf: <http://nkust.edu.tw/mislab/lpbf/ontology/process#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix lpbftr: <http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#> .
+@base <http://nkust.edu.tw/mislab/lpbf/ontology/process#LPBFExtendedOntology> .
+
+<http://nkust.edu.tw/mislab/lpbf/ontology/process#LPBFExtendedOntology> rdf:type owl:Ontology ;
+                                                                         owl:imports lpbftr: ;
+                                                                         rdfs:comment "Extended with TEC LPBF troubleshooting knowledge: failure modes, causes, and corrective countermeasures parsed from the uploaded LPBF troubleshooting chart."@en ,
+                                                                                      "Generated from uploaded image tec_lpbf_trouble_shooting_01_zh.png. Cell recommendations are based on detected black markers in the chart matrix and should be verified against the original manual before production use."@en ,
+                                                                                      "Ontology for LPBF process monitoring with build job files, scan segments, sensing windows, multi-sensor alignment, diagnosis, prediction, and communication mapping."@en ;
+                                                                         rdfs:label "Extended LPBF Process Monitor Ontology with Build Job File and Sensing Windows"@en ,
+                                                                                    "LPBF ontology extended with LPBF troubleshooting knowledge"@en ,
+                                                                                    "LPBF troubleshooting ontology parsed from TEC chart"@en ,
+                                                                                    "LPBF故障对策图谱本体"@zh ;
+                                                                         owl:versionInfo "0.1.0" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/date
+dc:date rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#altLabel
+skos:altLabel rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#prefLabel
+skos:prefLabel rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#related
+skos:related rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://nkust.edu.tw/mislab#activeBatch
+mis:activeBatch rdf:type owl:ObjectProperty ;
+                rdfs:domain mis:Project ;
+                rdfs:range mis:Batch .
+
+
+###  http://nkust.edu.tw/mislab#belongsToBatch
+mis:belongsToBatch rdf:type owl:ObjectProperty ;
+                   rdfs:domain lpbf:MultiSensorWindow ;
+                   rdfs:range mis:Batch .
+
+
+###  http://nkust.edu.tw/mislab#belongsToProject
+mis:belongsToProject rdf:type owl:ObjectProperty ;
+                     rdfs:domain lpbf:MultiSensorWindow ;
+                     rdfs:range mis:Project .
+
+
+###  http://nkust.edu.tw/mislab#consumesData
+mis:consumesData rdf:type owl:ObjectProperty ;
+                 rdfs:domain mis:LPBFStage ;
+                 rdfs:range lpbf:Entity ;
+                 rdfs:label "consumes data"@en .
+
+
+###  http://nkust.edu.tw/mislab#derivedFromSignal
+mis:derivedFromSignal rdf:type owl:ObjectProperty ;
+                      rdfs:domain mis:DerivedLPBFFeature ;
+                      rdfs:range mis:SensingData ;
+                      rdfs:label "derived from signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#derivedFromStage
+mis:derivedFromStage rdf:type owl:ObjectProperty ;
+                     rdfs:domain lpbf:Entity ;
+                     rdfs:range mis:LPBFStage ;
+                     rdfs:label "derived from stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#evaluatesResult
+mis:evaluatesResult rdf:type owl:ObjectProperty ;
+                    rdfs:domain mis:EvaluationStage ;
+                    rdfs:range mis:EvaluationResult ;
+                    rdfs:label "evaluates result"@en .
+
+
+###  http://nkust.edu.tw/mislab#forBatch
+mis:forBatch rdf:type owl:ObjectProperty ;
+             rdfs:domain mis:BatchKnowledge ;
+             rdfs:range mis:Batch ;
+             rdfs:comment "Links a batch-knowledge individual to the batch for which the thresholds are valid."@en ;
+             rdfs:label "for batch"@en .
+
+
+###  http://nkust.edu.tw/mislab#forProcessState
+mis:forProcessState rdf:type owl:ObjectProperty ;
+                    rdfs:domain mis:BatchKnowledge ;
+                    rdfs:comment "Links a batch-knowledge individual to the state inferred when the threshold condition is satisfied."@en ;
+                    rdfs:label "for state"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasBatteryState
+mis:hasBatteryState rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf owl:topObjectProperty ;
+                    rdfs:domain lpbf:MultiSensorWindow ;
+                    dc:creator "hao" ;
+                    dc:date "2026-05-18T21:26:11+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasCoefficient
+mis:hasCoefficient rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
+                   dc:creator "hao" ;
+                   dc:date "2026-05-16T08:30:16+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasCommunicationState
+mis:hasCommunicationState rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf owl:topObjectProperty ;
+                          rdfs:domain lpbf:MultiSensorWindow ;
+                          dc:creator "hao" ;
+                          dc:date "2026-05-18T21:26:24+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasController
+mis:hasController rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain lpbf:LPBFMachine ;
+                  dc:creator "hao" ;
+                  dc:date "2026-04-22T02:32:32+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasEdge
+mis:hasEdge rdf:type owl:ObjectProperty ;
+            rdfs:domain mis:Project ,
+                        lpbf:LPBFMachine ;
+            dc:creator "hao" ;
+            dc:date "2026-05-18T01:25:39+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasLPBFMonitor
+mis:hasLPBFMonitor rdf:type owl:ObjectProperty ;
+                   dc:creator "hao" ;
+                   dc:date "2026-05-19T06:33:12+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasLPBFMonitorState
+mis:hasLPBFMonitorState rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf owl:topObjectProperty ;
+                        rdfs:domain lpbf:MultiSensorWindow ;
+                        dc:creator "hao" ;
+                        dc:date "2026-04-27T00:52:06+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasLoadState
+mis:hasLoadState rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdfs:domain lpbf:MultiSensorWindow .
+
+
+###  http://nkust.edu.tw/mislab#hasQualitySpec
+mis:hasQualitySpec rdf:type owl:ObjectProperty ;
+                   rdfs:domain lpbf:ScanPathFile ;
+                   rdfs:range lpbf:QualityMetric ;
+                   dc:creator "hao" ;
+                   dc:date "2026-04-22T06:43:10+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasSpecification
+mis:hasSpecification rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     dc:creator "hao" ;
+                     dc:date "2026-05-16T08:26:51+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasStage
+mis:hasStage rdf:type owl:ObjectProperty ;
+             rdfs:domain mis:LPBFClosedLoopPipeline ;
+             rdfs:range mis:LPBFStage ;
+             rdfs:label "has stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasSurfaceQuality
+mis:hasSurfaceQuality rdf:type owl:ObjectProperty ;
+                      rdfs:domain lpbf:ScanPathFile ;
+                      rdfs:range lpbf:SurfaceRoughness .
+
+
+###  http://nkust.edu.tw/mislab#identifiesState
+mis:identifiesState rdf:type owl:ObjectProperty ;
+                    rdfs:domain mis:IdentificationStage ;
+                    rdfs:range mis:IdentifiedState ;
+                    rdfs:label "identifies state"@en .
+
+
+###  http://nkust.edu.tw/mislab#infersCause
+mis:infersCause rdf:type owl:ObjectProperty ;
+                rdfs:domain mis:InferenceStage ;
+                rdfs:range lpbftr:FailureCause ;
+                rdfs:label "infers LPBF failure cause"@en .
+
+
+###  http://nkust.edu.tw/mislab#infersQualityAcceptance
+mis:infersQualityAcceptance rdf:type owl:ObjectProperty ;
+                            rdfs:domain mis:InferenceStage ;
+                            rdfs:range mis:QualityAcceptanceState ;
+                            rdfs:label "infers quality acceptance"@en .
+
+
+###  http://nkust.edu.tw/mislab#nextStage
+mis:nextStage rdf:type owl:ObjectProperty ,
+                       owl:TransitiveProperty ;
+              rdfs:domain mis:LPBFStage ;
+              rdfs:range mis:LPBFStage ;
+              rdfs:label "next stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#producesData
+mis:producesData rdf:type owl:ObjectProperty ;
+                 rdfs:domain mis:LPBFStage ;
+                 rdfs:range lpbf:Entity ;
+                 rdfs:label "produces data"@en .
+
+
+###  http://nkust.edu.tw/mislab#suggestsAction
+mis:suggestsAction rdf:type owl:ObjectProperty ;
+                   rdfs:domain mis:AdaptationStage ;
+                   rdfs:range mis:AdaptationAction ;
+                   rdfs:label "suggests adaptation action"@en .
+
+
+###  http://nkust.edu.tw/mislab#suggestsResponse
+mis:suggestsResponse rdf:type owl:ObjectProperty ;
+                     rdfs:domain mis:InferenceStage ;
+                     rdfs:range lpbftr:FailureResponse ;
+                     rdfs:label "suggests LPBF response"@en .
+
+
+###  http://nkust.edu.tw/mislab#usesMachine
+mis:usesMachine rdf:type owl:ObjectProperty ;
+                rdfs:domain mis:Project ;
+                rdfs:range lpbf:LPBFMachine ;
+                dc:creator "hao" ;
+                dc:date "2026-04-22T03:01:45+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#affectsQuality
+lpbf:affectsQuality rdf:type owl:ObjectProperty ;
+                    rdfs:domain lpbf:MultiSensorWindow ;
+                    rdfs:range lpbf:QualityMetric .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#belongsToWindow
+lpbf:belongsToWindow rdf:type owl:ObjectProperty ;
+                     rdfs:domain mis:Batch ;
+                     rdfs:range lpbf:MultiSensorWindow .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#indicatesProcessState
+lpbf:indicatesProcessState rdf:type owl:ObjectProperty ;
+                           rdfs:domain lpbf:MultiSensorWindow .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#mapsToJSONField
+lpbf:mapsToJSONField rdf:type owl:ObjectProperty ;
+                     rdfs:domain mis:Batch ;
+                     rdfs:range lpbf:JSONField .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#mapsToMQTTTopic
+lpbf:mapsToMQTTTopic rdf:type owl:ObjectProperty ;
+                     rdfs:domain mis:Batch ;
+                     rdfs:range lpbf:MQTTTopic .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#mapsToOPCUANode
+lpbf:mapsToOPCUANode rdf:type owl:ObjectProperty ;
+                     rdfs:domain mis:Batch ;
+                     rdfs:range lpbf:OPCUANode .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#belongsToCategory
+lpbftr:belongsToCategory rdf:type owl:ObjectProperty ;
+                         rdfs:domain lpbftr:FaultMode ;
+                         rdfs:range lpbftr:FailureCategory .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasCause
+lpbftr:hasCause rdf:type owl:ObjectProperty ;
+                rdfs:domain lpbftr:FaultMode ;
+                rdfs:range lpbftr:FailureCause .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasDefectType
+lpbftr:hasDefectType rdf:type owl:ObjectProperty ;
+                     rdfs:domain lpbftr:FaultMode ;
+                     rdfs:range mis:DefectState ;
+                     rdfs:label "has defect type"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasFaultMode
+lpbftr:hasFaultMode rdf:type owl:ObjectProperty ;
+                    rdfs:domain lpbftr:Troubleshooting ;
+                    rdfs:range lpbftr:FaultMode .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasRecommendedResponse
+lpbftr:hasRecommendedResponse rdf:type owl:ObjectProperty ;
+                              rdfs:domain lpbftr:FailureCause ;
+                              rdfs:range lpbftr:FailureResponse .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasResponseGroup
+lpbftr:hasResponseGroup rdf:type owl:ObjectProperty ;
+                        rdfs:domain lpbftr:FailureResponse ;
+                        rdfs:range lpbftr:ResponseGroup .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasTroubleshootingCause
+lpbftr:hasTroubleshootingCause rdf:type owl:ObjectProperty ;
+                               rdfs:domain lpbf:MultiSensorWindow ;
+                               rdfs:range lpbftr:FailureCause ;
+                               rdfs:comment "Links a runtime multi-sensor window to a possible cause inferred from troubleshooting knowledge."@en ;
+                               rdfs:label "has troubleshooting cause"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasTroubleshootingFaultMode
+lpbftr:hasTroubleshootingFaultMode rdf:type owl:ObjectProperty ;
+                                   rdfs:domain lpbf:MultiSensorWindow ;
+                                   rdfs:range lpbftr:FaultMode ;
+                                   rdfs:comment "Links a runtime multi-sensor window to a diagnosed LPBF troubleshooting fault mode."@en ;
+                                   rdfs:label "has troubleshooting fault mode"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasTroubleshootingResponse
+lpbftr:hasTroubleshootingResponse rdf:type owl:ObjectProperty ;
+                                  rdfs:domain lpbf:MultiSensorWindow ;
+                                  rdfs:range lpbftr:FailureResponse ;
+                                  rdfs:comment "Links a runtime multi-sensor window to a corrective action recommended by the troubleshooting chart."@en ;
+                                  rdfs:label "has troubleshooting countermeasure"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#supportsProcessState
+lpbftr:supportsProcessState rdf:type owl:ObjectProperty ;
+                            rdfs:domain lpbftr:FaultMode ;
+                            rdfs:comment "Connects a troubleshooting fault mode to the LPBF process-state concept it can support."@en ;
+                            rdfs:label "supports process state"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#supportsSurfaceQuality
+lpbftr:supportsSurfaceQuality rdf:type owl:ObjectProperty ;
+                              rdfs:domain lpbftr:FaultMode ;
+                              rdfs:range lpbf:QualityMetric ;
+                              rdfs:comment "Connects a troubleshooting fault mode to the LPBF surface-quality concept it can support."@en ;
+                              rdfs:label "supports surface quality"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://nkust.edu.tw/mislab#Acoustic
+mis:Acoustic rdf:type owl:DatatypeProperty ;
+             dc:creator "hao" ;
+             dc:date "2026-05-17T20:27:15+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Data
+mis:Data rdf:type owl:DatatypeProperty ;
+         dc:creator "hao" ;
+         dc:date "2026-05-02T13:19:43+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#LocatedAt
+mis:LocatedAt rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              dc:creator "hao" ;
+              dc:date "2026-04-22T02:45:42+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Machine
+mis:Machine rdf:type owl:DatatypeProperty ;
+            dc:creator "hao" ;
+            dc:date "2026-05-17T20:29:50+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Material
+mis:Material rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://nkust.edu.tw/mislab#PartQuality
+mis:PartQuality rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                dc:creator "hao" ;
+                dc:date "2026-04-22T06:56:12+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#ProcessParameter
+mis:ProcessParameter rdf:type owl:DatatypeProperty .
+
+
+###  http://nkust.edu.tw/mislab#Progress
+mis:Progress rdf:type owl:DatatypeProperty ;
+             dc:creator "hao" ;
+             dc:date "2026-05-02T13:20:38+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#batchId
+mis:batchId rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf mis:Data .
+
+
+###  http://nkust.edu.tw/mislab#confidence
+mis:confidence rdf:type owl:DatatypeProperty ;
+               rdfs:domain mis:BatchKnowledge ;
+               rdfs:range xsd:double ;
+               rdfs:comment "Confidence score associated with the threshold knowledge record."@en ;
+               rdfs:label "confidence"@en .
+
+
+###  http://nkust.edu.tw/mislab#datasetId
+mis:datasetId rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf mis:Data .
+
+
+###  http://nkust.edu.tw/mislab#derivedFromDataset
+mis:derivedFromDataset rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf mis:Data ;
+                       rdfs:domain mis:BatchKnowledge ;
+                       rdfs:range xsd:string ;
+                       rdfs:comment "Dataset identifier or provenance tag from which the thresholds were calibrated."@en ;
+                       rdfs:label "derived from dataset"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasAcousticRMS
+mis:hasAcousticRMS rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf mis:Acoustic ;
+                   rdfs:domain lpbf:MultiSensorWindow ;
+                   rdfs:range xsd:double .
+
+
+###  http://nkust.edu.tw/mislab#hasDescription
+mis:hasDescription rdf:type owl:DatatypeProperty ;
+                   rdfs:domain mis:BatchKnowledge ;
+                   rdfs:range xsd:string ;
+                   rdfs:comment "Human-readable description of the knowledge record."@en ;
+                   rdfs:label "has description"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasKnowledgeCategory
+mis:hasKnowledgeCategory rdf:type owl:DatatypeProperty ;
+                         rdfs:domain mis:BatchKnowledge ;
+                         rdfs:range xsd:string ;
+                         rdfs:comment "Classifies a knowledge record, for example melt_pool_state, layer_quality, defect_state, or process_state."@en ;
+                         rdfs:label "has knowledge category"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasLocalIP
+mis:hasLocalIP rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf mis:Machine ;
+               dc:creator "hao" ;
+               dc:date "2026-05-18T01:09:33+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasMeasuredRa
+mis:hasMeasuredRa rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf mis:PartQuality ;
+                  rdfs:domain mis:BatchKnowledge ,
+                              lpbf:MultiSensorWindow ;
+                  rdfs:range xsd:double .
+
+
+###  http://nkust.edu.tw/mislab#hasProgressRatio
+mis:hasProgressRatio rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf mis:Progress ;
+                     rdfs:domain lpbf:MultiSensorWindow ;
+                     rdfs:range xsd:double .
+
+
+###  http://nkust.edu.tw/mislab#hasRecommendationText
+mis:hasRecommendationText rdf:type owl:DatatypeProperty ;
+                          rdfs:domain mis:AdaptationAction ;
+                          rdfs:range xsd:string ;
+                          rdfs:label "has recommendation text"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasSTL
+mis:hasSTL rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf mis:ProcessParameter ;
+           rdfs:domain lpbf:ScanPathFile ;
+           rdfs:range rdf:langString ;
+           dc:creator "hao" ;
+           dc:date "2026-05-15T01:05:44+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasSequenceIndex
+mis:hasSequenceIndex rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf mis:Data ;
+                     rdfs:domain lpbf:MultiSensorWindow ;
+                     rdfs:range xsd:integer .
+
+
+###  http://nkust.edu.tw/mislab#hasStageOrder
+mis:hasStageOrder rdf:type owl:DatatypeProperty ;
+                  rdfs:domain mis:LPBFStage ;
+                  rdfs:range xsd:integer ;
+                  rdfs:label "has stage order"@en .
+
+
+###  http://nkust.edu.tw/mislab#hasTimestamp
+mis:hasTimestamp rdf:type owl:DatatypeProperty ;
+                 rdfs:domain lpbf:MultiSensorWindow ;
+                 rdfs:range xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasTolerance
+mis:hasTolerance rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf mis:PartQuality ;
+                 rdfs:domain mis:BatchKnowledge ,
+                             lpbf:ScanPathFile ;
+                 rdfs:range xsd:float ;
+                 dc:creator "hao" ;
+                 dc:date "2026-04-22T07:57:24+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasURI
+mis:hasURI rdf:type owl:DatatypeProperty ;
+           rdfs:range rdf:langString ;
+           dc:creator "hao" ;
+           dc:date "2026-05-18T01:27:25+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#hasWindowId
+mis:hasWindowId rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf mis:Data ;
+                rdfs:domain lpbf:MultiSensorWindow ;
+                rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab#maxMeasuredRa
+mis:maxMeasuredRa rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf mis:PartQuality ;
+                  rdfs:domain mis:BatchKnowledge ,
+                              lpbf:ScanPathFile ;
+                  rdfs:range xsd:double ;
+                  rdfs:label "maximum measured Ra"@en .
+
+
+###  http://nkust.edu.tw/mislab#minMeasuredRa
+mis:minMeasuredRa rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf mis:PartQuality ;
+                  rdfs:domain mis:BatchKnowledge ,
+                              lpbf:ScanPathFile ;
+                  rdfs:range xsd:double ;
+                  rdfs:label "minimum measured Ra"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasConfidence
+lpbf:hasConfidence rdf:type owl:DatatypeProperty ;
+                   rdfs:range xsd:double .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasEndTime
+lpbf:hasEndTime rdf:type owl:DatatypeProperty ;
+                rdfs:domain lpbf:MultiSensorWindow ;
+                rdfs:range xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasJSONKey
+lpbf:hasJSONKey rdf:type owl:DatatypeProperty ;
+                rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasMQTTTopicString
+lpbf:hasMQTTTopicString rdf:type owl:DatatypeProperty ;
+                        rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasMachineId
+lpbf:hasMachineId rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf mis:Machine ;
+                  rdfs:domain lpbf:LPBFMachine ;
+                  rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasModelVersion
+lpbf:hasModelVersion rdf:type owl:DatatypeProperty ;
+                     rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasName
+lpbf:hasName rdf:type owl:DatatypeProperty ;
+             rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasNodeId
+lpbf:hasNodeId rdf:type owl:DatatypeProperty ;
+               rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasStartTime
+lpbf:hasStartTime rdf:type owl:DatatypeProperty ;
+                  rdfs:domain lpbf:MultiSensorWindow ;
+                  rdfs:range xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasStateLabel
+lpbf:hasStateLabel rdf:type owl:DatatypeProperty ;
+                   rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasUnit
+lpbf:hasUnit rdf:type owl:DatatypeProperty ;
+             rdfs:range xsd:string .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#hasValue
+lpbf:hasValue rdf:type owl:DatatypeProperty ;
+              rdfs:range xsd:double .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasPhysicalMechanism
+lpbftr:hasPhysicalMechanism rdf:type owl:DatatypeProperty ;
+                            rdfs:domain lpbftr:FaultMode ;
+                            rdfs:range xsd:string ;
+                            rdfs:label "has physical mechanism"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasPrimaryCause
+lpbftr:hasPrimaryCause rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf mis:Data ;
+                       rdfs:domain lpbftr:FaultMode ;
+                       rdfs:range xsd:string ;
+                       rdfs:label "has primary process-variable cause text"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#hasResponseText
+lpbftr:hasResponseText rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf mis:Data ;
+                       rdfs:domain lpbftr:FailureResponse ;
+                       rdfs:range xsd:string ;
+                       rdfs:label "has response text"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#sourceCellMarkerCount
+lpbftr:sourceCellMarkerCount rdf:type owl:DatatypeProperty ;
+                             rdfs:domain lpbftr:FailureCause ;
+                             rdfs:range xsd:integer .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#sourceColumnIndex
+lpbftr:sourceColumnIndex rdf:type owl:DatatypeProperty ;
+                         rdfs:domain lpbftr:FailureResponse ;
+                         rdfs:range xsd:integer .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#sourceRowIndex
+lpbftr:sourceRowIndex rdf:type owl:DatatypeProperty ;
+                      rdfs:domain lpbftr:FailureCause ;
+                      rdfs:range xsd:integer .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://nkust.edu.tw/mislab#AcousticEmissionSignal
+mis:AcousticEmissionSignal rdf:type owl:Class ;
+                           rdfs:subClassOf mis:SensingData ;
+                           rdfs:label "acoustic-emission signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#AdaptationAction
+mis:AdaptationAction rdf:type owl:Class ;
+                     rdfs:subClassOf mis:Prediction ;
+                     rdfs:label "adaptation action"@en ,
+                                "adaption action"@en .
+
+
+###  http://nkust.edu.tw/mislab#AdaptationStage
+mis:AdaptationStage rdf:type owl:Class ;
+                    rdfs:subClassOf mis:LPBFStage ;
+                    rdfs:comment "Stage that suggests build management and process management actions, including laser power adjustment, scan-speed adjustment, hatch-spacing or scan-strategy update, recoating intervention, layer re-scan, pause/abort decision, and updated build job or scan parameters."@en ;
+                    rdfs:label "adaptation stage"@en ,
+                               "adaption stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#BallingDefectState
+mis:BallingDefectState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:DefectState ;
+                       rdfs:label "balling defect state"@en .
+
+
+###  http://nkust.edu.tw/mislab#Batch
+mis:Batch rdf:type owl:Class ;
+          rdfs:subClassOf lpbf:CyberAsset ;
+          rdfs:comment "A machining batch, production batch, or experimental batch associated with calibrated knowledge."@en ;
+          rdfs:label "Batch"@en .
+
+
+###  http://nkust.edu.tw/mislab#BatchKnowledge
+mis:BatchKnowledge rdf:type owl:Class ;
+                   rdfs:subClassOf mis:Batch ;
+                   rdfs:comment "A batch-specific knowledge individual containing thresholds, state linkage, confidence, and dataset provenance for TMV-720 inference."@en ;
+                   rdfs:label "Batch knowledge"@en .
+
+
+###  http://nkust.edu.tw/mislab#BuildManagementAction
+mis:BuildManagementAction rdf:type owl:Class ;
+                          rdfs:subClassOf mis:AdaptationAction ;
+                          rdfs:label "build management action"@en .
+
+
+###  http://nkust.edu.tw/mislab#BuildPauseOrAbortAction
+mis:BuildPauseOrAbortAction rdf:type owl:Class ;
+                            rdfs:subClassOf mis:BuildManagementAction ;
+                            rdfs:label "build pause or abort action"@en .
+
+
+###  http://nkust.edu.tw/mislab#ChamberOxygenSignal
+mis:ChamberOxygenSignal rdf:type owl:Class ;
+                        rdfs:subClassOf mis:SensingData ;
+                        rdfs:label "chamber oxygen signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#CoaxialMeltPoolVisionSignal
+mis:CoaxialMeltPoolVisionSignal rdf:type owl:Class ;
+                                rdfs:subClassOf mis:SensingData ;
+                                rdfs:label "coaxial melt-pool vision signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#DefectRiskEvaluation
+mis:DefectRiskEvaluation rdf:type owl:Class ;
+                         rdfs:subClassOf mis:EvaluationResult ;
+                         rdfs:label "defect-risk evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#DefectState
+mis:DefectState rdf:type owl:Class ;
+                rdfs:subClassOf mis:IdentifiedState ;
+                rdfs:label "defect state"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedCoolingRate
+mis:DerivedCoolingRate rdf:type owl:Class ;
+                       rdfs:subClassOf mis:DerivedLPBFFeature ;
+                       rdfs:label "derived cooling rate"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedLPBFFeature
+mis:DerivedLPBFFeature rdf:type owl:Class ;
+                       rdfs:subClassOf mis:SensingData ;
+                       rdfs:comment "Feature derived from raw LPBF monitoring data, such as melt-pool area, brightness, aspect ratio, centroid, thermal gradient, cooling rate, plume intensity, or spatter count."@en ;
+                       rdfs:label "derived LPBF feature"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedMeltPoolGeometry
+mis:DerivedMeltPoolGeometry rdf:type owl:Class ;
+                            rdfs:subClassOf mis:DerivedLPBFFeature ;
+                            rdfs:label "derived melt-pool geometry"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedThermalGradient
+mis:DerivedThermalGradient rdf:type owl:Class ;
+                           rdfs:subClassOf mis:DerivedLPBFFeature ;
+                           rdfs:label "derived thermal gradient"@en .
+
+
+###  http://nkust.edu.tw/mislab#DesignStlFile
+mis:DesignStlFile rdf:type owl:Class ;
+                  rdfs:subClassOf mis:Project ;
+                  dc:creator "hao" ;
+                  dc:date "2026-05-16T07:28:36+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Diagnosis
+mis:Diagnosis rdf:type owl:Class ;
+              rdfs:subClassOf lpbf:CyberAsset ;
+              dc:creator "hao" ;
+              dc:date "2026-04-28T23:43:49+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#DiagnosisModel
+mis:DiagnosisModel rdf:type owl:Class ;
+                   rdfs:subClassOf mis:Model ;
+                   dc:creator "hao" ;
+                   dc:date "2026-04-26T10:01:17+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#EvaluationResult
+mis:EvaluationResult rdf:type owl:Class ;
+                     rdfs:subClassOf mis:Prediction ;
+                     rdfs:label "evaluation result"@en .
+
+
+###  http://nkust.edu.tw/mislab#EvaluationStage
+mis:EvaluationStage rdf:type owl:Class ;
+                    rdfs:subClassOf mis:LPBFStage ;
+                    rdfs:comment "Stage that evaluates thermal field, melt-pool stability, defect risk, layer quality, part quality, and machine/build-health indicators using inferred causes and responses."@en ;
+                    rdfs:label "evaluation stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#GalvoPositionSignal
+mis:GalvoPositionSignal rdf:type owl:Class ;
+                        rdfs:subClassOf mis:SensingData ;
+                        rdfs:label "galvo position signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#IdentificationStage
+mis:IdentificationStage rdf:type owl:Class ;
+                        rdfs:subClassOf mis:LPBFStage ;
+                        rdfs:comment "Stage that converts LPBF sensing data into process states, melt-pool states, powder/recoating states, defect states, and preliminary layer or part-quality states."@en ;
+                        rdfs:label "identification stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#IdentifiedState
+mis:IdentifiedState rdf:type owl:Class ;
+                    rdfs:subClassOf mis:Diagnosis ;
+                    rdfs:label "identified state"@en .
+
+
+###  http://nkust.edu.tw/mislab#InferenceStage
+mis:InferenceStage rdf:type owl:Class ;
+                   rdfs:subClassOf mis:LPBFStage ;
+                   rdfs:comment "Stage that infers LPBF failure causes, corrective responses, and quality acceptance class from identified process, melt-pool, powder/recoating, and defect states."@en ;
+                   rdfs:label "inference stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#InferredResult
+mis:InferredResult rdf:type owl:Class ;
+                   rdfs:subClassOf mis:Diagnosis ;
+                   rdfs:label "inferred result"@en .
+
+
+###  http://nkust.edu.tw/mislab#LPBFClosedLoopPipeline
+mis:LPBFClosedLoopPipeline rdf:type owl:Class ;
+                           rdfs:subClassOf lpbf:CyberAsset ;
+                           rdfs:comment "A five-stage LPBF workflow that transforms layer-wise sensing data into identified process, melt-pool, powder/recoating, defect, and quality states; inferred failure causes and responses; evaluated thermal, defect, and quality indicators; and adaptive build or scan-parameter management actions."@en ;
+                           rdfs:label "LPBF closed-loop monitoring and adaptation pipeline"@en .
+
+
+###  http://nkust.edu.tw/mislab#LPBFProcessState
+mis:LPBFProcessState rdf:type owl:Class ;
+                     rdfs:subClassOf mis:IdentifiedState ,
+                                     lpbf:LPBFMachine ;
+                     rdfs:label "LPBF process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#LPBFStage
+mis:LPBFStage rdf:type owl:Class ;
+              rdfs:subClassOf lpbf:CyberAsset ;
+              rdfs:label "LPBF workflow stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#LaserPowerAdjustmentAction
+mis:LaserPowerAdjustmentAction rdf:type owl:Class ;
+                               rdfs:subClassOf mis:ProcessManagementAction ;
+                               rdfs:label "laser power adjustment action"@en .
+
+
+###  http://nkust.edu.tw/mislab#LaserPowerSignal
+mis:LaserPowerSignal rdf:type owl:Class ;
+                     rdfs:subClassOf mis:SensingData ;
+                     rdfs:label "laser power signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerQualityEvaluation
+mis:LayerQualityEvaluation rdf:type owl:Class ;
+                           rdfs:subClassOf mis:EvaluationResult ;
+                           rdfs:label "layer-quality evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerRescanAction
+mis:LayerRescanAction rdf:type owl:Class ;
+                      rdfs:subClassOf mis:BuildManagementAction ;
+                      rdfs:label "layer re-scan action"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerSignal
+mis:LayerSignal rdf:type owl:Class ;
+                rdfs:subClassOf mis:SensingData ;
+                rdfs:label "build-platform position signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#Material
+mis:Material rdf:type owl:Class ;
+             rdfs:subClassOf mis:Project .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolEvaluation
+mis:MeltPoolEvaluation rdf:type owl:Class ;
+                       rdfs:subClassOf mis:EvaluationResult ;
+                       rdfs:label "melt-pool evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolFluctuatingState
+mis:MeltPoolFluctuatingState rdf:type owl:Class ;
+                             rdfs:subClassOf mis:MeltPoolState ;
+                             rdfs:label "fluctuating melt-pool state"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolLargeState
+mis:MeltPoolLargeState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:MeltPoolState ;
+                       rdfs:label "large melt-pool state"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolSmallState
+mis:MeltPoolSmallState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:MeltPoolState ;
+                       rdfs:label "small melt-pool state"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolStableState
+mis:MeltPoolStableState rdf:type owl:Class ;
+                        rdfs:subClassOf mis:MeltPoolState ;
+                        rdfs:label "stable melt-pool state"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolState
+mis:MeltPoolState rdf:type owl:Class ;
+                  rdfs:subClassOf mis:IdentifiedState ;
+                  rdfs:label "melt-pool state"@en .
+
+
+###  http://nkust.edu.tw/mislab#Model
+mis:Model rdf:type owl:Class ;
+          rdfs:subClassOf lpbf:CyberAsset ;
+          dc:creator "hao" ;
+          dc:date "2026-04-26T10:01:06+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#NoDefectState
+mis:NoDefectState rdf:type owl:Class ;
+                  rdfs:subClassOf mis:DefectState ;
+                  rdfs:label "no-defect state"@en .
+
+
+###  http://nkust.edu.tw/mislab#PartQualityEvaluation
+mis:PartQualityEvaluation rdf:type owl:Class ;
+                          rdfs:subClassOf mis:EvaluationResult ;
+                          rdfs:label "part-quality evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#PorosityDefectState
+mis:PorosityDefectState rdf:type owl:Class ;
+                        rdfs:subClassOf mis:DefectState ;
+                        rdfs:label "porosity defect state"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderBedVisionSignal
+mis:PowderBedVisionSignal rdf:type owl:Class ;
+                          rdfs:subClassOf mis:SensingData ;
+                          rdfs:label "powder-bed vision signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderRecoatingState
+mis:PowderRecoatingState rdf:type owl:Class ;
+                         rdfs:subClassOf mis:IdentifiedState ;
+                         rdfs:label "powder/recoating state"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderShortageState
+mis:PowderShortageState rdf:type owl:Class ;
+                        rdfs:subClassOf mis:PowderRecoatingState ;
+                        rdfs:label "powder-shortage state"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderUniformState
+mis:PowderUniformState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:PowderRecoatingState ;
+                       rdfs:label "uniform powder-bed state"@en .
+
+
+###  http://nkust.edu.tw/mislab#Prediction
+mis:Prediction rdf:type owl:Class ;
+               rdfs:subClassOf lpbf:CyberAsset .
+
+
+###  http://nkust.edu.tw/mislab#PredictionSequence
+mis:PredictionSequence rdf:type owl:Class ;
+                       rdfs:subClassOf mis:Prediction .
+
+
+###  http://nkust.edu.tw/mislab#ProcessKeyholeState
+mis:ProcessKeyholeState rdf:type owl:Class ;
+                        rdfs:subClassOf mis:LPBFProcessState ;
+                        rdfs:label "keyhole process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessLackOfFusionState
+mis:ProcessLackOfFusionState rdf:type owl:Class ;
+                             rdfs:subClassOf mis:LPBFProcessState ;
+                             rdfs:label "lack-of-fusion process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessManagementAction
+mis:ProcessManagementAction rdf:type owl:Class ;
+                            rdfs:subClassOf mis:AdaptationAction ;
+                            rdfs:label "process management action"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessNormalState
+mis:ProcessNormalState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:LPBFProcessState ;
+                       rdfs:label "normal LPBF process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessOverheatingState
+mis:ProcessOverheatingState rdf:type owl:Class ;
+                            rdfs:subClassOf mis:LPBFProcessState ;
+                            rdfs:label "overheating process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessUnstableState
+mis:ProcessUnstableState rdf:type owl:Class ;
+                         rdfs:subClassOf mis:LPBFProcessState ;
+                         rdfs:label "unstable LPBF process state"@en .
+
+
+###  http://nkust.edu.tw/mislab#Project
+mis:Project rdf:type owl:Class ;
+            rdfs:subClassOf lpbf:Entity .
+
+
+###  http://nkust.edu.tw/mislab#PyrometerSignal
+mis:PyrometerSignal rdf:type owl:Class ;
+                    rdfs:subClassOf mis:SensingData ;
+                    rdfs:label "pyrometer signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityAcceptanceState
+mis:QualityAcceptanceState rdf:type owl:Class ;
+                           rdfs:subClassOf mis:InferredResult ,
+                                           lpbf:QualityMetric ;
+                           rdfs:label "quality acceptance state"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityAcceptedState
+mis:QualityAcceptedState rdf:type owl:Class ;
+                         rdfs:subClassOf mis:QualityAcceptanceState ;
+                         rdfs:label "accepted quality state"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityMarginState
+mis:QualityMarginState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:QualityAcceptanceState ;
+                       rdfs:label "margin quality state"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityRejectState
+mis:QualityRejectState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:QualityAcceptanceState ;
+                       rdfs:label "reject quality state"@en .
+
+
+###  http://nkust.edu.tw/mislab#RecoaterSignal
+mis:RecoaterSignal rdf:type owl:Class ;
+                   rdfs:subClassOf mis:SensingData ;
+                   rdfs:label "recoater signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#RecoaterStreakState
+mis:RecoaterStreakState rdf:type owl:Class ;
+                        rdfs:subClassOf mis:PowderRecoatingState ;
+                        rdfs:label "recoater-streak state"@en .
+
+
+###  http://nkust.edu.tw/mislab#RecoatingInterventionAction
+mis:RecoatingInterventionAction rdf:type owl:Class ;
+                                rdfs:subClassOf mis:BuildManagementAction ;
+                                rdfs:label "recoating intervention action"@en .
+
+
+###  http://nkust.edu.tw/mislab#RunTime
+mis:RunTime rdf:type owl:Class ;
+            rdfs:subClassOf lpbf:CyberAsset ;
+            dc:creator "hao" ;
+            dc:date "2026-04-28T23:44:33+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#RuntimeObservation
+mis:RuntimeObservation rdf:type owl:Class ;
+                       rdfs:subClassOf mis:RunTime .
+
+
+###  http://nkust.edu.tw/mislab#RuntimeSelector
+mis:RuntimeSelector rdf:type owl:Class ;
+                    rdfs:subClassOf mis:RunTime .
+
+
+###  http://nkust.edu.tw/mislab#ScanSpeedAdjustmentAction
+mis:ScanSpeedAdjustmentAction rdf:type owl:Class ;
+                              rdfs:subClassOf mis:ProcessManagementAction ;
+                              rdfs:label "scan-speed adjustment action"@en .
+
+
+###  http://nkust.edu.tw/mislab#ScanSpeedSignal
+mis:ScanSpeedSignal rdf:type owl:Class ;
+                    rdfs:subClassOf mis:SensingData ;
+                    rdfs:label "scan speed signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#ScanStrategyUpdateAction
+mis:ScanStrategyUpdateAction rdf:type owl:Class ;
+                             rdfs:subClassOf mis:ProcessManagementAction ;
+                             rdfs:label "scan-strategy update action"@en .
+
+
+###  http://nkust.edu.tw/mislab#SensingData
+mis:SensingData rdf:type owl:Class ;
+                rdfs:subClassOf lpbf:SensingWindow ;
+                rdfs:label "LPBF sensing data"@en .
+
+
+###  http://nkust.edu.tw/mislab#SensingStage
+mis:SensingStage rdf:type owl:Class ;
+                 rdfs:subClassOf mis:LPBFStage ;
+                 rdfs:comment "Stage that collects laser power/current, scan speed, galvo or axis positions, layer/recoater signals, chamber oxygen, powder-bed images, coaxial melt-pool images, pyrometer or thermal-camera data, plume/acoustic signals, and derived melt-pool geometry and thermal-gradient features."@en ;
+                 rdfs:label "sensing stage"@en .
+
+
+###  http://nkust.edu.tw/mislab#SpatterDefectState
+mis:SpatterDefectState rdf:type owl:Class ;
+                       rdfs:subClassOf mis:DefectState ;
+                       rdfs:label "spatter defect state"@en .
+
+
+###  http://nkust.edu.tw/mislab#ThermalCameraSignal
+mis:ThermalCameraSignal rdf:type owl:Class ;
+                        rdfs:subClassOf mis:SensingData ;
+                        rdfs:label "thermal-camera signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#ThermalFieldEvaluation
+mis:ThermalFieldEvaluation rdf:type owl:Class ;
+                           rdfs:subClassOf mis:EvaluationResult ;
+                           rdfs:label "thermal-field evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#UpdatedBuildJobAction
+mis:UpdatedBuildJobAction rdf:type owl:Class ;
+                          rdfs:subClassOf mis:BuildManagementAction ;
+                          rdfs:label "updated build-job action"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#CommunicationAsset
+lpbf:CommunicationAsset rdf:type owl:Class ;
+                        rdfs:subClassOf lpbf:CyberAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#CyberAsset
+lpbf:CyberAsset rdf:type owl:Class ;
+                rdfs:subClassOf lpbf:Entity .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Entity
+lpbf:Entity rdf:type owl:Class .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#JSONField
+lpbf:JSONField rdf:type owl:Class ;
+               rdfs:subClassOf lpbf:CommunicationAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#LPBFMachine
+lpbf:LPBFMachine rdf:type owl:Class ;
+                 rdfs:subClassOf lpbf:PhysicalAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#MQTTTopic
+lpbf:MQTTTopic rdf:type owl:Class ;
+               rdfs:subClassOf lpbf:CommunicationAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#MultiSensorWindow
+lpbf:MultiSensorWindow rdf:type owl:Class ;
+                       rdfs:subClassOf lpbf:SensingWindow .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#OPCUANode
+lpbf:OPCUANode rdf:type owl:Class ;
+               rdfs:subClassOf lpbf:CommunicationAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#PhysicalAsset
+lpbf:PhysicalAsset rdf:type owl:Class ;
+                   rdfs:subClassOf lpbf:Entity .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#QualityMetric
+lpbf:QualityMetric rdf:type owl:Class ;
+                   rdfs:subClassOf mis:Project .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#ScanPathFile
+lpbf:ScanPathFile rdf:type owl:Class ;
+                  rdfs:subClassOf mis:Project .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#SensingWindow
+lpbf:SensingWindow rdf:type owl:Class ;
+                   rdfs:subClassOf lpbf:CyberAsset .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#SurfaceRoughness
+lpbf:SurfaceRoughness rdf:type owl:Class ;
+                      rdfs:subClassOf lpbf:QualityMetric .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#DefectMechanism
+lpbftr:DefectMechanism rdf:type owl:Class ;
+                       rdfs:subClassOf lpbf:Entity ;
+                       rdfs:label "LPBF defect mechanism"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#FailureCategory
+lpbftr:FailureCategory rdf:type owl:Class ;
+                       rdfs:subClassOf lpbf:Entity ;
+                       rdfs:label "high-level fault category"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#FailureCause
+lpbftr:FailureCause rdf:type owl:Class ;
+                    rdfs:subClassOf lpbf:Entity ;
+                    rdfs:label "root or direct cause"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#FailureResponse
+lpbftr:FailureResponse rdf:type owl:Class ;
+                       rdfs:subClassOf lpbf:Entity ;
+                       rdfs:label "recommended corrective action"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#FaultMode
+lpbftr:FaultMode rdf:type owl:Class ;
+                 rdfs:subClassOf mis:Diagnosis ;
+                 rdfs:label "observable LPBF fault mode"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#ResponseGroup
+lpbftr:ResponseGroup rdf:type owl:Class ;
+                     rdfs:subClassOf lpbf:Entity ;
+                     rdfs:label "group of countermeasures"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Troubleshooting
+lpbftr:Troubleshooting rdf:type owl:Class ;
+                       rdfs:subClassOf mis:DiagnosisModel ;
+                       rdfs:label "LPBF troubleshooting chart"@en .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement
+rdf:Statement rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://nkust.edu.tw/mislab#AMP160_Project
+mis:AMP160_Project rdf:type owl:NamedIndividual ,
+                            mis:Project ;
+                   rdfs:label "TMV-720 machine center project" .
+
+
+###  http://nkust.edu.tw/mislab#AcousticEmission
+mis:AcousticEmission rdf:type owl:NamedIndividual ,
+                              mis:AcousticEmissionSignal ;
+                     rdfs:label "acoustic emission"@en .
+
+
+###  http://nkust.edu.tw/mislab#BallingDefect
+mis:BallingDefect rdf:type owl:NamedIndividual ,
+                           mis:BallingDefectState ;
+                  rdfs:label "balling defect"@en .
+
+
+###  http://nkust.edu.tw/mislab#BuildManagementSuggestion
+mis:BuildManagementSuggestion rdf:type owl:NamedIndividual ,
+                                       mis:BuildManagementAction ;
+                              mis:hasRecommendationText "Manage the build according to evaluated thermal field, melt-pool stability, defect risk, layer quality, and part quality."@en ;
+                              rdfs:label "build management suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#BuildPauseOrAbortSuggestion
+mis:BuildPauseOrAbortSuggestion rdf:type owl:NamedIndividual ,
+                                         mis:BuildPauseOrAbortAction ;
+                                mis:hasRecommendationText "Pause or abort the build when severe recoating failure, persistent keyhole/overheating, large-area porosity risk, or rejected quality is evaluated."@en ;
+                                rdfs:label "build pause or abort suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#C10_HighEnergyDensity
+mis:C10_HighEnergyDensity rdf:type owl:NamedIndividual ,
+                                   lpbftr:FailureCause ;
+                          dc:creator "hao" ;
+                          dc:date "2026-06-01T01:04:26Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#C11_LowEnergyDensity
+mis:C11_LowEnergyDensity rdf:type owl:NamedIndividual ,
+                                  lpbftr:FailureCause ;
+                         dc:creator "hao" ;
+                         dc:date "2026-06-01T01:04:53Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#C12_ScanSpeedTooHigh
+mis:C12_ScanSpeedTooHigh rdf:type owl:NamedIndividual ,
+                                  lpbftr:FailureCause ;
+                         dc:creator "hao" ;
+                         dc:date "2026-06-01T01:05:30Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#C13_SevereThermalGradient
+mis:C13_SevereThermalGradient rdf:type owl:NamedIndividual ,
+                                       lpbftr:FailureCause ;
+                              dc:creator "hao" ;
+                              dc:date "2026-06-01T01:05:56Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#C14_SevereThermalGradient
+mis:C14_SevereThermalGradient rdf:type owl:NamedIndividual ,
+                                       lpbftr:FailureCause ;
+                              dc:creator "hao" ;
+                              dc:date "2026-06-01T01:06:33Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#C9_HatchSpacingTooWide
+mis:C9_HatchSpacingTooWide rdf:type owl:NamedIndividual ,
+                                    lpbftr:FailureCause ;
+                           lpbftr:hasRecommendedResponse lpbftr:R12_ReduceHatchSpacing ;
+                           dc:creator "hao" ;
+                           dc:date "2026-06-01T01:03:52Z"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#ChamberOxygen
+mis:ChamberOxygen rdf:type owl:NamedIndividual ,
+                           mis:ChamberOxygenSignal ;
+                  rdfs:label "chamber oxygen"@en .
+
+
+###  http://nkust.edu.tw/mislab#CoaxialMeltPoolVision
+mis:CoaxialMeltPoolVision rdf:type owl:NamedIndividual ,
+                                   mis:CoaxialMeltPoolVisionSignal ;
+                          rdfs:label "coaxial melt-pool vision"@en .
+
+
+###  http://nkust.edu.tw/mislab#CrackingDefect
+mis:CrackingDefect rdf:type owl:NamedIndividual ,
+                            mis:DefectState ;
+                   rdfs:label "cracking defect"@en .
+
+
+###  http://nkust.edu.tw/mislab#DefectRiskEvaluationResult
+mis:DefectRiskEvaluationResult rdf:type owl:NamedIndividual ,
+                                        mis:DefectRiskEvaluation ;
+                               rdfs:label "defect-risk evaluation result"@en ;
+                               skos:related mis:DefectState .
+
+
+###  http://nkust.edu.tw/mislab#DerivedCoolingRateFeature
+mis:DerivedCoolingRateFeature rdf:type owl:NamedIndividual ,
+                                       mis:DerivedCoolingRate ;
+                              rdfs:label "derived cooling-rate feature"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedMeltPoolGeometryFeature
+mis:DerivedMeltPoolGeometryFeature rdf:type owl:NamedIndividual ,
+                                            mis:DerivedMeltPoolGeometry ;
+                                   rdfs:comment "Derived feature including melt-pool area, width, length, aspect ratio, centroid, brightness, and contour."@en ;
+                                   rdfs:label "derived melt-pool geometry feature"@en .
+
+
+###  http://nkust.edu.tw/mislab#DerivedThermalGradientFeature
+mis:DerivedThermalGradientFeature rdf:type owl:NamedIndividual ,
+                                           mis:DerivedThermalGradient ;
+                                  rdfs:label "derived thermal-gradient feature"@en .
+
+
+###  http://nkust.edu.tw/mislab#GalvoPosition
+mis:GalvoPosition rdf:type owl:NamedIndividual ,
+                           mis:GalvoPositionSignal ;
+                  rdfs:label "galvo position"@en .
+
+
+###  http://nkust.edu.tw/mislab#InferredLPBFCauseSet
+mis:InferredLPBFCauseSet rdf:type owl:NamedIndividual ,
+                                  mis:InferredResult ;
+                         rdfs:label "inferred LPBF failure cause set"@en ;
+                         skos:related lpbftr:FailureCause .
+
+
+###  http://nkust.edu.tw/mislab#InferredLPBFResponseSet
+mis:InferredLPBFResponseSet rdf:type owl:NamedIndividual ,
+                                     mis:InferredResult ;
+                            rdfs:label "inferred LPBF response set"@en ;
+                            skos:related lpbftr:FailureResponse .
+
+
+###  http://nkust.edu.tw/mislab#KeyholePoresDefect
+mis:KeyholePoresDefect rdf:type owl:NamedIndividual ,
+                                mis:PorosityDefectState ;
+                       rdfs:label "keyhole pore defect"@en ;
+                       skos:related mis:ProcessKeyhole .
+
+
+###  http://nkust.edu.tw/mislab#LPBF-AM400
+mis:LPBF-AM400 rdf:type owl:NamedIndividual ,
+                        lpbf:LPBFMachine ;
+               mis:LocatedAt "TMTS 2026 / 東台精機" ;
+               dc:creator "hao" ;
+               dc:date "2026-04-22T02:27:54+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#LPBF-AMP160
+mis:LPBF-AMP160 rdf:type owl:NamedIndividual ,
+                         lpbf:LPBFMachine ;
+                mis:LocatedAt "雲林-丞威" ;
+                dc:creator "hao" ;
+                dc:date "2026-04-27T00:35:38+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#LPBF-M290
+mis:LPBF-M290 rdf:type owl:NamedIndividual ,
+                       lpbf:LPBFMachine ;
+              mis:LocatedAt "TT" .
+
+
+###  http://nkust.edu.tw/mislab#LPBFFiveStagePipeline
+mis:LPBFFiveStagePipeline rdf:type owl:NamedIndividual ,
+                                   mis:LPBFClosedLoopPipeline ;
+                          mis:hasStage mis:Stage01_Sensing ,
+                                       mis:Stage02_Identification ,
+                                       mis:Stage03_Inference ,
+                                       mis:Stage04_Evaluation ,
+                                       mis:Stage05_Adaption ;
+                          rdfs:label "LPBF five-stage sensing-identification-inference-evaluation-adaptation pipeline"@en .
+
+
+###  http://nkust.edu.tw/mislab#LackOfFusionDefect
+mis:LackOfFusionDefect rdf:type owl:NamedIndividual ,
+                                mis:DefectState ;
+                       rdfs:label "lack-of-fusion defect"@en ;
+                       skos:related mis:ProcessLackOfFusion .
+
+
+###  http://nkust.edu.tw/mislab#LaserPower
+mis:LaserPower rdf:type owl:NamedIndividual ,
+                        mis:LaserPowerSignal ;
+               rdfs:label "laser power"@en .
+
+
+###  http://nkust.edu.tw/mislab#LaserPowerAdjustmentSuggestion
+mis:LaserPowerAdjustmentSuggestion rdf:type owl:NamedIndividual ,
+                                            mis:LaserPowerAdjustmentAction ;
+                                   mis:hasRecommendationText "Adjust laser power when melt-pool size, thermal gradient, overheating, lack-of-fusion risk, or keyhole risk exceeds the acceptable range."@en ;
+                                   rdfs:label "laser power adjustment suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerPosition
+mis:LayerPosition rdf:type owl:NamedIndividual ,
+                           mis:LayerSignal ;
+                  rdfs:label "build-platform position"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerQualityEvaluationResult
+mis:LayerQualityEvaluationResult rdf:type owl:NamedIndividual ,
+                                          mis:LayerQualityEvaluation ;
+                                 rdfs:label "layer-quality evaluation result"@en .
+
+
+###  http://nkust.edu.tw/mislab#LayerRescanSuggestion
+mis:LayerRescanSuggestion rdf:type owl:NamedIndividual ,
+                                   mis:LayerRescanAction ;
+                          mis:hasRecommendationText "Re-scan a local layer region when the defect risk is localized and recoverable within the current build layer."@en ;
+                          rdfs:label "layer re-scan suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolEvaluationResult
+mis:MeltPoolEvaluationResult rdf:type owl:NamedIndividual ,
+                                      mis:MeltPoolEvaluation ;
+                             rdfs:label "melt-pool evaluation result"@en ;
+                             skos:related mis:DerivedMeltPoolGeometryFeature ,
+                                          mis:MeltPoolState .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolFluctuating
+mis:MeltPoolFluctuating rdf:type owl:NamedIndividual ,
+                                 mis:MeltPoolFluctuatingState ;
+                        rdfs:label "fluctuating melt pool"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolLarge
+mis:MeltPoolLarge rdf:type owl:NamedIndividual ,
+                           mis:MeltPoolLargeState ;
+                  rdfs:label "large melt pool"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolSmall
+mis:MeltPoolSmall rdf:type owl:NamedIndividual ,
+                           mis:MeltPoolSmallState ;
+                  rdfs:label "small melt pool"@en .
+
+
+###  http://nkust.edu.tw/mislab#MeltPoolStable
+mis:MeltPoolStable rdf:type owl:NamedIndividual ,
+                            mis:MeltPoolStableState ;
+                   rdfs:label "stable melt pool"@en .
+
+
+###  http://nkust.edu.tw/mislab#NIST-Overhang
+mis:NIST-Overhang rdf:type owl:NamedIndividual ,
+                           mis:DesignStlFile ;
+                  dc:creator "hao" ;
+                  dc:date "2026-05-18T01:18:08+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Nicol
+mis:Nicol rdf:type owl:NamedIndividual ,
+                   mis:Material .
+
+
+###  http://nkust.edu.tw/mislab#NoDefect
+mis:NoDefect rdf:type owl:NamedIndividual ,
+                      mis:NoDefectState ;
+             rdfs:label "no defect"@en .
+
+
+###  http://nkust.edu.tw/mislab#PartQualityEvaluationResult
+mis:PartQualityEvaluationResult rdf:type owl:NamedIndividual ,
+                                         mis:PartQualityEvaluation ;
+                                rdfs:label "part-quality evaluation result"@en .
+
+
+###  http://nkust.edu.tw/mislab#PorosityDefect
+mis:PorosityDefect rdf:type owl:NamedIndividual ,
+                            mis:PorosityDefectState ;
+                   rdfs:label "porosity defect"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderBedVision
+mis:PowderBedVision rdf:type owl:NamedIndividual ,
+                             mis:PowderBedVisionSignal ;
+                    rdfs:label "powder-bed vision"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderShortage
+mis:PowderShortage rdf:type owl:NamedIndividual ,
+                            mis:PowderShortageState ;
+                   rdfs:label "powder shortage"@en .
+
+
+###  http://nkust.edu.tw/mislab#PowderUniform
+mis:PowderUniform rdf:type owl:NamedIndividual ,
+                           mis:PowderUniformState ;
+                  rdfs:label "uniform powder bed"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessKeyhole
+mis:ProcessKeyhole rdf:type owl:NamedIndividual ,
+                            mis:ProcessKeyholeState ;
+                   rdfs:label "keyhole"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessLackOfFusion
+mis:ProcessLackOfFusion rdf:type owl:NamedIndividual ,
+                                 mis:ProcessLackOfFusionState ;
+                        rdfs:label "lack of fusion"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessNormal
+mis:ProcessNormal rdf:type owl:NamedIndividual ,
+                           mis:ProcessNormalState ;
+                  rdfs:label "normal"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessOverheating
+mis:ProcessOverheating rdf:type owl:NamedIndividual ,
+                                mis:ProcessOverheatingState ;
+                       rdfs:label "overheating"@en .
+
+
+###  http://nkust.edu.tw/mislab#ProcessUnstable
+mis:ProcessUnstable rdf:type owl:NamedIndividual ,
+                             mis:ProcessUnstableState ;
+                    rdfs:label "unstable"@en .
+
+
+###  http://nkust.edu.tw/mislab#Project
+mis:Project rdf:type owl:NamedIndividual ,
+                     lpbf:Entity .
+
+
+###  http://nkust.edu.tw/mislab#Pyrometer
+mis:Pyrometer rdf:type owl:NamedIndividual ,
+                       mis:PyrometerSignal ;
+              rdfs:label "pyrometer"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityAccepted
+mis:QualityAccepted rdf:type owl:NamedIndividual ,
+                             mis:QualityAcceptedState ;
+                    rdfs:label "accepted"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityMargin
+mis:QualityMargin rdf:type owl:NamedIndividual ,
+                           mis:QualityMarginState ;
+                  rdfs:label "margin"@en .
+
+
+###  http://nkust.edu.tw/mislab#QualityReject
+mis:QualityReject rdf:type owl:NamedIndividual ,
+                           mis:QualityRejectState ;
+                  rdfs:label "reject"@en .
+
+
+###  http://nkust.edu.tw/mislab#Ra_Good
+mis:Ra_Good rdf:type owl:NamedIndividual ,
+                     lpbf:SurfaceRoughness ;
+            dc:creator "hao" ;
+            dc:date "2026-04-26T21:40:10+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Ra_Poor
+mis:Ra_Poor rdf:type owl:NamedIndividual ,
+                     lpbf:SurfaceRoughness ;
+            dc:creator "hao" ;
+            dc:date "2026-04-26T21:40:18+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#Ra_Warning
+mis:Ra_Warning rdf:type owl:NamedIndividual ,
+                        lpbf:SurfaceRoughness ;
+               dc:creator "hao" ;
+               dc:date "2026-04-26T21:40:33+00:00"^^xsd:dateTime .
+
+
+###  http://nkust.edu.tw/mislab#RecoaterSignal_01
+mis:RecoaterSignal_01 rdf:type owl:NamedIndividual ,
+                               mis:RecoaterSignal ;
+                      rdfs:label "recoater signal"@en .
+
+
+###  http://nkust.edu.tw/mislab#RecoaterStreak
+mis:RecoaterStreak rdf:type owl:NamedIndividual ,
+                            mis:RecoaterStreakState ;
+                   rdfs:label "recoater streak"@en .
+
+
+###  http://nkust.edu.tw/mislab#RecoatingInterventionSuggestion
+mis:RecoatingInterventionSuggestion rdf:type owl:NamedIndividual ,
+                                             mis:RecoatingInterventionAction ;
+                                    mis:hasRecommendationText "Trigger recoating inspection, powder refill, recoater cleaning, or layer recoat when powder shortage or recoater streak is identified."@en ;
+                                    rdfs:label "recoating intervention suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#ScanSpeed
+mis:ScanSpeed rdf:type owl:NamedIndividual ,
+                       mis:ScanSpeedSignal ;
+              rdfs:label "scan speed"@en .
+
+
+###  http://nkust.edu.tw/mislab#ScanSpeedAdjustmentSuggestion
+mis:ScanSpeedAdjustmentSuggestion rdf:type owl:NamedIndividual ,
+                                           mis:ScanSpeedAdjustmentAction ;
+                                  mis:hasRecommendationText "Adjust scan speed when energy density, melt-pool fluctuation, porosity risk, balling, or quality margin/reject state is detected."@en ;
+                                  rdfs:label "scan-speed adjustment suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#ScanStrategyUpdateSuggestion
+mis:ScanStrategyUpdateSuggestion rdf:type owl:NamedIndividual ,
+                                          mis:ScanStrategyUpdateAction ;
+                                 mis:hasRecommendationText "Update hatch spacing, scan order, rotation angle, contour/remelt strategy, or local re-scan path according to inferred failure cause and evaluated quality."@en ;
+                                 rdfs:label "scan-strategy update suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#SpatterDefect
+mis:SpatterDefect rdf:type owl:NamedIndividual ,
+                           mis:SpatterDefectState ;
+                  rdfs:label "spatter defect"@en .
+
+
+###  http://nkust.edu.tw/mislab#Stage01_Sensing
+mis:Stage01_Sensing rdf:type owl:NamedIndividual ,
+                             mis:SensingStage ;
+                    mis:nextStage mis:Stage02_Identification ;
+                    mis:producesData mis:AcousticEmission ,
+                                     mis:ChamberOxygen ,
+                                     mis:CoaxialMeltPoolVision ,
+                                     mis:DerivedCoolingRateFeature ,
+                                     mis:DerivedMeltPoolGeometryFeature ,
+                                     mis:DerivedThermalGradientFeature ,
+                                     mis:GalvoPosition ,
+                                     mis:LaserPower ,
+                                     mis:LayerPosition ,
+                                     mis:PowderBedVision ,
+                                     mis:Pyrometer ,
+                                     mis:RecoaterSignal_01 ,
+                                     mis:ScanSpeed ,
+                                     mis:ThermalCamera ;
+                    mis:hasStageOrder 1 ;
+                    rdfs:label "Stage 01 - Sensing"@en .
+
+
+###  http://nkust.edu.tw/mislab#Stage02_Identification
+mis:Stage02_Identification rdf:type owl:NamedIndividual ,
+                                    mis:IdentificationStage ;
+                           mis:consumesData mis:AcousticEmission ,
+                                            mis:ChamberOxygen ,
+                                            mis:CoaxialMeltPoolVision ,
+                                            mis:DerivedCoolingRateFeature ,
+                                            mis:DerivedMeltPoolGeometryFeature ,
+                                            mis:DerivedThermalGradientFeature ,
+                                            mis:GalvoPosition ,
+                                            mis:LaserPower ,
+                                            mis:LayerPosition ,
+                                            mis:PowderBedVision ,
+                                            mis:Pyrometer ,
+                                            mis:RecoaterSignal_01 ,
+                                            mis:ScanSpeed ,
+                                            mis:ThermalCamera ;
+                           mis:identifiesState mis:BallingDefect ,
+                                               mis:CrackingDefect ,
+                                               mis:KeyholePoresDefect ,
+                                               mis:LackOfFusionDefect ,
+                                               mis:MeltPoolFluctuating ,
+                                               mis:MeltPoolLarge ,
+                                               mis:MeltPoolSmall ,
+                                               mis:MeltPoolStable ,
+                                               mis:NoDefect ,
+                                               mis:PorosityDefect ,
+                                               mis:PowderShortage ,
+                                               mis:PowderUniform ,
+                                               mis:ProcessKeyhole ,
+                                               mis:ProcessLackOfFusion ,
+                                               mis:ProcessNormal ,
+                                               mis:ProcessOverheating ,
+                                               mis:ProcessUnstable ,
+                                               mis:RecoaterStreak ,
+                                               mis:SpatterDefect ,
+                                               mis:StreaksVoidsDefect ,
+                                               mis:WarpingDefect ;
+                           mis:nextStage mis:Stage03_Inference ;
+                           mis:producesData mis:BallingDefect ,
+                                            mis:CrackingDefect ,
+                                            mis:KeyholePoresDefect ,
+                                            mis:LackOfFusionDefect ,
+                                            mis:MeltPoolFluctuating ,
+                                            mis:MeltPoolLarge ,
+                                            mis:MeltPoolSmall ,
+                                            mis:MeltPoolStable ,
+                                            mis:NoDefect ,
+                                            mis:PorosityDefect ,
+                                            mis:PowderShortage ,
+                                            mis:PowderUniform ,
+                                            mis:ProcessKeyhole ,
+                                            mis:ProcessLackOfFusion ,
+                                            mis:ProcessNormal ,
+                                            mis:ProcessOverheating ,
+                                            mis:ProcessUnstable ,
+                                            mis:RecoaterStreak ,
+                                            mis:SpatterDefect ,
+                                            mis:StreaksVoidsDefect ,
+                                            mis:WarpingDefect ;
+                           mis:hasStageOrder 2 ;
+                           rdfs:label "Stage 02 - Identification"@en .
+
+
+###  http://nkust.edu.tw/mislab#Stage03_Inference
+mis:Stage03_Inference rdf:type owl:NamedIndividual ,
+                               mis:InferenceStage ;
+                      mis:consumesData mis:BallingDefect ,
+                                       mis:CrackingDefect ,
+                                       mis:KeyholePoresDefect ,
+                                       mis:LackOfFusionDefect ,
+                                       mis:MeltPoolFluctuating ,
+                                       mis:MeltPoolLarge ,
+                                       mis:MeltPoolSmall ,
+                                       mis:MeltPoolStable ,
+                                       mis:NoDefect ,
+                                       mis:PorosityDefect ,
+                                       mis:PowderShortage ,
+                                       mis:PowderUniform ,
+                                       mis:ProcessKeyhole ,
+                                       mis:ProcessLackOfFusion ,
+                                       mis:ProcessNormal ,
+                                       mis:ProcessOverheating ,
+                                       mis:ProcessUnstable ,
+                                       mis:RecoaterStreak ,
+                                       mis:SpatterDefect ,
+                                       mis:StreaksVoidsDefect ,
+                                       mis:WarpingDefect ;
+                      mis:infersCause lpbftr:C3_CrackSensitiveSolidification ,
+                                      lpbftr:C5_DamagedRecoaterBlade ,
+                                      lpbftr:C6_ResidualStressBuildUp ,
+                                      lpbftr:C7_ShortPowderSupply ,
+                                      lpbftr:C8_SpatterSootContamination ;
+                      mis:infersQualityAcceptance mis:QualityAccepted ,
+                                                  mis:QualityMargin ,
+                                                  mis:QualityReject ;
+                      mis:nextStage mis:Stage04_Evaluation ;
+                      mis:producesData mis:InferredLPBFCauseSet ,
+                                       mis:InferredLPBFResponseSet ,
+                                       mis:QualityAccepted ,
+                                       mis:QualityMargin ,
+                                       mis:QualityReject ;
+                      mis:suggestsResponse lpbftr:R10_OptimizeGasFlowVelocity ,
+                                           lpbftr:R11_OptimizeLaserProfileSkywriting ,
+                                           lpbftr:R12_ReduceHatchSpacing ,
+                                           lpbftr:R13_ReduceLayerThickness ,
+                                           lpbftr:R14_RescanningInSituAnnealing ,
+                                           lpbftr:R15_SacrificialSupportStructures ,
+                                           lpbftr:R16_SoftRecoaterBlades ,
+                                           lpbftr:R1_AdjustPowerSpeedRatio ,
+                                           lpbftr:R2_AlloyModification ,
+                                           lpbftr:R3_AlterScanDirection ,
+                                           lpbftr:R4_AtmosphereControl ,
+                                           lpbftr:R5_BaseplatePreheating ,
+                                           lpbftr:R6_DecreaseVolumetricEnergyDensity ,
+                                           lpbftr:R7_GrainRefinement ,
+                                           lpbftr:R8_IncreaseDeliveryFactor ,
+                                           lpbftr:R9_IncreaseVolumetricEnergyDensity ;
+                      mis:hasStageOrder 3 ;
+                      rdfs:label "Stage 03 - Inference"@en .
+
+
+###  http://nkust.edu.tw/mislab#Stage04_Evaluation
+mis:Stage04_Evaluation rdf:type owl:NamedIndividual ,
+                                mis:EvaluationStage ;
+                       mis:consumesData mis:InferredLPBFCauseSet ,
+                                        mis:InferredLPBFResponseSet ,
+                                        mis:QualityAccepted ,
+                                        mis:QualityMargin ,
+                                        mis:QualityReject ;
+                       mis:evaluatesResult mis:DefectRiskEvaluationResult ,
+                                           mis:LayerQualityEvaluationResult ,
+                                           mis:MeltPoolEvaluationResult ,
+                                           mis:PartQualityEvaluationResult ,
+                                           mis:ThermalFieldEvaluationResult ;
+                       mis:nextStage mis:Stage05_Adaption ;
+                       mis:producesData mis:DefectRiskEvaluationResult ,
+                                        mis:LayerQualityEvaluationResult ,
+                                        mis:MeltPoolEvaluationResult ,
+                                        mis:PartQualityEvaluationResult ,
+                                        mis:ThermalFieldEvaluationResult ;
+                       mis:hasStageOrder 4 ;
+                       rdfs:label "Stage 04 - Evaluation"@en .
+
+
+###  http://nkust.edu.tw/mislab#Stage05_Adaption
+mis:Stage05_Adaption rdf:type owl:NamedIndividual ,
+                              mis:AdaptationStage ;
+                     mis:consumesData mis:DefectRiskEvaluationResult ,
+                                      mis:LayerQualityEvaluationResult ,
+                                      mis:MeltPoolEvaluationResult ,
+                                      mis:PartQualityEvaluationResult ,
+                                      mis:ThermalFieldEvaluationResult ;
+                     mis:suggestsAction mis:BuildManagementSuggestion ,
+                                        mis:BuildPauseOrAbortSuggestion ,
+                                        mis:LaserPowerAdjustmentSuggestion ,
+                                        mis:LayerRescanSuggestion ,
+                                        mis:RecoatingInterventionSuggestion ,
+                                        mis:ScanSpeedAdjustmentSuggestion ,
+                                        mis:ScanStrategyUpdateSuggestion ,
+                                        mis:UpdatedBuildJobSuggestion ,
+                                        lpbftr:R10_OptimizeGasFlowVelocity ,
+                                        lpbftr:R11_OptimizeLaserProfileSkywriting ,
+                                        lpbftr:R12_ReduceHatchSpacing ,
+                                        lpbftr:R13_ReduceLayerThickness ,
+                                        lpbftr:R14_RescanningInSituAnnealing ,
+                                        lpbftr:R15_SacrificialSupportStructures ,
+                                        lpbftr:R16_SoftRecoaterBlades ,
+                                        lpbftr:R1_AdjustPowerSpeedRatio ,
+                                        lpbftr:R2_AlloyModification ,
+                                        lpbftr:R3_AlterScanDirection ,
+                                        lpbftr:R4_AtmosphereControl ,
+                                        lpbftr:R5_BaseplatePreheating ,
+                                        lpbftr:R6_DecreaseVolumetricEnergyDensity ,
+                                        lpbftr:R7_GrainRefinement ,
+                                        lpbftr:R8_IncreaseDeliveryFactor ,
+                                        lpbftr:R9_IncreaseVolumetricEnergyDensity ;
+                     mis:hasStageOrder 5 ;
+                     rdfs:label "Stage 05 - Adaptation"@en ,
+                                "Stage 05 - Adaption"@en .
+
+
+###  http://nkust.edu.tw/mislab#StreaksVoidsDefect
+mis:StreaksVoidsDefect rdf:type owl:NamedIndividual ,
+                                mis:DefectState ;
+                       rdfs:label "streaks/voids defect"@en ;
+                       skos:related mis:PowderShortage ,
+                                    mis:RecoaterStreak .
+
+
+###  http://nkust.edu.tw/mislab#ThermalCamera
+mis:ThermalCamera rdf:type owl:NamedIndividual ,
+                           mis:ThermalCameraSignal ;
+                  rdfs:label "thermal camera"@en .
+
+
+###  http://nkust.edu.tw/mislab#ThermalFieldEvaluationResult
+mis:ThermalFieldEvaluationResult rdf:type owl:NamedIndividual ,
+                                          mis:ThermalFieldEvaluation ;
+                                 rdfs:label "thermal-field evaluation result"@en ;
+                                 skos:related mis:DerivedCoolingRateFeature ,
+                                              mis:DerivedThermalGradientFeature .
+
+
+###  http://nkust.edu.tw/mislab#UpdatedBuildJobSuggestion
+mis:UpdatedBuildJobSuggestion rdf:type owl:NamedIndividual ,
+                                       mis:UpdatedBuildJobAction ;
+                              mis:hasRecommendationText "Generate or select an updated build job or scan-parameter set when the evaluated response requires laser power, scan speed, hatch spacing, layer strategy, or scan-vector modification."@en ;
+                              rdfs:label "updated build-job suggestion"@en .
+
+
+###  http://nkust.edu.tw/mislab#WarpingDefect
+mis:WarpingDefect rdf:type owl:NamedIndividual ,
+                           mis:DefectState ;
+                  rdfs:label "warping defect"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Field_block
+lpbf:Field_block rdf:type owl:NamedIndividual ,
+                          lpbf:JSONField ;
+                 lpbf:hasJSONKey "block_id" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Field_diagnosis_label
+lpbf:Field_diagnosis_label rdf:type owl:NamedIndividual ,
+                                    lpbf:JSONField ;
+                           lpbf:hasJSONKey "state_label" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Field_diagnosis_sequence
+lpbf:Field_diagnosis_sequence rdf:type owl:NamedIndividual ,
+                                       lpbf:JSONField ;
+                              lpbf:hasJSONKey "diagnosis_windows" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Field_window
+lpbf:Field_window rdf:type owl:NamedIndividual ,
+                           lpbf:JSONField ;
+                  lpbf:hasJSONKey "window_id" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#OPCUA_DiagnosisSequence
+lpbf:OPCUA_DiagnosisSequence rdf:type owl:NamedIndividual ,
+                                      lpbf:OPCUANode ;
+                             lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Diagnosis.Sequence" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#OPCUA_DiagnosisState
+lpbf:OPCUA_DiagnosisState rdf:type owl:NamedIndividual ,
+                                   lpbf:OPCUANode ;
+                          lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Diagnosis.StateLabel" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#OPCUA_Window
+lpbf:OPCUA_Window rdf:type owl:NamedIndividual ,
+                           lpbf:OPCUANode ;
+                  lpbf:hasNodeId "ns=4;s=LPBF.Machines.lpbfA.ProcessMonitor.pm01.Window.WindowId" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Topic_DiagnosisSequence
+lpbf:Topic_DiagnosisSequence rdf:type owl:NamedIndividual ,
+                                      lpbf:MQTTTopic ;
+                             lpbf:hasMQTTTopicString "nkust/mislab/lpbf/factory1/lineA/lpbfA/pm01/diagnosis/sequence" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/process#Topic_Window
+lpbf:Topic_Window rdf:type owl:NamedIndividual ,
+                           lpbf:MQTTTopic ;
+                  lpbf:hasMQTTTopicString "nkust/mislab/lpbf/factory1/lineA/lpbfA/pm01/window" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#AtmosphereGasFlowManagement
+lpbftr:AtmosphereGasFlowManagement rdf:type owl:NamedIndividual ,
+                                            lpbftr:ResponseGroup ;
+                                   skos:prefLabel "atmosphere and gas-flow management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#BallingFault
+lpbftr:BallingFault rdf:type owl:NamedIndividual ,
+                             lpbftr:FaultMode ;
+                    lpbftr:belongsToCategory lpbftr:BuildDefectCategory ;
+                    lpbftr:hasDefectType mis:BallingDefect ;
+                    lpbftr:supportsProcessState mis:ProcessUnstable ;
+                    lpbftr:hasPhysicalMechanism "Marangoni instability / scanning speed too high" ;
+                    lpbftr:hasPrimaryCause "Surface tension" ;
+                    skos:prefLabel "Balling"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#BuildDefectCategory
+lpbftr:BuildDefectCategory rdf:type owl:NamedIndividual ,
+                                    lpbftr:FailureCategory ;
+                           skos:prefLabel "LPBF build defect"@en ;
+                           skos:related mis:DefectState .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C1_PowderCoatingTooThick
+lpbftr:C1_PowderCoatingTooThick rdf:type owl:NamedIndividual ,
+                                         lpbftr:FailureCause ;
+                                lpbftr:sourceRowIndex 17 ;
+                                rdfs:comment "Parsed from row 17 under fault mode BurrGeneration."@en ;
+                                skos:altLabel "PowderSpatter thickness too large"@en ;
+                                skos:prefLabel "切屑过厚"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C2_PoorPowderCoatingEvacuation
+lpbftr:C2_PoorPowderCoatingEvacuation rdf:type owl:NamedIndividual ,
+                                               lpbftr:FailureCause ;
+                                      lpbftr:sourceRowIndex 28 ;
+                                      rdfs:comment "Parsed from row 28 under fault mode PowderSpatterEntanglementClogging."@en ;
+                                      skos:altLabel "Powder spreading or spatter evacuation issue"@en ;
+                                      skos:prefLabel "切屑排出不畅"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C3_CrackSensitiveSolidification
+lpbftr:C3_CrackSensitiveSolidification rdf:type owl:NamedIndividual ,
+                                                lpbftr:FailureCause ;
+                                       lpbftr:hasRecommendedResponse lpbftr:R2_AlloyModification ,
+                                                                     lpbftr:R7_GrainRefinement ;
+                                       skos:prefLabel "crack-sensitive solidification"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C4_PowderCoatingTooThin
+lpbftr:C4_PowderCoatingTooThin rdf:type owl:NamedIndividual ,
+                                        lpbftr:FailureCause ;
+                               lpbftr:sourceRowIndex 26 ;
+                               rdfs:comment "Parsed from row 26 under fault mode PowderSpatterEntanglementClogging."@en ;
+                               skos:altLabel "PowderSpatter too thin"@en ;
+                               skos:prefLabel "切屑太薄"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C5_DamagedRecoaterBlade
+lpbftr:C5_DamagedRecoaterBlade rdf:type owl:NamedIndividual ,
+                                        lpbftr:FailureCause ;
+                               lpbftr:hasRecommendedResponse lpbftr:R16_SoftRecoaterBlades ;
+                               skos:prefLabel "damaged recoater blade"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C6_ResidualStressBuildUp
+lpbftr:C6_ResidualStressBuildUp rdf:type owl:NamedIndividual ,
+                                         lpbftr:FailureCause ;
+                                lpbftr:hasRecommendedResponse lpbftr:R14_RescanningInSituAnnealing ,
+                                                              lpbftr:R15_SacrificialSupportStructures ,
+                                                              lpbftr:R5_BaseplatePreheating ;
+                                skos:prefLabel "residual stress build-up"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C7_ShortPowderSupply
+lpbftr:C7_ShortPowderSupply rdf:type owl:NamedIndividual ,
+                                     lpbftr:FailureCause ;
+                            lpbftr:hasRecommendedResponse lpbftr:R8_IncreaseDeliveryFactor ;
+                            skos:prefLabel "short powder supply"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#C8_SpatterSootContamination
+lpbftr:C8_SpatterSootContamination rdf:type owl:NamedIndividual ,
+                                            lpbftr:FailureCause ;
+                                   lpbftr:hasRecommendedResponse lpbftr:R10_OptimizeGasFlowVelocity ,
+                                                                 lpbftr:R3_AlterScanDirection ;
+                                   skos:prefLabel "spatter and soot contamination"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R01_C01
+lpbftr:Cell_R01_C01 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R02_C11
+lpbftr:Cell_R02_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 106 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R02_C12
+lpbftr:Cell_R02_C12 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R02_C13
+lpbftr:Cell_R02_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 94 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R02_C18
+lpbftr:Cell_R02_C18 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 78 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R03_C05
+lpbftr:Cell_R03_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 86 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R03_C10
+lpbftr:Cell_R03_C10 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 80 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R04_C02
+lpbftr:Cell_R04_C02 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 79 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R05_C06
+lpbftr:Cell_R05_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 84 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R05_C07
+lpbftr:Cell_R05_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 90 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R06_C13
+lpbftr:Cell_R06_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 103 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C03
+lpbftr:Cell_R07_C03 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C05
+lpbftr:Cell_R07_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 90 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C06
+lpbftr:Cell_R07_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 89 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C07
+lpbftr:Cell_R07_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 82 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C09
+lpbftr:Cell_R07_C09 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R07_C10
+lpbftr:Cell_R07_C10 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 92 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R08_C04
+lpbftr:Cell_R08_C04 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R08_C05
+lpbftr:Cell_R08_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 103 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R08_C06
+lpbftr:Cell_R08_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 110 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R08_C09
+lpbftr:Cell_R08_C09 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 77 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R08_C10
+lpbftr:Cell_R08_C10 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R09_C19
+lpbftr:Cell_R09_C19 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R09_C20
+lpbftr:Cell_R09_C20 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R09_C21
+lpbftr:Cell_R09_C21 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R09_C22
+lpbftr:Cell_R09_C22 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R10_C01
+lpbftr:Cell_R10_C01 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 78 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R10_C05
+lpbftr:Cell_R10_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 94 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R10_C06
+lpbftr:Cell_R10_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 94 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R10_C07
+lpbftr:Cell_R10_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 92 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C04
+lpbftr:Cell_R11_C04 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C05
+lpbftr:Cell_R11_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C09
+lpbftr:Cell_R11_C09 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C10
+lpbftr:Cell_R11_C10 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 80 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C11
+lpbftr:Cell_R11_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 97 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R11_C13
+lpbftr:Cell_R11_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 91 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R12_C17
+lpbftr:Cell_R12_C17 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 77 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R12_C18
+lpbftr:Cell_R12_C18 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 78 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C05
+lpbftr:Cell_R13_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 84 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C06
+lpbftr:Cell_R13_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 86 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C07
+lpbftr:Cell_R13_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 92 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C08
+lpbftr:Cell_R13_C08 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 89 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C11
+lpbftr:Cell_R13_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 95 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C13
+lpbftr:Cell_R13_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 91 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C15
+lpbftr:Cell_R13_C15 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 91 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C19
+lpbftr:Cell_R13_C19 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C20
+lpbftr:Cell_R13_C20 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C21
+lpbftr:Cell_R13_C21 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R13_C22
+lpbftr:Cell_R13_C22 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C06
+lpbftr:Cell_R14_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C07
+lpbftr:Cell_R14_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 95 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C11
+lpbftr:Cell_R14_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C12
+lpbftr:Cell_R14_C12 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C13
+lpbftr:Cell_R14_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 95 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C15
+lpbftr:Cell_R14_C15 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 95 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R14_C20
+lpbftr:Cell_R14_C20 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 79 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R15_C19
+lpbftr:Cell_R15_C19 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R15_C20
+lpbftr:Cell_R15_C20 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R15_C21
+lpbftr:Cell_R15_C21 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R15_C22
+lpbftr:Cell_R15_C22 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 74 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R16_C11
+lpbftr:Cell_R16_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R16_C12
+lpbftr:Cell_R16_C12 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R16_C13
+lpbftr:Cell_R16_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R16_C15
+lpbftr:Cell_R16_C15 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R17_C05
+lpbftr:Cell_R17_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 96 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R17_C06
+lpbftr:Cell_R17_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 86 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R17_C07
+lpbftr:Cell_R17_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 92 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R18_C08
+lpbftr:Cell_R18_C08 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R18_C14
+lpbftr:Cell_R18_C14 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R19_C11
+lpbftr:Cell_R19_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 95 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R19_C13
+lpbftr:Cell_R19_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 91 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R20_C12
+lpbftr:Cell_R20_C12 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R21_C06
+lpbftr:Cell_R21_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 89 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R21_C07
+lpbftr:Cell_R21_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 93 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R22_C11
+lpbftr:Cell_R22_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 97 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R22_C13
+lpbftr:Cell_R22_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R23_C12
+lpbftr:Cell_R23_C12 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C05
+lpbftr:Cell_R24_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C06
+lpbftr:Cell_R24_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 101 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C07
+lpbftr:Cell_R24_C07 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C08
+lpbftr:Cell_R24_C08 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 100 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C11
+lpbftr:Cell_R24_C11 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C13
+lpbftr:Cell_R24_C13 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C15
+lpbftr:Cell_R24_C15 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C19
+lpbftr:Cell_R24_C19 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 79 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C20
+lpbftr:Cell_R24_C20 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 79 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C21
+lpbftr:Cell_R24_C21 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 77 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R24_C22
+lpbftr:Cell_R24_C22 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 78 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R25_C05
+lpbftr:Cell_R25_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 96 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R26_C05
+lpbftr:Cell_R26_C05 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 102 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R26_C06
+lpbftr:Cell_R26_C06 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 103 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R27_C14
+lpbftr:Cell_R27_C14 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 87 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R28_C09
+lpbftr:Cell_R28_C09 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 77 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R28_C10
+lpbftr:Cell_R28_C10 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 98 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R28_C15
+lpbftr:Cell_R28_C15 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 99 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#Cell_R28_C16
+lpbftr:Cell_R28_C16 rdf:type owl:NamedIndividual ,
+                             rdf:Statement ;
+                    lpbftr:sourceCellMarkerCount 78 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#CrackingFault
+lpbftr:CrackingFault rdf:type owl:NamedIndividual ,
+                              lpbftr:FaultMode ;
+                     lpbftr:belongsToCategory lpbftr:BuildDefectCategory ;
+                     lpbftr:hasCause lpbftr:C3_CrackSensitiveSolidification ,
+                                     lpbftr:C6_ResidualStressBuildUp ;
+                     lpbftr:hasDefectType mis:CrackingDefect ;
+                     lpbftr:supportsProcessState mis:ProcessOverheating ;
+                     lpbftr:hasPhysicalMechanism "Extreme residual stress build-up and crack-sensitive solidification" ;
+                     lpbftr:hasPrimaryCause "Severe thermal gradients" ;
+                     skos:prefLabel "Cracking"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#EdgeDefectAndLocalDamage
+lpbftr:EdgeDefectAndLocalDamage rdf:type owl:NamedIndividual ,
+                                         lpbftr:FailureCategory ;
+                                skos:altLabel "Edge defects and local damage"@en ;
+                                skos:prefLabel "毛刺及崩碎"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#EnergyDensityManagement
+lpbftr:EnergyDensityManagement rdf:type owl:NamedIndividual ,
+                                        lpbftr:ResponseGroup ;
+                               skos:prefLabel "energy-density management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#FlatParallDeteriorationFault
+lpbftr:FlatParallDeteriorationFault rdf:type owl:NamedIndividual ,
+                                             lpbftr:FaultMode ;
+                                    lpbftr:belongsToCategory lpbftr:SurfaceAccuracyDeterioration ;
+                                    skos:altLabel "Flatness / parallelism deterioration"@en ;
+                                    skos:prefLabel "平面度、平行度恶化"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#KeyholePoresFault
+lpbftr:KeyholePoresFault rdf:type owl:NamedIndividual ,
+                                  lpbftr:FaultMode ;
+                         lpbftr:belongsToCategory lpbftr:BuildDefectCategory ;
+                         lpbftr:hasDefectType mis:KeyholePoresDefect ;
+                         lpbftr:supportsProcessState mis:ProcessKeyhole ;
+                         lpbftr:hasPhysicalMechanism "Vapor cavity collapse trapping gas" ;
+                         lpbftr:hasPrimaryCause "Energy density too high" ;
+                         skos:prefLabel "Keyhole Pores"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#LPBFTroublesShooting
+lpbftr:LPBFTroublesShooting rdf:type owl:NamedIndividual ,
+                                     lpbftr:Troubleshooting ;
+                            lpbftr:hasFaultMode lpbftr:BallingFault ,
+                                                lpbftr:CrackingFault ,
+                                                lpbftr:KeyholePoresFault ,
+                                                lpbftr:LackOfFusionFault ,
+                                                lpbftr:StreaksVoidsFault ,
+                                                lpbftr:WarpingFault ;
+                            dc:creator "hao" ;
+                            dc:date "2026-06-01T00:00:00+08:00"^^xsd:dateTime ;
+                            rdfs:comment "Defect mechanisms, primary process-variable causes, and recommended corrective responses imported from the uploaded defects.md file."@en ;
+                            rdfs:label "LPBF defect troubleshooting knowledge from defects.md"@en ;
+                            rdfs:seeAlso "defects.md" .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#LackOfFusionFault
+lpbftr:LackOfFusionFault rdf:type owl:NamedIndividual ,
+                                  lpbftr:FaultMode ;
+                         lpbftr:belongsToCategory lpbftr:BuildDefectCategory ;
+                         lpbftr:hasDefectType mis:LackOfFusionDefect ;
+                         lpbftr:supportsProcessState mis:ProcessLackOfFusion ;
+                         lpbftr:hasPhysicalMechanism "Incomplete melting and poor layer adhesion" ;
+                         lpbftr:hasPrimaryCause "Energy density too low / hatch spacing too wide" ;
+                         skos:prefLabel "Lack of Fusion"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#MachineSetup
+lpbftr:MachineSetup rdf:type owl:NamedIndividual ,
+                             lpbftr:ResponseGroup ;
+                    skos:altLabel "Machine setup and clamping"@en ;
+                    skos:prefLabel "机床装夹"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#MaterialMetallurgyManagement
+lpbftr:MaterialMetallurgyManagement rdf:type owl:NamedIndividual ,
+                                             lpbftr:ResponseGroup ;
+                                    skos:prefLabel "material and metallurgy management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#PowderBedDeliveryCategory
+lpbftr:PowderBedDeliveryCategory rdf:type owl:NamedIndividual ,
+                                          lpbftr:FailureCategory ;
+                                 skos:prefLabel "powder-bed delivery and recoating defect"@en ;
+                                 skos:related mis:RecoaterSignal_01 .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#PowderCoatingFault
+lpbftr:PowderCoatingFault rdf:type owl:NamedIndividual ,
+                                   lpbftr:FaultMode ;
+                          lpbftr:belongsToCategory lpbftr:PowderSpatterDisposal ;
+                          lpbftr:hasCause lpbftr:C2_PoorPowderCoatingEvacuation ,
+                                          lpbftr:C4_PowderCoatingTooThin ;
+                          skos:altLabel "PowderSpatter entanglement / clogging"@en ;
+                          skos:prefLabel "切屑缠绕堵塞"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#PowderSpatterDisposal
+lpbftr:PowderSpatterDisposal rdf:type owl:NamedIndividual ,
+                                      lpbftr:FailureCategory ;
+                             skos:altLabel "PowderSpatter control"@en ;
+                             skos:prefLabel "切屑处理"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R10_OptimizeGasFlowVelocity
+lpbftr:R10_OptimizeGasFlowVelocity rdf:type owl:NamedIndividual ,
+                                            lpbftr:FailureResponse ;
+                                   lpbftr:hasResponseGroup lpbftr:AtmosphereGasFlowManagement ;
+                                   lpbftr:hasResponseText "Optimize laminar inert-gas cross-flow velocity so airborne spatter and soot are swept away before redeposition on the build area." ;
+                                   skos:prefLabel "optimize gas-flow velocity"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R11_OptimizeLaserProfileSkywriting
+lpbftr:R11_OptimizeLaserProfileSkywriting rdf:type owl:NamedIndividual ,
+                                                   lpbftr:FailureResponse ;
+                                          lpbftr:hasResponseGroup lpbftr:ScanStrategyManagement ;
+                                          lpbftr:hasResponseText "Optimize the laser profile using skywriting or power adjustment during acceleration/deceleration at scan-line ends to prevent heat accumulation." ;
+                                          skos:prefLabel "optimize laser profile / skywriting"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R12_ReduceHatchSpacing
+lpbftr:R12_ReduceHatchSpacing rdf:type owl:NamedIndividual ,
+                                       lpbftr:FailureResponse ;
+                              lpbftr:hasResponseGroup lpbftr:EnergyDensityManagement ;
+                              lpbftr:hasResponseText "Reduce hatch spacing to increase overlap between parallel tracks and prevent unmelted gaps." ;
+                              skos:prefLabel "reduce hatch spacing"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R13_ReduceLayerThickness
+lpbftr:R13_ReduceLayerThickness rdf:type owl:NamedIndividual ,
+                                         lpbftr:FailureResponse ;
+                                lpbftr:hasResponseGroup lpbftr:EnergyDensityManagement ;
+                                lpbftr:hasResponseText "Reduce layer thickness when laser penetration is insufficient to fuse with the previous layer." ;
+                                skos:prefLabel "reduce layer thickness"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R14_RescanningInSituAnnealing
+lpbftr:R14_RescanningInSituAnnealing rdf:type owl:NamedIndividual ,
+                                              lpbftr:FailureResponse ;
+                                     lpbftr:hasResponseGroup lpbftr:ThermalStressManagement ;
+                                     lpbftr:hasResponseText "Rescan the layer at lower power immediately after melting to act as localized in-situ annealing and relieve stress before the next layer." ;
+                                     skos:prefLabel "rescanning / in-situ annealing"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R15_SacrificialSupportStructures
+lpbftr:R15_SacrificialSupportStructures rdf:type owl:NamedIndividual ,
+                                                 lpbftr:FailureResponse ;
+                                        lpbftr:hasResponseGroup lpbftr:ThermalStressManagement ;
+                                        lpbftr:hasResponseText "Use robust sacrificial supports to anchor the part to the build plate and prevent curling or lifting." ;
+                                        skos:prefLabel "sacrificial support structures"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R16_SoftRecoaterBlades
+lpbftr:R16_SoftRecoaterBlades rdf:type owl:NamedIndividual ,
+                                       lpbftr:FailureResponse ;
+                              lpbftr:hasResponseGroup lpbftr:RecoatingPowderSupplyManagement ;
+                              lpbftr:hasResponseText "Use flexible silicone or carbon-fiber brush recoater blades instead of rigid HSS or ceramic blades to reduce damage when a part warps slightly." ;
+                              skos:prefLabel "use soft recoater blades"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R1_AdjustPowerSpeedRatio
+lpbftr:R1_AdjustPowerSpeedRatio rdf:type owl:NamedIndividual ,
+                                         lpbftr:FailureResponse ;
+                                lpbftr:hasResponseGroup lpbftr:EnergyDensityManagement ;
+                                lpbftr:hasResponseText "Adjust the laser-power to scan-speed ratio so the scan speed is not disproportionately high compared with laser power and the melt pool remains stable." ;
+                                skos:prefLabel "adjust P/v ratio"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R2_AlloyModification
+lpbftr:R2_AlloyModification rdf:type owl:NamedIndividual ,
+                                     lpbftr:FailureResponse ;
+                            lpbftr:hasResponseGroup lpbftr:MaterialMetallurgyManagement ;
+                            lpbftr:hasResponseText "Modify alloy chemistry, such as adding silicon to aluminum alloys, to change solidification behavior and close liquid films faster." ;
+                            skos:prefLabel "alloy modification"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R3_AlterScanDirection
+lpbftr:R3_AlterScanDirection rdf:type owl:NamedIndividual ,
+                                      lpbftr:FailureResponse ;
+                             lpbftr:hasResponseGroup lpbftr:ScanStrategyManagement ;
+                             lpbftr:hasResponseText "Alter the scan direction so the laser scans against the gas-flow direction and soot is blown away from the upcoming laser path." ;
+                             skos:prefLabel "alter scan direction"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R4_AtmosphereControl
+lpbftr:R4_AtmosphereControl rdf:type owl:NamedIndividual ,
+                                     lpbftr:FailureResponse ;
+                            lpbftr:hasResponseGroup lpbftr:AtmosphereGasFlowManagement ;
+                            lpbftr:hasResponseText "Maintain high-purity inert gas and keep oxygen very low, typically below 100 ppm, to avoid oxide films and loss of wettability." ;
+                            skos:prefLabel "control inert atmosphere"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R5_BaseplatePreheating
+lpbftr:R5_BaseplatePreheating rdf:type owl:NamedIndividual ,
+                                       lpbftr:FailureResponse ;
+                              lpbftr:hasResponseGroup lpbftr:ThermalStressManagement ;
+                              lpbftr:hasResponseText "Preheat the baseplate to narrow the temperature gap between the molten pool and the rest of the part, reducing residual stress." ;
+                              skos:prefLabel "baseplate preheating"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R6_DecreaseVolumetricEnergyDensity
+lpbftr:R6_DecreaseVolumetricEnergyDensity rdf:type owl:NamedIndividual ,
+                                                   lpbftr:FailureResponse ;
+                                          lpbftr:hasResponseGroup lpbftr:EnergyDensityManagement ;
+                                          lpbftr:hasResponseText "Decrease volumetric energy density by reducing laser power or increasing scanning speed to avoid boiling and deep keyhole-vapor-cavity formation." ;
+                                          skos:prefLabel "decrease volumetric energy density"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R7_GrainRefinement
+lpbftr:R7_GrainRefinement rdf:type owl:NamedIndividual ,
+                                   lpbftr:FailureResponse ;
+                          lpbftr:hasResponseGroup lpbftr:MaterialMetallurgyManagement ;
+                          lpbftr:hasResponseText "Use nucleating agents or other grain-refinement methods to promote fine equiaxed grains instead of crack-prone columnar grains." ;
+                          skos:prefLabel "grain refinement"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R8_IncreaseDeliveryFactor
+lpbftr:R8_IncreaseDeliveryFactor rdf:type owl:NamedIndividual ,
+                                          lpbftr:FailureResponse ;
+                                 lpbftr:hasResponseGroup lpbftr:RecoatingPowderSupplyManagement ;
+                                 lpbftr:hasResponseText "Increase the powder delivery dosing factor, for example to 120%–140% of the required layer volume, to avoid powder starvation during recoating." ;
+                                 skos:prefLabel "increase powder delivery factor"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#R9_IncreaseVolumetricEnergyDensity
+lpbftr:R9_IncreaseVolumetricEnergyDensity rdf:type owl:NamedIndividual ,
+                                                   lpbftr:FailureResponse ;
+                                          lpbftr:hasResponseGroup lpbftr:EnergyDensityManagement ;
+                                          lpbftr:hasResponseText "Increase volumetric energy density by increasing laser power or decreasing scanning speed so the laser delivers enough heat to melt the powder and the underlying layer." ;
+                                          skos:prefLabel "increase volumetric energy density"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#RecoatingPowderSupplyManagement
+lpbftr:RecoatingPowderSupplyManagement rdf:type owl:NamedIndividual ,
+                                                lpbftr:ResponseGroup ;
+                                       skos:prefLabel "recoating and powder-supply management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#ScanStrategyManagement
+lpbftr:ScanStrategyManagement rdf:type owl:NamedIndividual ,
+                                       lpbftr:ResponseGroup ;
+                              skos:prefLabel "scan-strategy management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#StreaksVoidsFault
+lpbftr:StreaksVoidsFault rdf:type owl:NamedIndividual ,
+                                  lpbftr:FaultMode ;
+                         lpbftr:belongsToCategory lpbftr:PowderBedDeliveryCategory ;
+                         lpbftr:hasCause lpbftr:C5_DamagedRecoaterBlade ,
+                                         lpbftr:C7_ShortPowderSupply ;
+                         lpbftr:hasDefectType mis:StreaksVoidsDefect ;
+                         lpbftr:supportsProcessState mis:ProcessUnstable ;
+                         lpbftr:hasPhysicalMechanism "Mechanical disruption of the powder bed" ;
+                         lpbftr:hasPrimaryCause "Damaged recoater blade / short powder supply" ;
+                         skos:prefLabel "Streaks/Voids"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#SurfaceAccuracyDeterioration
+lpbftr:SurfaceAccuracyDeterioration rdf:type owl:NamedIndividual ,
+                                             lpbftr:FailureCategory ;
+                                    skos:altLabel "Surface accuracy deterioration"@en ;
+                                    skos:prefLabel "表面精度恶化"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#SurfaceRoughnessFault
+lpbftr:SurfaceRoughnessFault rdf:type owl:NamedIndividual ,
+                                      lpbftr:FaultMode ;
+                             lpbftr:belongsToCategory lpbftr:SurfaceAccuracyDeterioration ;
+                             skos:altLabel "Excessive surface roughness"@en ;
+                             skos:prefLabel "表面粗糙度大"@zh .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#ThermalStressManagement
+lpbftr:ThermalStressManagement rdf:type owl:NamedIndividual ,
+                                        lpbftr:ResponseGroup ;
+                               skos:prefLabel "thermal-stress management"@en .
+
+
+###  http://nkust.edu.tw/mislab/lpbf/ontology/troubleshooting#WarpingFault
+lpbftr:WarpingFault rdf:type owl:NamedIndividual ,
+                             lpbftr:FaultMode ;
+                    lpbftr:belongsToCategory lpbftr:BuildDefectCategory ;
+                    lpbftr:hasCause lpbftr:C6_ResidualStressBuildUp ;
+                    lpbftr:hasDefectType mis:WarpingDefect ;
+                    lpbftr:supportsProcessState mis:ProcessOverheating ;
+                    lpbftr:hasPhysicalMechanism "Extreme residual stress build-up" ;
+                    lpbftr:hasPrimaryCause "Severe thermal gradients" ;
+                    skos:prefLabel "Warping"@en .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+mis:Material dc:creator "hao" ;
+             dc:date "2026-04-22T02:48:11+00:00"^^xsd:dateTime ,
+                     "2026-04-22T02:51:22+00:00"^^xsd:dateTime .
+
+
+mis:Project dc:creator "hao" ;
+            dc:date "2026-04-22T02:23:58+00:00"^^xsd:dateTime ,
+                    "2026-04-22T02:24:23+00:00"^^xsd:dateTime .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
