@@ -31,9 +31,11 @@ RECORDER_JSON_DIR = BASE_DIR / "json"
 THERMAL_REFERENCE_DIR = BASE_DIR / "csv"
 THERMAL_DATA_FILENAME = "thermal-data.json"
 EDGE_DATA_FILENAME = "edge-data.json"
+SENSOR_BUNDLE_FILENAME = "sensor-bundle.json"
 SOURCE_MPF_DIRNAME = "source_mpf"
 SOURCE_ENCODINGS = ("utf-8", "utf-8-sig", "cp950", "mbcs", "latin-1")
 SENSOR_DISPLAY_LIMIT = 600
+SENSOR_PLAYBACK_LIMIT = 6000
 ALIGNMENT_DISPLAY_LIMIT = 400
 TIME_FIELD_CANDIDATES = (
     "time",
@@ -75,6 +77,95 @@ EDGE_IGNORED_VALUE_FIELDS = {
 }
 SAFE_NAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
 DEMO_OUTPUT_NAMES = {"202603237504150010", "202603237504150010_modified"}
+SENSOR_SOURCE_OVERRIDES: dict[str, dict[str, str]] = {
+    "20260525450715000610T.MPF": {
+        "thermal_csv": "Channel_0_11_ 2026-05-25 14_17_30_660.csv",
+        "edge_json": "sample_job0525_8ca6cdf6-d7c6-4145-a1f0-535adc44c3c9_20260525-060704436.json",
+        "recorder_json": "sample_job0525_8ca6cdf6-d7c6-4145-a1f0-535adc44c3c9_20260525-060704436.json",
+    }
+}
+
+
+def list_output_identity_names(output_dir: Path) -> set[str]:
+    identities = {output_dir.name.lower()}
+    nc_file_path = output_dir / "NC-file.json"
+    if not nc_file_path.is_file():
+        return identities
+
+    try:
+        nc_file = read_json(nc_file_path)
+    except Exception:
+        return identities
+
+    if not isinstance(nc_file, dict):
+        return identities
+
+    for key in ("file_name", "editable_source_file"):
+        raw_value = str(nc_file.get(key) or "").strip()
+        if not raw_value:
+            continue
+        file_name = Path(raw_value).name
+        identities.add(file_name.lower())
+        identities.add(Path(file_name).stem.lower())
+    return identities
+
+
+def find_sensor_source_override(output_dir: Path) -> dict[str, str] | None:
+    identities = list_output_identity_names(output_dir)
+    for key, override in SENSOR_SOURCE_OVERRIDES.items():
+        key_lower = key.lower()
+        key_stem_lower = Path(key).stem.lower()
+        if (
+            key_lower in identities
+            or key_stem_lower in identities
+            or any(
+                identity.endswith(key_lower) or identity.endswith(key_stem_lower)
+                for identity in identities
+            )
+        ):
+            return override
+    return None
+
+
+def resolve_override_source_path(base_dir: Path, file_name: str | None) -> Path | None:
+    if not file_name:
+        return None
+    candidate = base_dir / Path(file_name).name
+    if candidate.is_file():
+        return candidate
+    return None
+
+
+def load_output_sensor_bundle(output_dir: Path) -> dict[str, Any]:
+    bundle_path = output_dir / SENSOR_BUNDLE_FILENAME
+    if not bundle_path.is_file():
+        return {}
+    try:
+        payload = read_json(bundle_path)
+    except Exception:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def update_output_sensor_bundle(output_dir: Path, **fields: str | None) -> dict[str, Any]:
+    bundle = load_output_sensor_bundle(output_dir)
+    for key, value in fields.items():
+        if value is not None:
+            bundle[key] = value
+    bundle["updated_at"] = datetime.now().isoformat(timespec="seconds")
+    write_json(output_dir / SENSOR_BUNDLE_FILENAME, bundle)
+    return bundle
+
+
+def resolve_bundled_sensor_source(output_dir: Path, bundle_key: str) -> Path | None:
+    bundle = load_output_sensor_bundle(output_dir)
+    file_name = str(bundle.get(bundle_key) or "").strip()
+    if not file_name:
+        return None
+    candidate = output_dir / "uploaded_sources" / Path(file_name).name
+    if candidate.is_file():
+        return candidate
+    return None
 
 
 def is_relative_time_field_name(field_name: str | None) -> bool:
@@ -322,6 +413,7 @@ def make_empty_thermal_data(program_id: str) -> dict[str, Any]:
         "g_high_max": None,
         "g_high_avg": None,
         "thermal_trace": [],
+        "playback_trace": [],
         "full_trace": [],
     }
 
@@ -343,6 +435,7 @@ def make_empty_edge_data(program_id: str) -> dict[str, Any]:
         "value_max": None,
         "value_avg": None,
         "edge_trace": [],
+        "playback_trace": [],
         "full_trace": [],
         "available_value_fields": [],
         "machine_events": [],
@@ -427,6 +520,7 @@ def normalize_loaded_thermal_payload(payload: Any, program_id: str, source_kind:
     normalized_full_trace.sort(key=lambda item: item["timestamp_ms"])
     thermal["full_trace"] = normalized_full_trace
     thermal["thermal_trace"] = downsample_points(normalized_full_trace, SENSOR_DISPLAY_LIMIT)
+    thermal["playback_trace"] = downsample_points(normalized_full_trace, SENSOR_PLAYBACK_LIMIT)
     if normalized_full_trace:
         thermal["start_time"] = normalized_full_trace[0]["time"]
         thermal["end_time"] = normalized_full_trace[-1]["time"]
@@ -540,6 +634,7 @@ def normalize_loaded_edge_payload(payload: Any, program_id: str, source_kind: st
     normalized_full_trace.sort(key=lambda item: item["timestamp_ms"])
     edge["full_trace"] = normalized_full_trace
     edge["edge_trace"] = downsample_points(normalized_full_trace, SENSOR_DISPLAY_LIMIT)
+    edge["playback_trace"] = downsample_points(normalized_full_trace, SENSOR_PLAYBACK_LIMIT)
     embedded_thermal = edge.get("embedded_thermal")
     if embedded_thermal:
         edge["embedded_thermal"] = normalize_loaded_thermal_payload(
@@ -758,6 +853,50 @@ def resolve_hf_row_signal_names(signal_names: list[str], body: list[Any]) -> lis
     return signal_names[-observed_value_count:]
 
 
+def detect_sinumerik_coordinate_signal_indices(
+    signal_names: list[str],
+    signal_defs: Any,
+) -> dict[str, int]:
+    metadata_by_name: dict[str, dict[str, Any]] = {}
+    for item in signal_defs if isinstance(signal_defs, list) else []:
+        if not isinstance(item, dict):
+            continue
+        raw_name = str(item.get("Name") or "").strip()
+        if raw_name:
+            metadata_by_name[normalize_field_name(raw_name)] = item
+
+    indices: dict[str, int] = {}
+    for index, signal_name in enumerate(signal_names):
+        normalized_name = normalize_field_name(signal_name)
+        metadata = metadata_by_name.get(normalized_name, {})
+        axis_name = normalize_field_name(metadata.get("Axis"))
+        address_name = normalize_field_name(metadata.get("Address"))
+        tokens = {normalized_name, axis_name, address_name}
+
+        if "x" not in indices and (
+            axis_name.startswith("x")
+            or "encpos1" in tokens
+            or (normalized_name.endswith("1") and "encpos" in normalized_name)
+        ):
+            indices["x"] = index
+            continue
+        if "y" not in indices and (
+            axis_name.startswith("y")
+            or "encpos2" in tokens
+            or (normalized_name.endswith("2") and "encpos" in normalized_name)
+        ):
+            indices["y"] = index
+            continue
+        if "z" not in indices and (
+            axis_name.startswith("z")
+            or "encpos3" in tokens
+            or (normalized_name.endswith("3") and "encpos" in normalized_name)
+        ):
+            indices["z"] = index
+
+    return indices
+
+
 def interpolate_probe_counter_timestamp_ms(
     probe_counter: int,
     sorted_anchors: list[tuple[int, datetime]],
@@ -843,6 +982,10 @@ def build_sinumerik_edge_points(
     if not header_signal_names:
         raise ValueError("Edge JSON 找不到 SignalListHFData 欄位定義。")
     signal_names = resolve_hf_row_signal_names(header_signal_names, body)
+    coordinate_indices = detect_sinumerik_coordinate_signal_indices(
+        signal_names,
+        header.get("SignalListHFData"),
+    )
 
     try:
         cycle_time_ms = float(header.get("CycleTimeMs", 2) or 2)
@@ -937,7 +1080,19 @@ def build_sinumerik_edge_points(
                     "probe_counter": probe_counter,
                 }
             )
-
+            point = points[-1]
+            for axis_key, target_key in (
+                ("x", "machine_x_mm"),
+                ("y", "machine_y_mm"),
+                ("z", "machine_z_mm"),
+            ):
+                coordinate_index = coordinate_indices.get(axis_key)
+                if coordinate_index is None or len(row) <= coordinate_index + 1:
+                    continue
+                try:
+                    point[target_key] = float(parse_numeric_value(row[coordinate_index + 1]))
+                except (TypeError, ValueError):
+                    continue
     points.sort(key=lambda item: item["timestamp_ms"])
     return points, resolved_value_field, available_value_fields, cycle_time_ms, machine_events
 
@@ -1097,6 +1252,18 @@ def build_thermal_dataset(
 
 
 def find_accurate_thermal_source(output_dir: Path) -> Path | None:
+    bundled_path = resolve_bundled_sensor_source(output_dir, "thermal_file")
+    if bundled_path is not None:
+        return bundled_path
+
+    override = find_sensor_source_override(output_dir)
+    override_path = resolve_override_source_path(
+        THERMAL_REFERENCE_DIR,
+        override.get("thermal_csv") if override else None,
+    )
+    if override_path is not None:
+        return override_path
+
     uploaded_dir = output_dir / "uploaded_sources"
     candidate_paths: list[Path] = []
     if uploaded_dir.is_dir():
@@ -1399,6 +1566,7 @@ def match_edge_g_high_to_accurate_thermal(
     edge_payload["time_mode"] = "absolute"
     edge_payload["full_trace"] = mapped_full_trace
     edge_payload["edge_trace"] = downsample_points(edge_payload["full_trace"], SENSOR_DISPLAY_LIMIT)
+    edge_payload["playback_trace"] = downsample_points(edge_payload["full_trace"], SENSOR_PLAYBACK_LIMIT)
     edge_payload["trajectory_summaries"] = build_edge_trajectory_summaries(edge_payload["full_trace"])
     if edge_payload["full_trace"]:
         edge_payload["start_time"] = edge_payload["full_trace"][0]["time"]
@@ -1449,6 +1617,7 @@ def build_edge_dataset(
                 "value_max": round(max(values), 4),
                 "value_avg": round(sum(values) / len(values), 4),
                 "edge_trace": downsample_points(points, SENSOR_DISPLAY_LIMIT),
+                "playback_trace": downsample_points(points, SENSOR_PLAYBACK_LIMIT),
                 "full_trace": points,
                 "available_value_fields": available_value_fields,
                 "machine_events": machine_events,
@@ -1570,6 +1739,7 @@ def build_edge_dataset(
         "value_max": round(max(values), 4),
         "value_avg": round(sum(values) / len(values), 4),
         "edge_trace": downsample_points(points, SENSOR_DISPLAY_LIMIT),
+        "playback_trace": downsample_points(points, SENSOR_PLAYBACK_LIMIT),
         "full_trace": points,
         "available_value_fields": numeric_fields,
         "machine_events": [],
@@ -1653,6 +1823,24 @@ def repair_saved_edge_payload(
 
 
 def load_saved_edge_data(output_dir: Path, program_id: str) -> dict[str, Any]:
+    bundled_path = resolve_bundled_sensor_source(output_dir, "edge_file")
+    if bundled_path is not None:
+        try:
+            return build_edge_dataset(bundled_path, program_id, source_kind="uploaded")
+        except (FileNotFoundError, ValueError, TypeError):
+            pass
+
+    override = find_sensor_source_override(output_dir)
+    override_path = resolve_override_source_path(
+        RECORDER_JSON_DIR,
+        override.get("edge_json") if override else None,
+    )
+    if override_path is not None:
+        try:
+            return build_edge_dataset(override_path, program_id, source_kind="reference")
+        except (FileNotFoundError, ValueError, TypeError):
+            pass
+
     edge_path = output_dir / EDGE_DATA_FILENAME
     if edge_path.is_file():
         raw_payload = read_json(edge_path)
@@ -1704,6 +1892,18 @@ def make_empty_recorder_timing() -> dict[str, Any]:
 
 
 def find_recorder_timing_source(output_dir: Path) -> Path | None:
+    bundled_path = resolve_bundled_sensor_source(output_dir, "edge_file")
+    if bundled_path is not None and bundled_path.suffix.lower() == ".json":
+        return bundled_path
+
+    override = find_sensor_source_override(output_dir)
+    override_path = resolve_override_source_path(
+        RECORDER_JSON_DIR,
+        (override.get("recorder_json") or override.get("edge_json")) if override else None,
+    )
+    if override_path is not None:
+        return override_path
+
     uploaded_dir = output_dir / "uploaded_sources"
     candidate_paths: list[Path] = []
     if uploaded_dir.is_dir():
@@ -1905,6 +2105,50 @@ def get_first_toolpath_end_point(toolpath_segments: list[dict[str, Any]]) -> dic
         if isinstance(point, dict) and all(key in point for key in ("x_mm", "y_mm", "z_mm")):
             return point
     return None
+
+
+def get_edge_z_value(point: dict[str, Any]) -> float | None:
+    for key in ("machine_z_mm", "work_z_mm", "z_mm", "machine_z", "z"):
+        try:
+            value = point.get(key)
+        except AttributeError:
+            value = None
+        if value is None:
+            continue
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            continue
+        if numeric == numeric:
+            return numeric
+    return None
+
+
+def find_edge_point_near_timestamp(
+    edge_points: list[dict[str, Any]],
+    target_timestamp_ms: int | float | None,
+    max_gap_ms: int | None = None,
+) -> dict[str, Any] | None:
+    if target_timestamp_ms is None:
+        return None
+    valid_points = [
+        point
+        for point in edge_points
+        if isinstance(point, dict) and point.get("timestamp_ms") is not None
+    ]
+    if not valid_points:
+        return None
+
+    target_timestamp = int(target_timestamp_ms)
+    nearest = min(
+        valid_points,
+        key=lambda item: abs(int(item.get("timestamp_ms") or 0) - target_timestamp),
+    )
+    if max_gap_ms is not None:
+        nearest_gap = abs(int(nearest.get("timestamp_ms") or 0) - target_timestamp)
+        if nearest_gap > int(max_gap_ms):
+            return None
+    return nearest
 
 
 def find_first_hot_edge_point(edge_points: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -2156,16 +2400,28 @@ def detect_thermal_rise_feature(thermal_points: list[dict[str, Any]]) -> dict[st
     peak_value = percentile_value(smoothed_values, 0.98)
     rise_margin = max((peak_value - baseline) * 0.08, 1.0)
     threshold = baseline + rise_margin
+    positive_deltas = [
+        smoothed_values[index] - smoothed_values[index - 1]
+        for index in range(1, len(smoothed_values))
+        if smoothed_values[index] > smoothed_values[index - 1]
+    ]
+    jump_threshold = max(
+        percentile_value(positive_deltas, 0.85) if positive_deltas else 0.0,
+        rise_margin * 0.45,
+        0.8,
+    )
 
     for index in range(1, len(smoothed_values) - 1):
         current = smoothed_values[index]
         previous = smoothed_values[index - 1]
         next_value = smoothed_values[index + 1]
+        rise_delta = current - previous
+        next_delta = next_value - current
         if current < threshold:
             continue
-        if current <= previous:
+        if rise_delta < jump_threshold:
             continue
-        if next_value < threshold:
+        if next_value < threshold and next_delta < 0:
             continue
 
         point = thermal_points[index]
@@ -2176,6 +2432,8 @@ def detect_thermal_rise_feature(thermal_points: list[dict[str, Any]]) -> dict[st
             "g_high": round(float(point["g_high"]), 4),
             "baseline": round(baseline, 4),
             "threshold": round(threshold, 4),
+            "rise_delta": round(rise_delta, 4),
+            "jump_threshold": round(jump_threshold, 4),
         }
 
     return None
@@ -2196,6 +2454,87 @@ def find_first_machine_laser_on_feature(edge: dict[str, Any]) -> dict[str, Any] 
             "probe_counter": int(event.get("probe_counter") or 0),
         }
     return None
+
+
+def find_machine_z_laser_feature(edge: dict[str, Any]) -> dict[str, Any] | None:
+    edge_points = [
+        point
+        for point in edge.get("full_trace") or []
+        if isinstance(point, dict) and point.get("timestamp_ms") is not None
+    ]
+    laser_feature = find_first_machine_laser_on_feature(edge)
+    if not edge_points:
+        return laser_feature
+
+    z_points: list[tuple[dict[str, Any], float]] = []
+    for point in edge_points:
+        z_value = get_edge_z_value(point)
+        if z_value is None:
+            continue
+        z_points.append((point, z_value))
+
+    if not z_points:
+        return laser_feature
+
+    min_z = min(z_value for _, z_value in z_points)
+    max_z = max(z_value for _, z_value in z_points)
+    z_tolerance_mm = max(0.02, min(0.2, (max_z - min_z) * 0.02))
+    lowest_candidates = [
+        point
+        for point, z_value in z_points
+        if z_value <= min_z + z_tolerance_mm
+    ]
+    if not lowest_candidates:
+        return laser_feature
+
+    z_anchor_point = min(lowest_candidates, key=lambda item: int(item.get("timestamp_ms") or 0))
+    z_anchor_timestamp_ms = int(z_anchor_point.get("timestamp_ms") or 0)
+    machine_events = [
+        event
+        for event in (edge.get("machine_events") or [])
+        if isinstance(event, dict) and event.get("event_type") == "laser_on"
+    ]
+
+    selected_event: dict[str, Any] | None = None
+    if machine_events:
+        future_events = [
+            event
+            for event in machine_events
+            if 0 <= int(event.get("timestamp_ms") or 0) - z_anchor_timestamp_ms <= 20000
+        ]
+        if future_events:
+            selected_event = min(
+                future_events,
+                key=lambda item: int(item.get("timestamp_ms") or 0),
+            )
+        else:
+            selected_event = min(
+                machine_events,
+                key=lambda item: abs(int(item.get("timestamp_ms") or 0) - z_anchor_timestamp_ms),
+            )
+
+    feature_timestamp_ms = int(selected_event.get("timestamp_ms") or z_anchor_timestamp_ms) if selected_event else z_anchor_timestamp_ms
+    feature_point = find_edge_point_near_timestamp(edge_points, feature_timestamp_ms) or z_anchor_point
+    feature_z_mm = get_edge_z_value(feature_point)
+    feature_source = "z_min_laser_on" if selected_event is not None else "z_minimum"
+    label = "Z 最低點後 LASER ON" if selected_event is not None else "Z 最低點"
+
+    return {
+        "label": label,
+        "time": str(selected_event.get("time") if selected_event else feature_point.get("time") or "-"),
+        "timestamp_ms": feature_timestamp_ms,
+        "g_code": str(selected_event.get("g_code") or "") if selected_event else "",
+        "probe_counter": int(selected_event.get("probe_counter") or 0) if selected_event else int(feature_point.get("probe_counter") or 0),
+        "feature_source": feature_source,
+        "z_min_mm": round(float(min_z), 6),
+        "z_tolerance_mm": round(float(z_tolerance_mm), 6),
+        "z_min_time": str(z_anchor_point.get("time") or "-"),
+        "z_min_timestamp_ms": z_anchor_timestamp_ms,
+        "machine_x_mm": round(float(feature_point.get("machine_x_mm")), 6) if feature_point.get("machine_x_mm") is not None else None,
+        "machine_y_mm": round(float(feature_point.get("machine_y_mm")), 6) if feature_point.get("machine_y_mm") is not None else None,
+        "machine_z_mm": round(float(feature_z_mm), 6) if feature_z_mm is not None else None,
+        "laser_delay_ms": feature_timestamp_ms - z_anchor_timestamp_ms,
+    }
 
 
 def build_aligned_pair_trace(
@@ -2336,6 +2675,476 @@ def build_alignment_data(thermal: dict[str, Any], edge: dict[str, Any]) -> dict[
         return {
             "available": False,
             "message": "熱像與 Edge 的時間範圍沒有重疊，暫時無法建立比較圖。",
+            "trace": [],
+            "sample_count": 0,
+            "edge_label": edge_label,
+            "auto_offset_ms": auto_offset_ms,
+            "manual_offset_default_ms": 0,
+            "manual_offset_range_ms": 60000,
+            "applied_offset_ms": auto_offset_ms,
+            "method": method,
+            "method_label": method_label,
+            "machine_feature": machine_feature,
+            "thermal_feature": thermal_feature,
+            "raw_trace": [],
+            "aligned_trace": [],
+            "raw_pair_count": 0,
+            "aligned_pair_count": 0,
+        }
+
+    aligned_start_time = (
+        format_timestamp_ms(int(thermal_points[0]["timestamp_ms"]) + auto_offset_ms, time_mode)
+        if thermal_points
+        else "-"
+    )
+    aligned_end_time = (
+        format_timestamp_ms(int(thermal_points[-1]["timestamp_ms"]) + auto_offset_ms, time_mode)
+        if thermal_points
+        else "-"
+    )
+
+    return {
+        "available": True,
+        "message": message,
+        "edge_label": edge_label,
+        "start_time": display_trace[0]["time"] if display_trace else "-",
+        "end_time": display_trace[-1]["time"] if display_trace else "-",
+        "sample_count": len(aligned_pairs or raw_pairs),
+        "thermal_sample_count": thermal.get("sample_count", 0),
+        "edge_sample_count": edge.get("sample_count", 0),
+        "trace": display_trace,
+        "raw_trace": downsample_points(raw_pairs, ALIGNMENT_DISPLAY_LIMIT),
+        "aligned_trace": downsample_points(aligned_pairs, ALIGNMENT_DISPLAY_LIMIT),
+        "auto_offset_ms": auto_offset_ms,
+        "manual_offset_default_ms": 0,
+        "manual_offset_range_ms": 60000,
+        "applied_offset_ms": auto_offset_ms,
+        "time_mode": time_mode,
+        "method": method,
+        "method_label": method_label,
+        "machine_feature": machine_feature,
+        "thermal_feature": thermal_feature,
+        "raw_pair_count": len(raw_pairs),
+        "aligned_pair_count": len(aligned_pairs),
+        "raw_start_time": thermal_points[0]["time"],
+        "raw_end_time": thermal_points[-1]["time"],
+        "aligned_start_time": aligned_start_time,
+        "aligned_end_time": aligned_end_time,
+    }
+
+
+# Override the earlier alignment helpers with the new raw-data feature alignment flow.
+def build_coordinate_alignment_data(
+    edge: dict[str, Any],
+    toolpath_segments: list[dict[str, Any]],
+) -> dict[str, Any]:
+    edge_points = [
+        point
+        for point in edge.get("full_trace") or []
+        if all(key in point for key in ("machine_x_mm", "machine_y_mm", "machine_z_mm"))
+    ]
+    if not edge_points:
+        return {
+            "available": False,
+            "message": "No machine-coordinate edge samples are available.",
+            "work_trace": [],
+            "trajectory_summaries": [],
+            "nc_reference_trace": [],
+        }
+
+    first_travel_anchor = get_first_toolpath_end_point(toolpath_segments)
+    first_deposit_anchor = get_first_toolpath_anchor_point(toolpath_segments, "deposit")
+    if not first_travel_anchor and not first_deposit_anchor:
+        return {
+            "available": False,
+            "message": "No toolpath anchor points were found for coordinate conversion.",
+            "work_trace": [],
+            "trajectory_summaries": [],
+            "nc_reference_trace": [],
+        }
+
+    first_machine_point = edge_points[0]
+    machine_process_feature = find_machine_z_laser_feature(edge)
+    process_machine_point = (
+        find_edge_point_near_timestamp(
+            edge_points,
+            int(machine_process_feature["timestamp_ms"]),
+            max_gap_ms=5000,
+        )
+        if machine_process_feature is not None
+        else None
+    )
+    hot_machine_point = process_machine_point or find_first_hot_edge_point(edge_points) or first_machine_point
+    preposition_offset = compute_xyz_offset(first_travel_anchor, first_machine_point)
+    process_offset = compute_xyz_offset(first_deposit_anchor, hot_machine_point)
+    applied_offset = process_offset or preposition_offset
+
+    if applied_offset is None:
+        return {
+            "available": False,
+            "message": "The dashboard could not derive a usable machine-to-work offset.",
+            "work_trace": [],
+            "trajectory_summaries": [],
+            "nc_reference_trace": [],
+        }
+
+    transformed_points = [apply_xyz_offset(point, applied_offset) for point in edge_points]
+
+    trajectory_groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for point in transformed_points:
+        trajectory_id = str(point.get("trajectory_id") or "trace").strip() or "trace"
+        trajectory_groups[trajectory_id].append(point)
+
+    def sort_key(value: str) -> tuple[int, str]:
+        return (0, f"{int(value):06d}") if value.isdigit() else (1, value)
+
+    trajectory_summaries: list[dict[str, Any]] = []
+    for trajectory_id in sorted(trajectory_groups, key=sort_key):
+        group = sorted(trajectory_groups[trajectory_id], key=lambda item: int(item["timestamp_ms"]))
+        first = group[0]
+        last = group[-1]
+        trajectory_summaries.append(
+            {
+                "trajectory_id": trajectory_id,
+                "sample_count": len(group),
+                "start_time": first.get("time"),
+                "end_time": last.get("time"),
+                "machine_start": {
+                    "x_mm": first["machine_x_mm"],
+                    "y_mm": first["machine_y_mm"],
+                    "z_mm": first["machine_z_mm"],
+                },
+                "machine_end": {
+                    "x_mm": last["machine_x_mm"],
+                    "y_mm": last["machine_y_mm"],
+                    "z_mm": last["machine_z_mm"],
+                },
+                "work_start": {
+                    "x_mm": first["work_x_mm"],
+                    "y_mm": first["work_y_mm"],
+                    "z_mm": first["work_z_mm"],
+                },
+                "work_end": {
+                    "x_mm": last["work_x_mm"],
+                    "y_mm": last["work_y_mm"],
+                    "z_mm": last["work_z_mm"],
+                },
+            }
+        )
+
+    nc_reference_trace: list[dict[str, float]] = []
+    last_end: dict[str, Any] | None = None
+    for segment in toolpath_segments:
+        if segment.get("path_type") != "deposit":
+            continue
+        start_point = segment.get("start_point")
+        end_point = segment.get("end_point")
+        if isinstance(start_point, dict) and all(key in start_point for key in ("x_mm", "y_mm", "z_mm")):
+            if last_end is None or any(
+                abs(float(start_point[key]) - float(last_end[key])) > 1e-9
+                for key in ("x_mm", "y_mm", "z_mm")
+            ):
+                nc_reference_trace.append(
+                    {
+                        "x_mm": float(start_point["x_mm"]),
+                        "y_mm": float(start_point["y_mm"]),
+                        "z_mm": float(start_point["z_mm"]),
+                    }
+                )
+        if isinstance(end_point, dict) and all(key in end_point for key in ("x_mm", "y_mm", "z_mm")):
+            nc_reference_trace.append(
+                {
+                    "x_mm": float(end_point["x_mm"]),
+                    "y_mm": float(end_point["y_mm"]),
+                    "z_mm": float(end_point["z_mm"]),
+                }
+            )
+            last_end = end_point
+
+    return {
+        "available": True,
+        "message": "Machine-frame edge samples were converted into the MPF workpiece frame.",
+        "machine_frame_label": "machine_absolute",
+        "work_frame_label": "g54_workpiece",
+        "time_mode": str(edge.get("time_mode") or "absolute"),
+        "coordinate_fields": edge.get("coordinate_fields") or {"x": None, "y": None, "z": None},
+        "applied_offset_mm": applied_offset,
+        "preposition_offset_mm": preposition_offset,
+        "process_offset_mm": process_offset,
+        "offset_method": (
+            "z-min-laser-on-to-first-deposit"
+            if process_offset and machine_process_feature is not None
+            else "first-hot-point-to-first-deposit"
+            if process_offset
+            else "first-sample-to-first-anchor"
+        ),
+        "first_machine_point": {
+            "time": first_machine_point.get("time"),
+            "x_mm": first_machine_point["machine_x_mm"],
+            "y_mm": first_machine_point["machine_y_mm"],
+            "z_mm": first_machine_point["machine_z_mm"],
+        },
+        "hot_machine_point": (
+            {
+                "time": hot_machine_point.get("time"),
+                "x_mm": hot_machine_point["machine_x_mm"],
+                "y_mm": hot_machine_point["machine_y_mm"],
+                "z_mm": hot_machine_point["machine_z_mm"],
+                "g_high": hot_machine_point.get("g_high"),
+            }
+            if hot_machine_point
+            else None
+        ),
+        "process_machine_feature": machine_process_feature,
+        "toolpath_preposition_anchor": first_travel_anchor,
+        "toolpath_process_anchor": first_deposit_anchor,
+        "work_trace": downsample_points(transformed_points, ALIGNMENT_DISPLAY_LIMIT),
+        "trajectory_summaries": trajectory_summaries,
+        "trajectory_count": len(trajectory_summaries),
+        "nc_reference_trace": downsample_points(nc_reference_trace, ALIGNMENT_DISPLAY_LIMIT),
+    }
+
+
+def detect_thermal_rise_feature(thermal_points: list[dict[str, Any]]) -> dict[str, Any] | None:
+    if len(thermal_points) < 5:
+        return None
+
+    raw_values = [float(point["g_high"]) for point in thermal_points]
+    if not raw_values:
+        return None
+
+    half_window = 2
+    smoothed_values: list[float] = []
+    for index in range(len(raw_values)):
+        start = max(0, index - half_window)
+        end = min(len(raw_values), index + half_window + 1)
+        smoothed_values.append(sum(raw_values[start:end]) / (end - start))
+
+    baseline_count = min(max(24, len(smoothed_values) // 25), 240)
+    baseline_values = smoothed_values[:baseline_count]
+    baseline = median_value(baseline_values)
+    peak_value = percentile_value(smoothed_values, 0.98)
+    rise_margin = max((peak_value - baseline) * 0.08, 1.0)
+    threshold = baseline + rise_margin
+    positive_deltas = [
+        smoothed_values[index] - smoothed_values[index - 1]
+        for index in range(1, len(smoothed_values))
+        if smoothed_values[index] > smoothed_values[index - 1]
+    ]
+    jump_threshold = max(
+        percentile_value(positive_deltas, 0.85) if positive_deltas else 0.0,
+        rise_margin * 0.45,
+        0.8,
+    )
+
+    for index in range(1, len(smoothed_values) - 1):
+        current = smoothed_values[index]
+        previous = smoothed_values[index - 1]
+        next_value = smoothed_values[index + 1]
+        rise_delta = current - previous
+        next_delta = next_value - current
+        if current < threshold:
+            continue
+        if rise_delta < jump_threshold:
+            continue
+        if next_value < threshold and next_delta < 0:
+            continue
+
+        point = thermal_points[index]
+        return {
+            "label": "熱像升溫起點",
+            "time": point["time"],
+            "timestamp_ms": int(point["timestamp_ms"]),
+            "g_high": round(float(point["g_high"]), 4),
+            "baseline": round(baseline, 4),
+            "threshold": round(threshold, 4),
+            "rise_delta": round(rise_delta, 4),
+            "jump_threshold": round(jump_threshold, 4),
+        }
+
+    return None
+
+
+def find_first_machine_laser_on_feature(edge: dict[str, Any]) -> dict[str, Any] | None:
+    machine_events = edge.get("machine_events") or []
+    for event in machine_events:
+        if not isinstance(event, dict):
+            continue
+        if event.get("event_type") != "laser_on":
+            continue
+        return {
+            "label": "機台 LASER ON",
+            "time": str(event.get("time") or "-"),
+            "timestamp_ms": int(event.get("timestamp_ms") or 0),
+            "g_code": str(event.get("g_code") or ""),
+            "probe_counter": int(event.get("probe_counter") or 0),
+        }
+    return None
+
+
+def find_machine_z_laser_feature(edge: dict[str, Any]) -> dict[str, Any] | None:
+    edge_points = [
+        point
+        for point in edge.get("full_trace") or []
+        if isinstance(point, dict) and point.get("timestamp_ms") is not None
+    ]
+    laser_feature = find_first_machine_laser_on_feature(edge)
+    if not edge_points:
+        return laser_feature
+
+    z_points: list[tuple[dict[str, Any], float]] = []
+    for point in edge_points:
+        z_value = get_edge_z_value(point)
+        if z_value is None:
+            continue
+        z_points.append((point, z_value))
+
+    if not z_points:
+        return laser_feature
+
+    min_z = min(z_value for _, z_value in z_points)
+    max_z = max(z_value for _, z_value in z_points)
+    z_tolerance_mm = max(0.02, min(0.2, (max_z - min_z) * 0.02))
+    lowest_candidates = [
+        point
+        for point, z_value in z_points
+        if z_value <= min_z + z_tolerance_mm
+    ]
+    if not lowest_candidates:
+        return laser_feature
+
+    z_anchor_point = min(lowest_candidates, key=lambda item: int(item.get("timestamp_ms") or 0))
+    z_anchor_timestamp_ms = int(z_anchor_point.get("timestamp_ms") or 0)
+    machine_events = [
+        event
+        for event in (edge.get("machine_events") or [])
+        if isinstance(event, dict) and event.get("event_type") == "laser_on"
+    ]
+
+    selected_event: dict[str, Any] | None = None
+    if machine_events:
+        future_events = [
+            event
+            for event in machine_events
+            if 0 <= int(event.get("timestamp_ms") or 0) - z_anchor_timestamp_ms <= 20000
+        ]
+        if future_events:
+            selected_event = min(
+                future_events,
+                key=lambda item: int(item.get("timestamp_ms") or 0),
+            )
+        else:
+            selected_event = min(
+                machine_events,
+                key=lambda item: abs(int(item.get("timestamp_ms") or 0) - z_anchor_timestamp_ms),
+            )
+
+    feature_timestamp_ms = (
+        int(selected_event.get("timestamp_ms") or z_anchor_timestamp_ms)
+        if selected_event
+        else z_anchor_timestamp_ms
+    )
+    feature_point = find_edge_point_near_timestamp(edge_points, feature_timestamp_ms) or z_anchor_point
+    feature_z_mm = get_edge_z_value(feature_point)
+    feature_source = "z_min_laser_on" if selected_event is not None else "z_minimum"
+    label = "Z 最低點後 LASER ON" if selected_event is not None else "Z 最低點"
+
+    return {
+        "label": label,
+        "time": str(selected_event.get("time") if selected_event else feature_point.get("time") or "-"),
+        "timestamp_ms": feature_timestamp_ms,
+        "g_code": str(selected_event.get("g_code") or "") if selected_event else "",
+        "probe_counter": int(selected_event.get("probe_counter") or 0)
+        if selected_event
+        else int(feature_point.get("probe_counter") or 0),
+        "feature_source": feature_source,
+        "z_min_mm": round(float(min_z), 6),
+        "z_tolerance_mm": round(float(z_tolerance_mm), 6),
+        "z_min_time": str(z_anchor_point.get("time") or "-"),
+        "z_min_timestamp_ms": z_anchor_timestamp_ms,
+        "machine_x_mm": round(float(feature_point.get("machine_x_mm")), 6)
+        if feature_point.get("machine_x_mm") is not None
+        else None,
+        "machine_y_mm": round(float(feature_point.get("machine_y_mm")), 6)
+        if feature_point.get("machine_y_mm") is not None
+        else None,
+        "machine_z_mm": round(float(feature_z_mm), 6) if feature_z_mm is not None else None,
+        "laser_delay_ms": feature_timestamp_ms - z_anchor_timestamp_ms,
+    }
+
+
+def build_alignment_data(thermal: dict[str, Any], edge: dict[str, Any]) -> dict[str, Any]:
+    thermal_points = thermal.get("full_trace") or []
+    edge_points = edge.get("full_trace") or []
+    edge_label = edge.get("value_label", "Edge")
+    time_mode = str(edge.get("time_mode") or thermal.get("time_mode") or "absolute")
+
+    if not thermal_points and not edge_points:
+        return {
+            "available": False,
+            "message": "尚未載入可用的熱像與 Edge 時序資料。",
+            "trace": [],
+            "sample_count": 0,
+            "edge_label": edge_label,
+        }
+    if not thermal_points:
+        return {
+            "available": False,
+            "message": "尚未載入可用的熱像時序資料。",
+            "trace": [],
+            "sample_count": 0,
+            "edge_label": edge_label,
+        }
+    if not edge_points:
+        return {
+            "available": False,
+            "message": "尚未載入可用的 Edge 時序資料。",
+            "trace": [],
+            "sample_count": 0,
+            "edge_label": edge_label,
+        }
+
+    machine_feature = find_machine_z_laser_feature(edge) or find_first_machine_laser_on_feature(edge)
+    thermal_feature = detect_thermal_rise_feature(thermal_points)
+    auto_offset_ms = 0
+    method = "timestamp-overlap"
+    method_label = "時間戳重疊"
+    message = "未抓到完整特徵，暫時以兩組資料的時間重疊區間顯示。"
+
+    if machine_feature is not None and thermal_feature is not None:
+        auto_offset_ms = int(machine_feature["timestamp_ms"]) - int(thermal_feature["timestamp_ms"])
+        feature_source = str(machine_feature.get("feature_source") or "")
+        if feature_source == "z_min_laser_on":
+            method = "feature-z-laser-rise"
+            method_label = "Z 最低點後 LASER ON 對熱像升溫"
+            message = "已使用機台 Z 最低點後的 LASER ON 與熱像升溫起點進行自動對齊。"
+        elif feature_source == "z_minimum":
+            method = "feature-z-min-rise"
+            method_label = "Z 最低點對熱像升溫"
+            message = "已使用機台 Z 最低點與熱像升溫起點進行自動對齊。"
+        else:
+            method = "feature-laser-onset"
+            method_label = "LASER ON 對熱像升溫"
+            message = "已使用機台 LASER ON 與熱像升溫起點進行自動對齊。"
+
+    raw_pairs = build_aligned_pair_trace(
+        thermal_points,
+        edge_points,
+        thermal_offset_ms=0,
+        time_mode=time_mode,
+    )
+    aligned_pairs = build_aligned_pair_trace(
+        thermal_points,
+        edge_points,
+        thermal_offset_ms=auto_offset_ms,
+        time_mode=time_mode,
+    )
+    display_trace = downsample_points(aligned_pairs or raw_pairs, ALIGNMENT_DISPLAY_LIMIT)
+
+    if not raw_pairs and not aligned_pairs:
+        return {
+            "available": False,
+            "message": "熱像與 Edge 的時間區間沒有重疊，暫時無法建立對齊結果。",
             "trace": [],
             "sample_count": 0,
             "edge_label": edge_label,
@@ -2764,6 +3573,25 @@ def clone_sensor_payloads(source_output_dir: Path, target_output_dir: Path, prog
         edge["program_id"] = program_id
         write_json(target_output_dir / EDGE_DATA_FILENAME, edge)
 
+    bundle = load_output_sensor_bundle(source_output_dir)
+    if not bundle:
+        return
+
+    copied_fields: dict[str, str] = {}
+    thermal_source = resolve_bundled_sensor_source(source_output_dir, "thermal_file")
+    if thermal_source is not None:
+        copied_fields["thermal_file"] = save_sensor_copy_to_output(thermal_source, target_output_dir).name
+
+    edge_source = resolve_bundled_sensor_source(source_output_dir, "edge_file")
+    if edge_source is not None:
+        copied_fields["edge_file"] = save_sensor_copy_to_output(edge_source, target_output_dir).name
+
+    if "mpf_file" in bundle:
+        copied_fields["mpf_file"] = str(bundle.get("mpf_file") or "")
+
+    if copied_fields:
+        update_output_sensor_bundle(target_output_dir, **copied_fields)
+
 
 def process_mpf_text_to_new_output(
     mpf_text: str,
@@ -2933,6 +3761,7 @@ def handle_upload_request(form: cgi.FieldStorage) -> dict[str, Any]:
         result_entry = process_file(uploaded_mpf_path, OUTPUT_ROOT, validate=False)
         output_dir = OUTPUT_ROOT / str(result_entry["output_dir"])
         update_output_metadata_after_upload(output_dir, Path(str(mpf_item.filename)).name)
+        update_output_sensor_bundle(output_dir, mpf_file=Path(str(mpf_item.filename)).name)
         stage_source_mpf_copy(
             output_dir,
             uploaded_mpf_path,
@@ -2955,6 +3784,7 @@ def handle_upload_request(form: cgi.FieldStorage) -> dict[str, Any]:
     if thermal_item is not None:
         thermal_upload_path = save_uploaded_file(thermal_item, "thermal")
         thermal_source_path = save_sensor_copy_to_output(thermal_upload_path, output_dir)
+        update_output_sensor_bundle(output_dir, thermal_file=thermal_source_path.name)
         thermal_data = build_thermal_dataset(
             source_path=thermal_source_path,
             program_id=program_id,
@@ -2968,6 +3798,7 @@ def handle_upload_request(form: cgi.FieldStorage) -> dict[str, Any]:
     if edge_item is not None:
         edge_upload_path = save_uploaded_file(edge_item, "edge")
         edge_source_path = save_sensor_copy_to_output(edge_upload_path, output_dir)
+        update_output_sensor_bundle(output_dir, edge_file=edge_source_path.name)
         edge_data = build_edge_dataset(
             source_path=edge_source_path,
             program_id=program_id,
