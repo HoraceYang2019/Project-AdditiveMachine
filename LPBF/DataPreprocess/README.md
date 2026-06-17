@@ -8,11 +8,11 @@ http://163.18.48.141:8080/share.cgi?ssid=5a0ae56e4ac64e3b9478b6fbea83d3cf
 
 Folder Structure
 LPBF_Project/
-├── 2. Slicing/
-├── 3. Simulation/
-├── 4. Coaxial_image/
-├── 5. Global_image/
-└── 6. Measured_data/
+├── 2. Slicing/    
+├── 3. Simulation/    
+├── 4. Coaxial_image/    
+├── 5. Global_image/    
+└── 6. Measured_data/    
 
 Folder Description
 資料夾	中文名稱	存放內容	常見格式
