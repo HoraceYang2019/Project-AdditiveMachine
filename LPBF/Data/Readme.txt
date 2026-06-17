@@ -18,7 +18,7 @@ LPBF_Project/
 Folder Description
 資料夾	中文名稱	存放內容	常見格式
 1. Design	工件設計	原始工件幾何、CAD 模型及尺寸資料	.stl、.step、.stp、.iges
-2. Slicing	切層與掃描路徑	雷射掃描路徑、雷射功率、掃描速度及切層設定	.cli、.slc、.csv、.gcode
+2. Slicing	切層與雷射掃描路徑、雷射功率、掃描速度及切層設定	.cli、.slc、.csv、.gcode
 3. Simulation	數值模擬	熔池、溫度場、相位、冷卻時間、熱覆蓋及表面輪廓模擬結果	.npz、.npy、.csv
 4. Coaxial_image	同軸影像	與雷射光路同方向拍攝的熔池、飛濺及製程影像	.png、.jpg、.tif、.avi、.mp4
 5. Global_image	全域影像	從上方或側面拍攝整個粉床，包括鋪粉後與雷射掃描後的影像	.png、.jpg、.tif、.avi、.mp4
