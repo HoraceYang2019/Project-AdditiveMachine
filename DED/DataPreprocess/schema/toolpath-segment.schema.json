@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/toolpath-segment.schema.json",
+  "title": "Toolpath Segment",
+  "description": "A continuous toolpath segment grouped for front-end visualization, layer playback, or process review.",
+  "type": "object",
+  "required": [
+    "program_id",
+    "segment_id",
+    "path_type",
+    "laser_on",
+    "powder_supply_on",
+    "layer_index",
+    "z_layer_mm",
+    "start_point",
+    "end_point",
+    "point_count"
+  ],
+  "$defs": {
+    "point": {
+      "type": "object",
+      "required": [
+        "x_mm",
+        "y_mm",
+        "z_mm",
+        "a_deg",
+        "c_deg"
+      ],
+      "properties": {
+        "x_mm": {
+          "type": "number"
+        },
+        "y_mm": {
+          "type": "number"
+        },
+        "z_mm": {
+          "type": "number"
+        },
+        "a_deg": {
+          "type": "number"
+        },
+        "c_deg": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "bounding_box": {
+      "type": "object",
+      "required": [
+        "x_min_mm",
+        "x_max_mm",
+        "y_min_mm",
+        "y_max_mm",
+        "z_min_mm",
+        "z_max_mm"
+      ],
+      "properties": {
+        "x_min_mm": {
+          "type": "number"
+        },
+        "x_max_mm": {
+          "type": "number"
+        },
+        "y_min_mm": {
+          "type": "number"
+        },
+        "y_max_mm": {
+          "type": "number"
+        },
+        "z_min_mm": {
+          "type": "number"
+        },
+        "z_max_mm": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "program_id": {
+      "type": "string"
+    },
+    "segment_id": {
+      "type": "string"
+    },
+    "parameter_event_id": {
+      "type": "string"
+    },
+    "start_line_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "end_line_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_range": {
+      "type": "string"
+    },
+    "path_type": {
+      "type": "string",
+      "enum": [
+        "approach",
+        "deposit",
+        "travel",
+        "retract",
+        "purge"
+      ]
+    },
+    "motion_code": {
+      "type": "string",
+      "enum": [
+        "G0",
+        "G1",
+        "G01",
+        "G2",
+        "G02",
+        "G3",
+        "G03"
+      ]
+    },
+    "laser_on": {
+      "type": "boolean"
+    },
+    "powder_supply_on": {
+      "type": "boolean"
+    },
+    "feed_rate_mm_min": {
+      "type": "number"
+    },
+    "work_offset": {
+      "type": "string"
+    },
+    "transform_mode": {
+      "type": "string"
+    },
+    "track_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "layer_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "z_layer_mm": {
+      "type": "number"
+    },
+    "path_application": {
+      "type": "string"
+    },
+    "start_point": {
+      "$ref": "#/$defs/point"
+    },
+    "end_point": {
+      "$ref": "#/$defs/point"
+    },
+    "point_count": {
+      "type": "integer",
+      "minimum": 2
+    },
+    "bounding_box": {
+      "$ref": "#/$defs/bounding_box"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

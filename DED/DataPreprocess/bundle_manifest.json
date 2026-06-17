@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "package_name": "final-nc-schema-package",
+    "root_namespace": "http://nkust.edu.tw/mislab/final/",
+    "schema_base": "http://nkust.edu.tw/mislab/final/schema/",
+    "source_format": "Siemens MPF",
+    "machine_domain": "laser-directed-energy-deposition"
+  },
+  "schemas": [
+    {
+      "name": "laser-process-parameters.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/laser-process-parameters.schema.json",
+      "local_file": "schema/laser-process-parameters.schema.json"
+    },
+    {
+      "name": "NC-block.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/NC-block.schema.json",
+      "local_file": "schema/NC-block.schema.json"
+    },
+    {
+      "name": "NC-file.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/NC-file.schema.json",
+      "local_file": "schema/NC-file.schema.json"
+    },
+    {
+      "name": "thermal-imager.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/thermal-imager.schema.json",
+      "local_file": "schema/thermal-imager.schema.json"
+    },
+    {
+      "name": "toolpath-segment.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/toolpath-segment.schema.json",
+      "local_file": "schema/toolpath-segment.schema.json"
+    },
+    {
+      "name": "inference-result.schema.json",
+      "id": "http://nkust.edu.tw/mislab/final/schema/inference-result.schema.json",
+      "local_file": "schema/inference-result.schema.json"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "ded-inference-result-v1",
+  "inference_stage": "threshold_preview",
+  "state": "warning",
+  "state_label": "警示",
+  "cause": "G_High 進入警示區間，可能存在熱累積、進給偏慢或能量密度偏高。",
+  "confidence": 0.62,
+  "recommended_action": "對照同參數與同路徑基準後，優先微調熱輸入。",
+  "recommended_parameter_change": [
+    {
+      "parameter": "laser_power_w",
+      "label": "雷射功率",
+      "direction": "decrease",
+      "magnitude": "2% to 5%",
+      "unit": "W",
+      "basis": "RecRule_Warning_AdjustHeatInput"
+    },
+    {
+      "parameter": "feed_rate_mm_min",
+      "label": "進給速度",
+      "direction": "increase",
+      "magnitude": "2% to 5%",
+      "unit": "mm/min",
+      "basis": "RecRule_Warning_AdjustHeatInput"
+    }
+  ],
+  "related_rule": "Rule_Warning",
+  "related_parameter": [
+    "laser_power_w",
+    "feed_rate_mm_min"
+  ],
+  "evidence": {
+    "g_high": 1325.4,
+    "layer_index": 1,
+    "timestamp_ms": 1748133128219,
+    "x_mm": 21.87,
+    "y_mm": -24.98,
+    "z_mm": 109.982
+  },
+  "time_context": {
+    "source": "heat_playback",
+    "playback_progress": 0.37,
+    "time_label": "10:32:08.219"
+  }
+}

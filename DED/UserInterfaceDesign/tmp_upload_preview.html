@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DED 製程分析儀表板</title>
+    <link rel="stylesheet" href="http://127.0.0.1:8010/static/final_dashboard.css">
+</head>
+<body class="floating-panel-open">
+    <div class="page-shell">
+        <section class="top-band">
+            <header class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">智慧製造 / Final</p>
+                    <div class="hero-title-row">
+                        <h1 id="dashboard-title">DED 製程分析儀表板</h1>
+                        <details class="panel panel-collapsible upload-panel" open>
+                            <summary class="panel-summary">
+                                <div class="panel-summary-copy">
+                                    <p class="panel-kicker">資料上傳</p>
+                                    <h2>MPF / 熱像 / Edge</h2>
+                                </div>
+                                <span class="panel-summary-hint">上傳並重新建立資料</span>
+                            </summary>
+                            <div class="collapsible-panel-body">
+                                <div class="panel-head panel-head-compact">
+                                    <div>
+                                        <p class="panel-kicker">資料上傳</p>
+                                        <h2>MPF / 熱像 / Edge</h2>
+                                    </div>
+                                    <p class="upload-intro">上傳 MPF、熱像與 Edge 檔案後，系統會重新建立路徑、熱像與時間對齊資料。</p>
+                                </div>
+                                <form id="upload-form" class="upload-form" enctype="multipart/form-data">
+                                    <div class="upload-grid">
+                                        <label class="upload-field">
+                                            <span>目標 MPF</span>
+                                            <select id="upload-target-output" name="target_output_name"></select>
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>MPF 檔案</span>
+                                            <input id="mpf-file" name="mpf_file" type="file" accept=".mpf,.MPF">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>熱像檔案</span>
+                                            <input id="thermal-file" name="thermal_file" type="file" accept=".csv,.json,.txt">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>Edge 檔案</span>
+                                            <input id="edge-file" name="edge_file" type="file" accept=".csv,.json,.txt">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>熱像時間欄位</span>
+                                            <input name="thermal_time_field" type="text" placeholder="例如 Time">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>熱像數值欄位</span>
+                                            <input name="thermal_value_field" type="text" placeholder="例如 G_High">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>Edge 時間欄位</span>
+                                            <input name="edge_time_field" type="text" placeholder="例如 time / timestamp / sample_ms">
+                                        </label>
+                                        <label class="upload-field">
+                                            <span>Edge 數值欄位</span>
+                                            <input name="edge_value_field" type="text" placeholder="例如 ENC_POS[] 或 G_High">
+                                        </label>
+                                    </div>
+                                    <div class="upload-actions">
+                                        <button id="upload-submit" class="upload-button" type="submit">上傳並更新儀表板</button>
+                                        <p id="upload-status" class="upload-status">可上傳 CSV / JSON / TXT；若欄位名稱明確，系統會自動辨識。</p>
+                                    </div>
+                                    <p class="upload-note">若需要查看 Edge 範例格式，可參考 <a id="edge-example-link" href="/static/edge_timeseries_example.csv" target="_blank" rel="noreferrer">範例 CSV</a>。</p>
+                                </form>
+                            </div>
+                        </details>
+                    </div>
+                    <p id="dashboard-subtitle" class="hero-subtitle">在同一個畫面檢視 NC 路徑、單層工具路徑、熱像播放與上傳資料狀態。</p>
+                    <div class="hero-meta">
+                        <span id="program-id-chip" class="meta-chip"></span>
+                        <span id="output-name-chip" class="meta-chip meta-chip-muted"></span>
+                    </div>
+                </div>
+                <div id="header-cards" class="hero-cards"></div>
+            </header>
+
+            <aside class="panel command-panel top-command-panel">
+                <div class="panel-head command-panel-head">
+                    <div>
+                        <p class="panel-kicker">現場總覽</p>
+                        <h2>製程總覽與控制</h2>
+                    </div>
+                </div>
+                <div class="command-panel-stack">
+                    <article class="control-card command-card">
+                        <label for="output-select">MPF 檔案</label>
+                        <select id="output-select"></select>
+                    </article>
+                    <article class="control-card command-card">
+                        <label for="layer-select">工具路徑層號</label>
+                        <select id="layer-select"></select>
+                    </article>
+                    <article class="control-card command-card">
+                        <label for="coordinate-trajectory-select">熱像路徑層號</label>
+                        <select id="coordinate-trajectory-select"></select>
+                    </article>
+                    <article class="control-card command-card">
+                        <span class="control-label">圖層狀態</span>
+                        <div id="layer-summary" class="control-value"></div>
+                    </article>
+                    <article class="control-card command-card">
+                        <span class="control-label">熱像時間窗</span>
+                        <div id="thermal-window" class="control-value"></div>
+                    </article>
+                </div>
+            </aside>
+        </section>
+
+        <section class="workspace workspace-target-layout">
+            <section class="panel plot-panel animation-panel cockpit-primary workspace-plot">
+                <div class="panel-head">
+                    <div>
+                        <p class="panel-kicker">工具路徑播放</p>
+                        <h2>單層路徑</h2>
+                    </div>
+                    <div class="legend">
+                        <span><i class="legend-swatch deposit"></i>沉積</span>
+                        <span><i class="legend-swatch travel"></i>移動</span>
+                    </div>
+                </div>
+                <svg id="toolpath-plot" class="toolpath-svg" viewBox="0 0 900 560" role="img" aria-label="單層工具路徑"></svg>
+                <div class="playback-panel" aria-label="工具路徑播放控制">
+                    <div class="playback-actions">
+                        <button id="toolpath-play-button" class="playback-button" type="button">播放</button>
+                        <button id="toolpath-reset-button" class="playback-button playback-button-secondary" type="button">重設</button>
+                    </div>
+                    <label class="playback-range-group" for="toolpath-progress-range">
+                        <span>播放進度</span>
+                        <input id="toolpath-progress-range" class="playback-range" type="range" min="0" max="1000" value="0" step="1">
+                    </label>
+                    <label class="playback-speed-group" for="toolpath-speed-select">
+                        <span>播放速度</span>
+                        <select id="toolpath-speed-select" class="playback-speed-select">
+                            <option value="0.5">0.5x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="2">2x</option>
+                            <option value="4">4x</option>
+                            <option value="8">8x</option>
+                        </select>
+                    </label>
+                    <div class="playback-meta">
+                        <strong id="toolpath-progress-label">0.0%</strong>
+                        <span id="toolpath-status">可播放目前圖層的工具路徑。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel coordinate-panel animation-panel cockpit-primary workspace-coordinate">
+                <div class="panel-head">
+                    <div>
+                        <p class="panel-kicker">G-code Heat Map</p>
+                        <h2>G-code Heat Playback</h2>
+                    </div>
+                    <div class="legend">
+                        <span><i class="legend-swatch edge"></i>Cool</span>
+                        <span><i class="legend-swatch thermal"></i>Hot</span>
+                    </div>
+                </div>
+                <div class="coordinate-toolbar">
+                    <div class="coordinate-toolbar-note" id="coordinate-toolbar-note">目前使用選定 layer 的 G-code 沉積路徑作為骨架，並對齊後的 G_High 熱值沿路徑播放。</div>
+                </div>
+                <svg id="coordinate-plot" class="thermal-svg" viewBox="0 0 900 420" role="img" aria-label="G-code Heat Playback"></svg>
+                <div class="playback-panel coordinate-playback-panel" aria-label="熱像路徑播放控制">
+                    <div class="playback-actions">
+                        <button id="coordinate-play-button" class="playback-button" type="button">播放</button>
+                        <button id="coordinate-reset-button" class="playback-button playback-button-secondary" type="button">重設</button>
+                    </div>
+                    <label class="playback-range-group" for="coordinate-progress-range">
+                        <span>Animation Progress</span>
+                        <input id="coordinate-progress-range" class="playback-range" type="range" min="0" max="1000" value="0" step="1">
+                    </label>
+                    <label class="playback-speed-group" for="coordinate-speed-select">
+                        <span>Speed</span>
+                        <select id="coordinate-speed-select" class="playback-speed-select">
+                            <option value="0.5">0.5x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="2">2x</option>
+                            <option value="4">4x</option>
+                            <option value="8">8x</option>
+                        </select>
+                    </label>
+                    <div class="playback-meta">
+                        <strong id="coordinate-progress-label">0.0%</strong>
+                        <span id="coordinate-status">請先選擇圖層後開始播放熱力路徑。</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="workspace-gcode-row">
+                <details class="panel panel-collapsible editor-panel" open>
+                    <summary class="panel-summary">
+                        <div class="panel-summary-copy">
+                            <p class="panel-kicker">MPF 預覽編輯</p>
+                            <h2>直接檢視、修改與匯出 MPF</h2>
+                        </div>
+                        <span class="panel-summary-hint">展開 MPF 預覽與編輯</span>
+                    </summary>
+                    <div class="collapsible-panel-body">
+                        <div class="panel-head panel-head-compact">
+                            <div>
+                                <p class="panel-kicker">MPF 預覽編輯</p>
+                                <h2>直接檢視、修改與匯出 MPF</h2>
+                            </div>
+                            <p class="upload-intro">可直接載入目前資料集的 MPF 內容，建立 preview output，或另存為新的 MPF 檔案。</p>
+                        </div>
+                        <div class="editor-toolbar">
+                            <label class="upload-field editor-name-field">
+                                <span>輸出檔名</span>
+                                <input id="mpf-editor-file-name" type="text" placeholder="例如 my_part_edited.MPF">
+                            </label>
+                            <div class="editor-actions">
+                                <button id="mpf-editor-reload" class="upload-button button-secondary" type="button">重新載入</button>
+                                <button id="mpf-editor-preview" class="upload-button" type="button">建立預覽</button>
+                                <button id="mpf-editor-export" class="upload-button button-secondary" type="button">匯出新 MPF</button>
+                                <a id="mpf-editor-download" class="upload-button button-secondary action-link" href="#" target="_blank" rel="noreferrer">下載最新 MPF</a>
+                            </div>
+                        </div>
+                        <div class="editor-meta">
+                            <span id="mpf-editor-source-label">目前沒有可編輯的 MPF 來源。</span>
+                            <span id="mpf-editor-line-count">0 行</span>
+                        </div>
+                        <textarea id="mpf-editor-text" class="mpf-editor-text" spellcheck="false" aria-label="MPF 編輯內容"></textarea>
+                        <p id="mpf-editor-status" class="upload-status">請先上傳 MPF 或切換到帶有原始 MPF 的 output。</p>
+                    </div>
+                </details>
+
+                <aside class="panel related-panel plot-related workspace-plot-summary">
+                    <section class="summary-strip-card">
+                        <div class="summary-strip-head">
+                            <p class="summary-strip-kicker">Layer</p>
+                            <h3>圖層摘要</h3>
+                        </div>
+                        <div id="layer-metrics" class="metric-grid metric-grid-compact"></div>
+                    </section>
+
+                    <div id="toolpath-focus-panel" class="toolpath-focus-panel" aria-live="polite"></div>
+
+                    <details class="subsection subsection-collapsible compact-subsection">
+                        <summary class="subsection-toggle">
+                            <span class="subsection-toggle-title">路徑段落</span>
+                            <span class="subsection-toggle-hint">點開查看</span>
+                        </summary>
+                        <div id="segment-list" class="stack-list"></div>
+                    </details>
+                </aside>
+            </section>
+
+            <section class="workspace-heat-summary-row">
+                <section class="summary-strip-card workspace-heat-summary-card">
+                    <div class="summary-strip-head">
+                        <p class="summary-strip-kicker">Heat Playback</p>
+                        <h3>熱像摘要</h3>
+                    </div>
+                    <div id="coordinate-stats" class="metric-grid metric-grid-compact"></div>
+                </section>
+
+                <div id="coordinate-alert-panel" class="coordinate-alert-panel workspace-heat-alert" aria-live="polite"></div>
+            </section>
+
+            <section class="thermal-inline-panel workspace-thermal-row">
+                <div class="summary-strip-head thermal-inline-head">
+                    <div>
+                        <p class="summary-strip-kicker">熱像儀</p>
+                        <h3>G_High 趨勢</h3>
+                    </div>
+                    <button id="thermal-reset-view" class="upload-button button-secondary chart-reset-button" type="button">重設視圖</button>
+                </div>
+                <div id="thermal-stats" class="metric-grid metric-grid-compact thermal-stats"></div>
+                <div class="chart-toolbar thermal-inline-toolbar">
+                    <p class="chart-instructions">拖曳或縮放熱像曲線，直接對照目前播放點的 G_High 變化。</p>
+                    <span id="thermal-window-label" class="chart-window-label">目前時間窗</span>
+                </div>
+                <svg id="thermal-chart" class="thermal-svg thermal-inline-chart" viewBox="0 0 900 320" role="img" aria-label="G_High 趨勢"></svg>
+                <div id="thermal-point-detail" class="chart-detail thermal-inline-detail"></div>
+                <details class="subsection subsection-collapsible compact-subsection">
+                    <summary class="subsection-toggle">
+                        <span class="subsection-toggle-title">G-code 軌跡檢視</span>
+                        <span class="subsection-toggle-hint">點開查看</span>
+                    </summary>
+                    <div id="trajectory-list" class="stack-list"></div>
+                </details>
+            </section>
+
+            <section id="inference-rule-panel" class="inference-rule-panel workspace-inference-row" aria-live="polite"></section>
+        </section>
+
+        <details class="panel panel-collapsible dashboard-collapsible alignment-panel" hidden>
+            <summary class="panel-summary dashboard-section-summary">
+                <div class="panel-summary-copy">
+                    <p class="panel-kicker">時間對齊</p>
+                    <h2>熱像 / Edge 對齊</h2>
+                </div>
+                <span class="panel-summary-hint">後端處理</span>
+            </summary>
+            <div class="collapsible-panel-body dashboard-section-body">
+                <div class="panel-head dashboard-inline-head">
+                    <div class="legend">
+                        <span><i class="legend-swatch thermal"></i>熱像對齊後</span>
+                        <span><i class="legend-swatch thermal-raw"></i>熱像原始時間</span>
+                        <span><i class="legend-swatch edge"></i>Edge</span>
+                    </div>
+                </div>
+                <div class="chart-side-layout">
+                    <div class="chart-side-main">
+                        <details class="subsection subsection-collapsible">
+                            <summary class="subsection-toggle">
+                                <span class="subsection-toggle-title">對齊控制與校正</span>
+                                <span class="subsection-toggle-hint">後端處理</span>
+                            </summary>
+                            <div class="collapsible-body">
+                                <div class="alignment-controls">
+                                    <div class="alignment-actions">
+                                        <button id="alignment-auto-button" class="upload-button button-secondary" type="button">重新計算對齊</button>
+                                    </div>
+                                    <label class="alignment-range-group" for="alignment-offset-range">
+                                        <span>手動 Offset</span>
+                                        <input id="alignment-offset-range" class="playback-range" type="range" min="-5000" max="5000" value="0" step="50">
+                                    </label>
+                                    <label class="alignment-number-group" for="alignment-offset-number">
+                                        <span>Offset 數值</span>
+                                        <input id="alignment-offset-number" class="playback-speed-select" type="number" min="-5000" max="5000" step="50" value="0">
+                                    </label>
+                                    <div class="alignment-meta">
+                                        <strong id="alignment-offset-label">0 ms</strong>
+                                        <span id="alignment-method-label">目前使用後端對齊結果</span>
+                                    </div>
+                                </div>
+                                <div id="alignment-stats" class="metric-grid"></div>
+                                <div class="chart-toolbar">
+                                    <p class="chart-instructions">這個區塊保留給後端時間對齊檢查使用，前台展示預設隱藏。</p>
+                                    <div class="chart-toolbar-actions">
+                                        <span id="alignment-window-label" class="chart-window-label">目前時間窗</span>
+                                        <button id="alignment-reset-view" class="upload-button button-secondary chart-reset-button" type="button">重設視圖</button>
+                                    </div>
+                                </div>
+                                <svg id="alignment-chart" class="thermal-svg" viewBox="0 0 900 320" role="img" aria-label="熱像與 Edge 對齊"></svg>
+                            </div>
+                        </details>
+                    </div>
+                    <aside class="chart-side-detail">
+                        <div id="alignment-point-detail" class="chart-detail chart-detail-sticky"></div>
+                    </aside>
+                </div>
+            </div>
+        </details>
+
+        <div id="event-list-legacy" hidden></div>
+    </div>
+
+    <script type="module" src="/static/final_dashboard.js"></script>
+</body>
+</html>

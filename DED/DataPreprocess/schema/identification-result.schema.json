@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/identification-result.schema.json",
+  "title": "DED Identification Result",
+  "description": "Standard output contract for process-status identification at one synchronized playback point.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "identification_stage",
+    "identified_status",
+    "status_label",
+    "status_confidence",
+    "status_source",
+    "status_evidence",
+    "time_context"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "ded-identification-result-v1"
+    },
+    "identification_stage": {
+      "type": "string",
+      "description": "Current implementation stage, for example format_v1 or playback_point_v1."
+    },
+    "identified_status": {
+      "type": "string",
+      "enum": [
+        "not_identified",
+        "normal_deposition",
+        "heat_accumulation_warning",
+        "abnormal_heat_or_process",
+        "unknown"
+      ]
+    },
+    "status_label": {
+      "type": "string"
+    },
+    "status_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "status_source": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status_reason": {
+      "type": "string"
+    },
+    "status_evidence": {
+      "type": "object",
+      "properties": {
+        "g_high": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "layer_index": {
+          "type": [
+            "number",
+            "integer",
+            "null"
+          ]
+        },
+        "timestamp_ms": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "x_mm": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "y_mm": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "z_mm": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "laser_on": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "feed_rate_mm_min": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "time_context": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "playback_progress": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "time_label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,477 @@
+@prefix ded: <http://nkust.edu.tw/mislab/final/ontology/ded#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://nkust.edu.tw/mislab/final/ontology/ded>
+    a owl:Ontology ;
+    rdfs:label "DED hardware-first manufacturing ontology"@en ,
+        "DED 硬體導向製程知識本體"@zh ;
+    rdfs:comment "A starter ontology for tracing a DED manufacturing run from equipment and sensors to NC programs, toolpaths, aligned data, and quality assessments."@en .
+
+#################################################################
+# Classes: start from the physical equipment layer
+#################################################################
+
+ded:Asset a owl:Class ;
+    rdfs:label "資產"@zh .
+
+ded:Facility a owl:Class ;
+    rdfs:subClassOf ded:Asset ;
+    rdfs:label "場域"@zh .
+
+ded:HardwareComponent a owl:Class ;
+    rdfs:subClassOf ded:Asset ;
+    rdfs:label "硬體元件"@zh .
+
+ded:ManufacturingMachine a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "製造機台"@zh .
+
+ded:Controller a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "控制器"@zh .
+
+ded:LaserSource a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "雷射源"@zh .
+
+ded:PowderFeeder a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "送粉系統"@zh .
+
+ded:Sensor a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "感測器"@zh .
+
+ded:ThermalCamera a owl:Class ;
+    rdfs:subClassOf ded:Sensor ;
+    rdfs:label "熱像儀"@zh .
+
+ded:EdgeGateway a owl:Class ;
+    rdfs:subClassOf ded:HardwareComponent ;
+    rdfs:label "Edge 閘道器"@zh .
+
+#################################################################
+# Classes: data, process, alignment, and assessment layers
+#################################################################
+
+ded:DigitalArtifact a owl:Class ;
+    rdfs:subClassOf ded:Asset ;
+    rdfs:label "數位檔案"@zh .
+
+ded:NCProgram a owl:Class ;
+    rdfs:subClassOf ded:DigitalArtifact ;
+    rdfs:label "NC 程式"@zh .
+
+ded:SensorDataset a owl:Class ;
+    rdfs:subClassOf ded:DigitalArtifact ;
+    rdfs:label "感測資料集"@zh .
+
+ded:ThermalDataset a owl:Class ;
+    rdfs:subClassOf ded:SensorDataset ;
+    rdfs:label "熱像資料集"@zh .
+
+ded:EdgeDataset a owl:Class ;
+    rdfs:subClassOf ded:SensorDataset ;
+    rdfs:label "Edge 資料集"@zh .
+
+ded:ManufacturingRun a owl:Class ;
+    rdfs:label "加工批次"@zh .
+
+ded:Layer a owl:Class ;
+    rdfs:label "加工層"@zh .
+
+ded:ToolpathSegment a owl:Class ;
+    rdfs:label "路徑段"@zh .
+
+ded:ProcessParameterEvent a owl:Class ;
+    rdfs:label "製程參數事件"@zh .
+
+ded:Observation a owl:Class ;
+    rdfs:label "觀測值"@zh .
+
+ded:ThermalObservation a owl:Class ;
+    rdfs:subClassOf ded:Observation ;
+    rdfs:label "熱像觀測值"@zh .
+
+ded:EdgeObservation a owl:Class ;
+    rdfs:subClassOf ded:Observation ;
+    rdfs:label "Edge 觀測值"@zh .
+
+ded:SensorAlignment a owl:Class ;
+    rdfs:label "資料對齊結果"@zh .
+
+ded:QualityAssessment a owl:Class ;
+    rdfs:label "品質判斷"@zh .
+
+ded:AssessmentBand a owl:Class ;
+    rdfs:label "判斷分級"@zh .
+
+#################################################################
+# Object properties: the traceable chain shown in Protege
+#################################################################
+
+ded:locatedIn a owl:ObjectProperty ;
+    rdfs:domain ded:Asset ;
+    rdfs:range ded:Facility ;
+    rdfs:label "位於"@zh .
+
+ded:hasComponent a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingMachine ;
+    rdfs:range ded:HardwareComponent ;
+    rdfs:label "包含硬體元件"@zh .
+
+ded:componentOf a owl:ObjectProperty ;
+    owl:inverseOf ded:hasComponent ;
+    rdfs:label "隸屬機台"@zh .
+
+ded:supportsRun a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingMachine ;
+    rdfs:range ded:ManufacturingRun ;
+    rdfs:label "執行加工批次"@zh .
+
+ded:usesMachine a owl:ObjectProperty ;
+    owl:inverseOf ded:supportsRun ;
+    rdfs:label "使用機台"@zh .
+
+ded:executesProgram a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:NCProgram ;
+    rdfs:label "執行 NC 程式"@zh .
+
+ded:hasLayer a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:Layer ;
+    rdfs:label "包含加工層"@zh .
+
+ded:layerOf a owl:ObjectProperty ;
+    owl:inverseOf ded:hasLayer ;
+    rdfs:label "隸屬加工批次"@zh .
+
+ded:hasSegment a owl:ObjectProperty ;
+    rdfs:domain ded:Layer ;
+    rdfs:range ded:ToolpathSegment ;
+    rdfs:label "包含路徑段"@zh .
+
+ded:segmentOf a owl:ObjectProperty ;
+    owl:inverseOf ded:hasSegment ;
+    rdfs:label "隸屬加工層"@zh .
+
+ded:hasParameterEvent a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:ProcessParameterEvent ;
+    rdfs:label "包含參數事件"@zh .
+
+ded:generatedBy a owl:ObjectProperty ;
+    rdfs:domain ded:SensorDataset ;
+    rdfs:range ded:HardwareComponent ;
+    rdfs:label "由硬體產生"@zh .
+
+ded:hasDataset a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:SensorDataset ;
+    rdfs:label "包含感測資料集"@zh .
+
+ded:hasObservation a owl:ObjectProperty ;
+    rdfs:domain ded:SensorDataset ;
+    rdfs:range ded:Observation ;
+    rdfs:label "包含觀測值"@zh .
+
+ded:hasAlignment a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:SensorAlignment ;
+    rdfs:label "具有對齊結果"@zh .
+
+ded:alignsDataset a owl:ObjectProperty ;
+    rdfs:domain ded:SensorAlignment ;
+    rdfs:range ded:SensorDataset ;
+    rdfs:label "對齊資料集"@zh .
+
+ded:hasAssessment a owl:ObjectProperty ;
+    rdfs:domain ded:ManufacturingRun ;
+    rdfs:range ded:QualityAssessment ;
+    rdfs:label "具有品質判斷"@zh .
+
+ded:basedOnDataset a owl:ObjectProperty ;
+    rdfs:domain ded:QualityAssessment ;
+    rdfs:range ded:SensorDataset ;
+    rdfs:label "根據資料集"@zh .
+
+ded:classifiedAs a owl:ObjectProperty ;
+    rdfs:domain ded:QualityAssessment ;
+    rdfs:range ded:AssessmentBand ;
+    rdfs:label "判定為"@zh .
+
+#################################################################
+# Datatype properties: values that appear in the dashboard
+#################################################################
+
+ded:identifier a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "識別碼"@zh .
+
+ded:fileName a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "檔案名稱"@zh .
+
+ded:sourceFormat a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "來源格式"@zh .
+
+ded:machineType a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "機台類型"@zh .
+
+ded:layerIndex a owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "層號"@zh .
+
+ded:zLayerMM a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "Z 高度 mm"@zh .
+
+ded:pathType a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "路徑類型"@zh .
+
+ded:laserOn a owl:DatatypeProperty ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "雷射啟用"@zh .
+
+ded:powderSupplyOn a owl:DatatypeProperty ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "送粉啟用"@zh .
+
+ded:laserPowerW a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "雷射功率 W"@zh .
+
+ded:spotDiameterMM a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "光斑直徑 mm"@zh .
+
+ded:startTime a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "開始時間"@zh .
+
+ded:endTime a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "結束時間"@zh .
+
+ded:sampleCount a owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "樣本數"@zh .
+
+ded:gHigh a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "G_High"@zh .
+
+ded:gHighMin a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "G_High 最低值"@zh .
+
+ded:gHighMax a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "G_High 最高值"@zh .
+
+ded:gHighAverage a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "G_High 平均值"@zh .
+
+ded:alignmentErrorMS a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "對齊誤差 ms"@zh .
+
+ded:alignmentMethod a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "對齊方法"@zh .
+
+ded:assessmentMessage a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "判斷訊息"@zh .
+
+ded:minInclusive a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "下限"@zh .
+
+ded:maxExclusive a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "上限"@zh .
+
+#################################################################
+# Example individuals: AMH-350 hardware-first trace
+#################################################################
+
+ded:NKUST_Smart_Manufacturing_Lab
+    a ded:Facility ;
+    rdfs:label "NKUST 智慧製造實驗場域"@zh .
+
+ded:Machine_AMH_350
+    a ded:ManufacturingMachine ;
+    rdfs:label "AMH-350 DED 機台"@zh ;
+    ded:identifier "AMH-350" ;
+    ded:machineType "Laser-Directed-Energy-Deposition" ;
+    ded:locatedIn ded:NKUST_Smart_Manufacturing_Lab ;
+    ded:hasComponent ded:Controller_SINUMERIK ,
+        ded:LaserSource_AMH_350 ,
+        ded:PowderFeeder_AMH_350 ,
+        ded:ThermalCamera_Channel_0_11 ,
+        ded:EdgeGateway_5Layer ;
+    ded:supportsRun ded:Run_20260525450715000610 .
+
+ded:Controller_SINUMERIK
+    a ded:Controller ;
+    rdfs:label "SINUMERIK 控制器"@zh ;
+    ded:componentOf ded:Machine_AMH_350 .
+
+ded:LaserSource_AMH_350
+    a ded:LaserSource ;
+    rdfs:label "AMH-350 雷射源"@zh ;
+    ded:componentOf ded:Machine_AMH_350 .
+
+ded:PowderFeeder_AMH_350
+    a ded:PowderFeeder ;
+    rdfs:label "AMH-350 送粉系統"@zh ;
+    ded:componentOf ded:Machine_AMH_350 .
+
+ded:ThermalCamera_Channel_0_11
+    a ded:ThermalCamera ;
+    rdfs:label "熱像儀 Channel 0-11"@zh ;
+    ded:componentOf ded:Machine_AMH_350 .
+
+ded:EdgeGateway_5Layer
+    a ded:EdgeGateway ;
+    rdfs:label "Edge 資料擷取閘道器"@zh ;
+    ded:componentOf ded:Machine_AMH_350 .
+
+ded:NCProgram_20260525450715000610
+    a ded:NCProgram ;
+    rdfs:label "MPF 20260525450715000610T"@zh ;
+    ded:identifier "20260525450715000610" ;
+    ded:fileName "20260525450715000610T.MPF" ;
+    ded:sourceFormat "Siemens MPF" .
+
+ded:Run_20260525450715000610
+    a ded:ManufacturingRun ;
+    rdfs:label "加工批次 20260525450715000610"@zh ;
+    ded:identifier "20260525450715000610" ;
+    ded:usesMachine ded:Machine_AMH_350 ;
+    ded:executesProgram ded:NCProgram_20260525450715000610 ;
+    ded:hasLayer ded:Layer_01 ;
+    ded:hasParameterEvent ded:ParameterEvent_LPP_0001 ,
+        ded:ParameterEvent_LPP_0006 ;
+    ded:hasDataset ded:ThermalDataset_20260525 ,
+        ded:EdgeDataset_20260525 ;
+    ded:hasAlignment ded:Alignment_20260525 ;
+    ded:hasAssessment ded:Assessment_20260525 .
+
+ded:Layer_01
+    a ded:Layer ;
+    rdfs:label "Layer 1"@en ;
+    ded:layerIndex 1 ;
+    ded:zLayerMM 110.732 ;
+    ded:layerOf ded:Run_20260525450715000610 ;
+    ded:hasSegment ded:Segment_SEG_L01_T001 ,
+        ded:Segment_SEG_L01_T002 .
+
+ded:Segment_SEG_L01_T001
+    a ded:ToolpathSegment ;
+    rdfs:label "SEG_L01_T001" ;
+    ded:identifier "SEG_L01_T001" ;
+    ded:pathType "travel" ;
+    ded:laserOn false ;
+    ded:powderSupplyOn false ;
+    ded:segmentOf ded:Layer_01 .
+
+ded:Segment_SEG_L01_T002
+    a ded:ToolpathSegment ;
+    rdfs:label "SEG_L01_T002" ;
+    ded:identifier "SEG_L01_T002" ;
+    ded:pathType "travel" ;
+    ded:laserOn false ;
+    ded:powderSupplyOn true ;
+    ded:segmentOf ded:Layer_01 .
+
+ded:ParameterEvent_LPP_0001
+    a ded:ProcessParameterEvent ;
+    rdfs:label "LPP_0001 設定雷射參數"@zh ;
+    ded:identifier "LPP_0001" ;
+    ded:laserPowerW 480.0 ;
+    ded:spotDiameterMM 3.65 ;
+    ded:laserOn false ;
+    ded:powderSupplyOn false .
+
+ded:ParameterEvent_LPP_0006
+    a ded:ProcessParameterEvent ;
+    rdfs:label "LPP_0006 啟用雷射"@zh ;
+    ded:identifier "LPP_0006" ;
+    ded:laserOn true ;
+    ded:powderSupplyOn true .
+
+ded:ThermalDataset_20260525
+    a ded:ThermalDataset ;
+    rdfs:label "熱像資料 2026-05-25"@zh ;
+    ded:fileName "Channel_0_11__2026-05-25_10_31_24_470_4.csv" ;
+    ded:generatedBy ded:ThermalCamera_Channel_0_11 ;
+    ded:startTime "2026-05-25 10:31:24.564" ;
+    ded:endTime "2026-05-25 10:33:24.574" ;
+    ded:sampleCount 3004 ;
+    ded:gHighMin 69.08 ;
+    ded:gHighMax 1295.23 ;
+    ded:gHighAverage 448.2214 ;
+    ded:hasObservation ded:ThermalObservation_001 .
+
+ded:ThermalObservation_001
+    a ded:ThermalObservation ;
+    rdfs:label "熱像樣本 001"@zh ;
+    ded:startTime "2026-05-25 10:31:24.564" ;
+    ded:gHigh 71.90 .
+
+ded:EdgeDataset_20260525
+    a ded:EdgeDataset ;
+    rdfs:label "Edge 資料 2026-05-25"@zh ;
+    ded:fileName "5layer.csv" ;
+    ded:generatedBy ded:EdgeGateway_5Layer ;
+    ded:startTime "T+0 ms" ;
+    ded:endTime "T+966230 ms" ;
+    ded:sampleCount 5823 ;
+    ded:hasObservation ded:EdgeObservation_001 .
+
+ded:EdgeObservation_001
+    a ded:EdgeObservation ;
+    rdfs:label "Edge 樣本 001"@zh ;
+    ded:startTime "T+0 ms" ;
+    ded:gHigh 81.07 ;
+    ded:alignmentErrorMS -0.265547 .
+
+ded:Alignment_20260525
+    a ded:SensorAlignment ;
+    rdfs:label "熱像與 Edge 時序對齊"@zh ;
+    ded:alignmentMethod "thermal G_High and Edge trajectory time alignment" ;
+    ded:alignsDataset ded:ThermalDataset_20260525 ,
+        ded:EdgeDataset_20260525 .
+
+ded:Band_Good
+    a ded:AssessmentBand ;
+    rdfs:label "優良"@zh ;
+    ded:maxExclusive 1300.0 .
+
+ded:Band_Warning
+    a ded:AssessmentBand ;
+    rdfs:label "警示"@zh ;
+    ded:minInclusive 1300.0 ;
+    ded:maxExclusive 1500.0 .
+
+ded:Band_Abnormal
+    a ded:AssessmentBand ;
+    rdfs:label "異常"@zh ;
+    ded:minInclusive 1500.0 .
+
+ded:Assessment_20260525
+    a ded:QualityAssessment ;
+    rdfs:label "熱像同步判斷 2026-05-25"@zh ;
+    ded:basedOnDataset ded:ThermalDataset_20260525 ;
+    ded:classifiedAs ded:Band_Good ;
+    ded:assessmentMessage "G_High 最高值為 1295.23，低於 1300 的警示門檻。"@zh .

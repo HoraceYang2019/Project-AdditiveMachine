@@ -1,0 +1,234 @@
+@prefix amh: <http://nkust.edu.tw/mislab/final/ontology/amh350-dataflow#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://nkust.edu.tw/mislab/final/ontology/amh350-dataflow>
+    a owl:Ontology ;
+    rdfs:label "AMH-350 設備資料流知識本體"@zh ;
+    rdfs:comment "以 AMH-350 為中心，呈現周邊感測器蒐集的資訊，以及資料對齊、分析、判斷與儀表板顯示流程。"@zh .
+
+#################################################################
+# Classes
+#################################################################
+
+amh:Equipment a owl:Class ;
+    rdfs:label "設備"@zh .
+
+amh:ManufacturingMachine a owl:Class ;
+    rdfs:subClassOf amh:Equipment ;
+    rdfs:label "製造機台"@zh .
+
+amh:PeripheralDevice a owl:Class ;
+    rdfs:subClassOf amh:Equipment ;
+    rdfs:label "周邊裝置"@zh .
+
+amh:ThermalCamera a owl:Class ;
+    rdfs:subClassOf amh:PeripheralDevice ;
+    rdfs:label "熱像儀"@zh .
+
+amh:EdgeDevice a owl:Class ;
+    rdfs:subClassOf amh:PeripheralDevice ;
+    rdfs:label "Edge 裝置"@zh .
+
+amh:CollectedSignal a owl:Class ;
+    rdfs:label "蒐集資訊"@zh .
+
+amh:DigitalArtifact a owl:Class ;
+    rdfs:label "數位資料"@zh .
+
+amh:SensorDataset a owl:Class ;
+    rdfs:subClassOf amh:DigitalArtifact ;
+    rdfs:label "感測資料集"@zh .
+
+amh:NCProgram a owl:Class ;
+    rdfs:subClassOf amh:DigitalArtifact ;
+    rdfs:label "G-code / MPF 程式"@zh .
+
+amh:ToolpathDataset a owl:Class ;
+    rdfs:subClassOf amh:DigitalArtifact ;
+    rdfs:label "路徑資料集"@zh .
+
+amh:AlignedDataset a owl:Class ;
+    rdfs:subClassOf amh:DigitalArtifact ;
+    rdfs:label "對齊後資料"@zh .
+
+amh:ProcessingStep a owl:Class ;
+    rdfs:label "處理步驟"@zh .
+
+amh:DashboardDisplay a owl:Class ;
+    rdfs:label "儀表板顯示"@zh .
+
+amh:QualityJudgment a owl:Class ;
+    rdfs:label "品質判斷"@zh .
+
+#################################################################
+# Object properties
+#################################################################
+
+amh:hasPeripheral a owl:ObjectProperty ;
+    rdfs:domain amh:ManufacturingMachine ;
+    rdfs:range amh:PeripheralDevice ;
+    rdfs:label "連接周邊裝置"@zh .
+
+amh:executesProgram a owl:ObjectProperty ;
+    rdfs:domain amh:ManufacturingMachine ;
+    rdfs:range amh:NCProgram ;
+    rdfs:label "執行程式"@zh .
+
+amh:collectsSignal a owl:ObjectProperty ;
+    rdfs:domain amh:PeripheralDevice ;
+    rdfs:range amh:CollectedSignal ;
+    rdfs:label "蒐集資訊"@zh .
+
+amh:producesDataset a owl:ObjectProperty ;
+    rdfs:domain amh:PeripheralDevice ;
+    rdfs:range amh:SensorDataset ;
+    rdfs:label "產生資料集"@zh .
+
+amh:usesInput a owl:ObjectProperty ;
+    rdfs:domain amh:ProcessingStep ;
+    rdfs:range amh:DigitalArtifact ;
+    rdfs:label "使用輸入"@zh .
+
+amh:producesOutput a owl:ObjectProperty ;
+    rdfs:label "產生輸出"@zh .
+
+amh:dataFlowsTo a owl:ObjectProperty ;
+    rdfs:label "資料流向"@zh .
+
+amh:displayedBy a owl:ObjectProperty ;
+    rdfs:domain amh:DigitalArtifact ;
+    rdfs:range amh:DashboardDisplay ;
+    rdfs:label "顯示於"@zh .
+
+amh:judgedBy a owl:ObjectProperty ;
+    rdfs:domain amh:DigitalArtifact ;
+    rdfs:range amh:QualityJudgment ;
+    rdfs:label "交由判斷"@zh .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+amh:fileName a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "檔案名稱"@zh .
+
+amh:sampleCount a owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "樣本數"@zh .
+
+amh:maximumValue a owl:DatatypeProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "最大值"@zh .
+
+amh:judgmentMessage a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "判斷訊息"@zh .
+
+#################################################################
+# Individuals: expand from Machine_AMH_350 in Protege OntoGraf
+#################################################################
+
+amh:Machine_AMH_350
+    a amh:ManufacturingMachine ;
+    rdfs:label "機台：AMH-350"@zh ;
+    amh:hasPeripheral amh:ThermalCamera_Channel_0_11 ,
+        amh:Edge_Device ;
+    amh:executesProgram amh:MPF_Program ;
+    amh:dataFlowsTo amh:ThermalCamera_Channel_0_11 ,
+        amh:Edge_Device ,
+        amh:MPF_Program .
+
+amh:ThermalCamera_Channel_0_11
+    a amh:ThermalCamera ;
+    rdfs:label "感測器：熱像儀"@zh ;
+    amh:collectsSignal amh:Signal_G_High ;
+    amh:producesDataset amh:Thermal_Dataset ;
+    amh:dataFlowsTo amh:Thermal_Dataset .
+
+amh:Edge_Device
+    a amh:EdgeDevice ;
+    rdfs:label "裝置：Edge"@zh ;
+    amh:collectsSignal amh:Signal_Machine_XYZ ,
+        amh:Signal_Alignment_Error ,
+        amh:Signal_Edge_G_High ;
+    amh:producesDataset amh:Edge_Dataset ;
+    amh:dataFlowsTo amh:Edge_Dataset .
+
+amh:Signal_G_High
+    a amh:CollectedSignal ;
+    rdfs:label "熱像資訊：G_High 溫度"@zh .
+
+amh:Signal_Machine_XYZ
+    a amh:CollectedSignal ;
+    rdfs:label "Edge 資訊：機台 X / Y / Z 座標"@zh .
+
+amh:Signal_Alignment_Error
+    a amh:CollectedSignal ;
+    rdfs:label "Edge 資訊：時間對齊誤差"@zh .
+
+amh:Signal_Edge_G_High
+    a amh:CollectedSignal ;
+    rdfs:label "Edge 資訊：同步 G_High"@zh .
+
+amh:Thermal_Dataset
+    a amh:SensorDataset ;
+    rdfs:label "熱像資料集：CSV"@zh ;
+    amh:fileName "Channel_0_11__2026-05-25_10_31_24_470_4.csv" ;
+    amh:sampleCount 3004 ;
+    amh:maximumValue 1295.23 ;
+    amh:dataFlowsTo amh:Time_Alignment .
+
+amh:Edge_Dataset
+    a amh:SensorDataset ;
+    rdfs:label "Edge 資料集：CSV / JSON"@zh ;
+    amh:fileName "5layer.csv" ;
+    amh:sampleCount 5823 ;
+    amh:dataFlowsTo amh:Time_Alignment .
+
+amh:MPF_Program
+    a amh:NCProgram ;
+    rdfs:label "對應 G-code：MPF 程式"@zh ;
+    amh:fileName "20260525450715000610T.MPF" ;
+    amh:dataFlowsTo amh:GCode_Parsing .
+
+amh:GCode_Parsing
+    a amh:ProcessingStep ;
+    rdfs:label "處理：解析 G-code 路徑與 Layer"@zh ;
+    amh:usesInput amh:MPF_Program ;
+    amh:producesOutput amh:Toolpath_Dataset ;
+    amh:dataFlowsTo amh:Toolpath_Dataset .
+
+amh:Toolpath_Dataset
+    a amh:ToolpathDataset ;
+    rdfs:label "結果：路徑段與 Layer 資料"@zh ;
+    amh:dataFlowsTo amh:Time_Alignment .
+
+amh:Time_Alignment
+    a amh:ProcessingStep ;
+    rdfs:label "處理：熱像、Edge 與 G-code 自動對齊"@zh ;
+    amh:usesInput amh:Thermal_Dataset ,
+        amh:Edge_Dataset ,
+        amh:Toolpath_Dataset ;
+    amh:producesOutput amh:Aligned_Dataset ;
+    amh:dataFlowsTo amh:Aligned_Dataset .
+
+amh:Aligned_Dataset
+    a amh:AlignedDataset ;
+    rdfs:label "結果：完成時間與座標對齊的資料"@zh ;
+    amh:displayedBy amh:DED_Dashboard ;
+    amh:judgedBy amh:Heat_Quality_Judgment ;
+    amh:dataFlowsTo amh:DED_Dashboard ,
+        amh:Heat_Quality_Judgment .
+
+amh:Heat_Quality_Judgment
+    a amh:QualityJudgment ;
+    rdfs:label "判斷：熱像品質分級"@zh ;
+    amh:judgmentMessage "G_High < 1300：優良；1300 <= G_High < 1500：警示；G_High >= 1500：異常。"@zh ;
+    amh:dataFlowsTo amh:DED_Dashboard .
+
+amh:DED_Dashboard
+    a amh:DashboardDisplay ;
+    rdfs:label "顯示：DED 成型儀表板"@zh .

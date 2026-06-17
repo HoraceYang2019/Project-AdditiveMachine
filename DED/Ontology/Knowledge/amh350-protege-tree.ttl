@@ -1,0 +1,222 @@
+@prefix flow: <http://nkust.edu.tw/mislab/final/ontology/amh350-protege-tree#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://nkust.edu.tw/mislab/final/ontology/amh350-protege-tree>
+    a owl:Ontology ;
+    rdfs:label "AMH-350 Protégé 展示樹"@zh ;
+    rdfs:comment "此檔案專門用於 Protégé Classes 視圖展示。階層代表設備資料流的閱讀順序，不作為正式的 is-a 領域模型。"@zh .
+
+#################################################################
+# Root: the only direct child shown below owl:Thing
+#################################################################
+
+flow:Machine_AMH_350
+    a owl:Class ;
+    rdfs:label "機台：AMH-350"@zh .
+
+#################################################################
+# Branch 1: thermal camera
+#################################################################
+
+flow:Peripheral_Thermal_Camera
+    a owl:Class ;
+    rdfs:subClassOf flow:Machine_AMH_350 ;
+    rdfs:label "周邊感測器：熱像儀"@zh .
+
+flow:Thermal_Received_Information
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Thermal_Camera ;
+    rdfs:label "收到資訊"@zh .
+
+flow:Thermal_Field_Time
+    a owl:Class ;
+    rdfs:subClassOf flow:Thermal_Received_Information ;
+    rdfs:label "欄位：時間戳 Time"@zh .
+
+flow:Thermal_Field_G_High
+    a owl:Class ;
+    rdfs:subClassOf flow:Thermal_Received_Information ;
+    rdfs:label "欄位：G_High 溫度"@zh .
+
+flow:Thermal_CSV_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Thermal_Camera ;
+    rdfs:label "產生資料：熱像 CSV"@zh .
+
+flow:Thermal_Data_Flow
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Thermal_Camera ;
+    rdfs:label "資料流向"@zh .
+
+flow:Thermal_Flow_To_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:Thermal_Data_Flow ;
+    rdfs:label "① 熱像儀 → 熱像 CSV 資料集"@zh .
+
+flow:Thermal_Flow_To_Alignment
+    a owl:Class ;
+    rdfs:subClassOf flow:Thermal_Flow_To_Dataset ;
+    rdfs:label "② 熱像 CSV → 自動對齊處理"@zh .
+
+flow:Thermal_Usage
+    a owl:Class ;
+    rdfs:subClassOf flow:Thermal_CSV_Dataset ;
+    rdfs:label "用途：辨識溫度變化與熱像特徵"@zh .
+
+#################################################################
+# Branch 2: Edge device
+#################################################################
+
+flow:Peripheral_Edge_Device
+    a owl:Class ;
+    rdfs:subClassOf flow:Machine_AMH_350 ;
+    rdfs:label "周邊裝置：Edge"@zh .
+
+flow:Edge_Received_Information
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Edge_Device ;
+    rdfs:label "收到資訊"@zh .
+
+flow:Edge_Field_Time
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：時間 sample_ms"@zh .
+
+flow:Edge_Field_X
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：機台 X 座標"@zh .
+
+flow:Edge_Field_Y
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：機台 Y 座標"@zh .
+
+flow:Edge_Field_Z
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：機台 Z 座標"@zh .
+
+flow:Edge_Field_G_High
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：同步 G_High"@zh .
+
+flow:Edge_Field_Alignment_Error
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Received_Information ;
+    rdfs:label "欄位：時間對齊誤差 align_error_ms"@zh .
+
+flow:Edge_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Edge_Device ;
+    rdfs:label "產生資料：Edge CSV / JSON"@zh .
+
+flow:Edge_Data_Flow
+    a owl:Class ;
+    rdfs:subClassOf flow:Peripheral_Edge_Device ;
+    rdfs:label "資料流向"@zh .
+
+flow:Edge_Flow_To_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Data_Flow ;
+    rdfs:label "① Edge → Edge CSV / JSON 資料集"@zh .
+
+flow:Edge_Flow_To_Alignment
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Flow_To_Dataset ;
+    rdfs:label "② Edge 資料集 → 自動對齊處理"@zh .
+
+flow:Edge_Usage
+    a owl:Class ;
+    rdfs:subClassOf flow:Edge_Dataset ;
+    rdfs:label "用途：取得機台座標與同步依據"@zh .
+
+#################################################################
+# Branch 3: machine program
+#################################################################
+
+flow:MPF_Program
+    a owl:Class ;
+    rdfs:subClassOf flow:Machine_AMH_350 ;
+    rdfs:label "對應程式：G-code / MPF"@zh .
+
+flow:MPF_Received_Information
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Program ;
+    rdfs:label "讀取資訊"@zh .
+
+flow:MPF_Field_Layer
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Received_Information ;
+    rdfs:label "欄位：Layer"@zh .
+
+flow:MPF_Field_Toolpath
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Received_Information ;
+    rdfs:label "欄位：路徑段"@zh .
+
+flow:MPF_Field_Laser_State
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Received_Information ;
+    rdfs:label "欄位：雷射狀態"@zh .
+
+flow:MPF_Field_Powder_State
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Received_Information ;
+    rdfs:label "欄位：送粉狀態"@zh .
+
+flow:Toolpath_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Program ;
+    rdfs:label "產生資料：G-code 路徑與 Layer"@zh .
+
+flow:MPF_Data_Flow
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Program ;
+    rdfs:label "資料流向"@zh .
+
+flow:MPF_Flow_To_Dataset
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Data_Flow ;
+    rdfs:label "① MPF → G-code 路徑與 Layer 資料集"@zh .
+
+flow:MPF_Flow_To_Alignment
+    a owl:Class ;
+    rdfs:subClassOf flow:MPF_Flow_To_Dataset ;
+    rdfs:label "② 路徑資料集 → 自動對齊處理"@zh .
+
+flow:Toolpath_Usage
+    a owl:Class ;
+    rdfs:subClassOf flow:Toolpath_Dataset ;
+    rdfs:label "用途：建立加工路徑播放基準"@zh .
+
+#################################################################
+# Branch 4: combined processing and presentation
+#################################################################
+
+flow:Combined_Processing
+    a owl:Class ;
+    rdfs:subClassOf flow:Machine_AMH_350 ;
+    rdfs:label "資料整合與應用"@zh .
+
+flow:Combined_Input
+    a owl:Class ;
+    rdfs:subClassOf flow:Combined_Processing ;
+    rdfs:label "① 收到：熱像資料 + Edge 資料 + G-code 路徑"@zh .
+
+flow:Automatic_Alignment
+    a owl:Class ;
+    rdfs:subClassOf flow:Combined_Input ;
+    rdfs:label "② 處理：自動進行時間與座標對齊"@zh .
+
+flow:Quality_Judgment
+    a owl:Class ;
+    rdfs:subClassOf flow:Automatic_Alignment ;
+    rdfs:label "③ 判斷：優良 / 警示 / 異常"@zh .
+
+flow:Dashboard_Display
+    a owl:Class ;
+    rdfs:subClassOf flow:Quality_Judgment ;
+    rdfs:label "④ 顯示：DED 成型儀表板"@zh .

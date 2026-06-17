@@ -1,0 +1,13 @@
+{
+  "parameter_event_id": "DED_0001",
+  "program_id": "202603237504150010",
+  "laser_power_w": 785.0,
+  "spot_diameter_mm": 2.02,
+  "laser_mode": 1,
+  "scan_speed_mm_min": 1500.0,
+  "powder_supply_on": true,
+  "powder_emptying_requested": false,
+  "safety_lock_on": true,
+  "laser_on": false,
+  "parameter_group": "startup_layer_01"
+}

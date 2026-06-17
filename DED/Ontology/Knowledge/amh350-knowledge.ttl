@@ -1,0 +1,352 @@
+@prefix ded: <http://nkust.edu.tw/mislab/ded/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ded:AMH350KnowledgeOntology rdf:type owl:Ontology ;
+    rdfs:label "AMH-350 Knowledge ontology"@en ;
+    rdfs:comment "Knowledge ontology for AMH-350 time alignment, thermal threshold classification, and inference rule-table recommendations."@en .
+
+#################################################################
+# Classes
+#################################################################
+
+ded:Knowledge rdf:type owl:Class ;
+    rdfs:label "Knowledge"@en .
+
+ded:KnowledgeBase rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Knowledge base"@en .
+
+ded:AlignmentKnowledge rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Alignment knowledge"@en .
+
+ded:ThresholdKnowledge rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Threshold knowledge"@en .
+
+ded:ThresholdRule rdf:type owl:Class ;
+    rdfs:subClassOf ded:ThresholdKnowledge ;
+    rdfs:label "Threshold rule"@en .
+
+ded:InferenceKnowledge rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Inference knowledge"@en .
+
+ded:DecisionBasis rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Decision basis"@en .
+
+ded:RecommendationTarget rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Recommendation target"@en .
+
+ded:RecommendationRule rdf:type owl:Class ;
+    rdfs:subClassOf ded:InferenceKnowledge ;
+    rdfs:label "Recommendation rule"@en .
+
+ded:QualityState rdf:type owl:Class ;
+    rdfs:subClassOf ded:Knowledge ;
+    rdfs:label "Quality state"@en .
+
+ded:DataField rdf:type owl:Class ;
+    rdfs:label "Data field"@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+ded:hasKnowledge rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:KnowledgeBase ;
+    rdfs:range ded:Knowledge ;
+    rdfs:label "has knowledge"@en .
+
+ded:usesField rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:Knowledge ;
+    rdfs:range ded:DataField ;
+    rdfs:label "uses field"@en .
+
+ded:producesState rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:ThresholdRule ;
+    rdfs:range ded:QualityState ;
+    rdfs:label "produces state"@en .
+
+ded:hasDecisionBasis rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range ded:DecisionBasis ;
+    rdfs:label "has decision basis"@en .
+
+ded:recommendsTarget rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range ded:RecommendationTarget ;
+    rdfs:label "recommends target"@en .
+
+ded:dependsOnThresholdRule rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range ded:ThresholdRule ;
+    rdfs:label "depends on threshold rule"@en .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+ded:hasRuleExpression rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:Knowledge ;
+    rdfs:range xsd:string ;
+    rdfs:label "has rule expression"@en .
+
+ded:hasMinInclusive rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:ThresholdRule ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "has minimum inclusive"@en .
+
+ded:hasMaxExclusive rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:ThresholdRule ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "has maximum exclusive"@en .
+
+ded:hasUnit rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:ThresholdRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "has unit"@en .
+
+ded:hasFieldName rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:DataField ;
+    rdfs:range xsd:string ;
+    rdfs:label "has field name"@en .
+
+ded:hasRecommendationText rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "has recommendation text"@en .
+
+ded:hasAdjustmentDirection rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "has adjustment direction"@en .
+
+ded:hasAdjustmentRange rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "has adjustment range"@en .
+
+ded:hasPriority rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:RecommendationRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "has priority"@en .
+
+#################################################################
+# Individuals: fields
+#################################################################
+
+ded:Field_Thermal_Time rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "Thermal field: Time"@en ;
+    ded:hasFieldName "Time" .
+
+ded:Field_Thermal_GHigh rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "Thermal field: G_High"@en ;
+    ded:hasFieldName "G_High" .
+
+ded:Field_Edge_SampleMS rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "Edge field: sample_ms"@en ;
+    ded:hasFieldName "sample_ms" .
+
+ded:Field_Edge_Z rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "Edge field: machine_z_mm"@en ;
+    ded:hasFieldName "machine_z_mm" .
+
+ded:Field_MPF_ToolPath rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "MPF field: toolpath"@en ;
+    ded:hasFieldName "toolpath" .
+
+ded:Field_MPF_LaserPower rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "MPF field: laser_power_w"@en ;
+    ded:hasFieldName "laser_power_w" .
+
+ded:Field_MPF_SpotDiameter rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "MPF field: spot_diameter_mm"@en ;
+    ded:hasFieldName "spot_diameter_mm" .
+
+ded:Field_MPF_PowderSupply rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "MPF field: powder_supply_on"@en ;
+    ded:hasFieldName "powder_supply_on" .
+
+ded:Field_MPF_Dwell rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "MPF field: dwell_s"@en ;
+    ded:hasFieldName "dwell_s" .
+
+ded:Field_Toolpath_FeedRate rdf:type owl:NamedIndividual , ded:DataField ;
+    rdfs:label "Toolpath field: feed_rate_mm_min"@en ;
+    ded:hasFieldName "feed_rate_mm_min" .
+
+#################################################################
+# Individuals: quality states
+#################################################################
+
+ded:State_Good rdf:type owl:NamedIndividual , ded:QualityState ;
+    rdfs:label "Good"@en .
+
+ded:State_Warning rdf:type owl:NamedIndividual , ded:QualityState ;
+    rdfs:label "Warning"@en .
+
+ded:State_Abnormal rdf:type owl:NamedIndividual , ded:QualityState ;
+    rdfs:label "Abnormal"@en .
+
+#################################################################
+# Individuals: knowledge base
+#################################################################
+
+ded:AMH350_Knowledge_Base rdf:type owl:NamedIndividual , ded:KnowledgeBase ;
+    rdfs:label "AMH-350 knowledge base"@en ;
+    ded:hasKnowledge ded:Knowledge_TimeAlignment ,
+        ded:Rule_Good ,
+        ded:Rule_Warning ,
+        ded:Rule_Abnormal .
+
+ded:Knowledge_TimeAlignment rdf:type owl:NamedIndividual , ded:AlignmentKnowledge ;
+    rdfs:label "Time alignment knowledge"@en ;
+    ded:usesField ded:Field_Thermal_Time ,
+        ded:Field_Edge_SampleMS ,
+        ded:Field_MPF_ToolPath ;
+    ded:hasRuleExpression "thermal.Time + edge.sample_ms + MPF toolpath -> synchronized window" .
+
+#################################################################
+# Individuals: threshold rules
+#################################################################
+
+ded:Rule_Good rdf:type owl:NamedIndividual , ded:ThresholdRule ;
+    rdfs:label "Good threshold rule"@en ;
+    ded:usesField ded:Field_Thermal_GHigh ;
+    ded:producesState ded:State_Good ;
+    ded:hasMaxExclusive 1300 ;
+    ded:hasUnit "degC" ;
+    ded:hasRuleExpression "G_High < 1300" .
+
+ded:Rule_Warning rdf:type owl:NamedIndividual , ded:ThresholdRule ;
+    rdfs:label "Warning threshold rule"@en ;
+    ded:usesField ded:Field_Thermal_GHigh ;
+    ded:producesState ded:State_Warning ;
+    ded:hasMinInclusive 1300 ;
+    ded:hasMaxExclusive 1500 ;
+    ded:hasUnit "degC" ;
+    ded:hasRuleExpression "1300 <= G_High < 1500" .
+
+ded:Rule_Abnormal rdf:type owl:NamedIndividual , ded:ThresholdRule ;
+    rdfs:label "Abnormal threshold rule"@en ;
+    ded:usesField ded:Field_Thermal_GHigh ;
+    ded:producesState ded:State_Abnormal ;
+    ded:hasMinInclusive 1500 ;
+    ded:hasUnit "degC" ;
+    ded:hasRuleExpression "G_High >= 1500" .
+
+#################################################################
+# Individuals: inference rule table
+#################################################################
+
+ded:Basis_AbsoluteThreshold rdf:type owl:NamedIndividual , ded:DecisionBasis ;
+    rdfs:label "Absolute thermal threshold"@en ;
+    ded:hasRuleExpression "Use the absolute G_High threshold bands to classify good, warning, and abnormal regions." .
+
+ded:Basis_SameParameterReference rdf:type owl:NamedIndividual , ded:DecisionBasis ;
+    rdfs:label "Same-parameter reference"@en ;
+    ded:hasRuleExpression "Compare the current trace with historical runs under the same process parameters." .
+
+ded:Basis_SamePathReference rdf:type owl:NamedIndividual , ded:DecisionBasis ;
+    rdfs:label "Same-path-position reference"@en ;
+    ded:hasRuleExpression "Compare the current trace with the baseline at the same layer and toolpath position." .
+
+ded:Target_LaserPower rdf:type owl:NamedIndividual , ded:RecommendationTarget ;
+    rdfs:label "Laser power"@en ;
+    ded:hasRuleExpression "Adjustment target: laser_power_w" .
+
+ded:Target_FeedRate rdf:type owl:NamedIndividual , ded:RecommendationTarget ;
+    rdfs:label "Feed rate"@en ;
+    ded:hasRuleExpression "Adjustment target: feed_rate_mm_min" .
+
+ded:Target_PowderSupply rdf:type owl:NamedIndividual , ded:RecommendationTarget ;
+    rdfs:label "Powder supply"@en ;
+    ded:hasRuleExpression "Adjustment target: powder_supply_on" .
+
+ded:Target_SpotDiameter rdf:type owl:NamedIndividual , ded:RecommendationTarget ;
+    rdfs:label "Spot diameter"@en ;
+    ded:hasRuleExpression "Adjustment target: spot_diameter_mm" .
+
+ded:Target_DwellTime rdf:type owl:NamedIndividual , ded:RecommendationTarget ;
+    rdfs:label "Dwell time"@en ;
+    ded:hasRuleExpression "Adjustment target: dwell_s" .
+
+ded:RecRule_Good_Maintain rdf:type owl:NamedIndividual , ded:RecommendationRule ;
+    rdfs:label "Maintain stable process state"@en ;
+    ded:dependsOnThresholdRule ded:Rule_Good ;
+    ded:hasDecisionBasis ded:Basis_AbsoluteThreshold ,
+        ded:Basis_SameParameterReference ,
+        ded:Basis_SamePathReference ;
+    ded:recommendsTarget ded:Target_LaserPower ,
+        ded:Target_FeedRate ;
+    ded:usesField ded:Field_Thermal_GHigh ,
+        ded:Field_Thermal_Time ,
+        ded:Field_Edge_SampleMS ,
+        ded:Field_MPF_LaserPower ,
+        ded:Field_Toolpath_FeedRate ;
+    ded:hasAdjustmentDirection "maintain" ;
+    ded:hasAdjustmentRange "0%" ;
+    ded:hasPriority "monitor" ;
+    ded:hasRecommendationText "Maintain the current laser power and feed rate while monitoring late-layer cooling behavior." ;
+    ded:hasRuleExpression "If G_High is in the good band and aligned with the same-parameter and same-path reference, keep the current settings." .
+
+ded:RecRule_Warning_AdjustHeatInput rdf:type owl:NamedIndividual , ded:RecommendationRule ;
+    rdfs:label "Adjust heat input under warning state"@en ;
+    ded:dependsOnThresholdRule ded:Rule_Warning ;
+    ded:hasDecisionBasis ded:Basis_AbsoluteThreshold ,
+        ded:Basis_SameParameterReference ,
+        ded:Basis_SamePathReference ;
+    ded:recommendsTarget ded:Target_LaserPower ,
+        ded:Target_FeedRate ,
+        ded:Target_PowderSupply ,
+        ded:Target_SpotDiameter ;
+    ded:usesField ded:Field_Thermal_GHigh ,
+        ded:Field_Edge_Z ,
+        ded:Field_MPF_LaserPower ,
+        ded:Field_MPF_SpotDiameter ,
+        ded:Field_MPF_PowderSupply ,
+        ded:Field_Toolpath_FeedRate ;
+    ded:hasAdjustmentDirection "decrease laser power / increase feed rate" ;
+    ded:hasAdjustmentRange "2% to 5%" ;
+    ded:hasPriority "warning" ;
+    ded:hasRecommendationText "Reduce laser power by 2% to 5% or increase feed rate by 2% to 5%, and inspect powder supply, nozzle condition, and spot diameter if the rise profile is delayed or unstable." ;
+    ded:hasRuleExpression "If G_High enters the warning band, compare against the same-parameter and same-path baseline before recommending a mild heat-input correction." .
+
+ded:RecRule_Abnormal_ImmediateCorrection rdf:type owl:NamedIndividual , ded:RecommendationRule ;
+    rdfs:label "Immediate correction for abnormal state"@en ;
+    ded:dependsOnThresholdRule ded:Rule_Abnormal ;
+    ded:hasDecisionBasis ded:Basis_AbsoluteThreshold ,
+        ded:Basis_SameParameterReference ,
+        ded:Basis_SamePathReference ;
+    ded:recommendsTarget ded:Target_LaserPower ,
+        ded:Target_FeedRate ,
+        ded:Target_PowderSupply ,
+        ded:Target_SpotDiameter ,
+        ded:Target_DwellTime ;
+    ded:usesField ded:Field_Thermal_GHigh ,
+        ded:Field_Edge_Z ,
+        ded:Field_MPF_LaserPower ,
+        ded:Field_MPF_SpotDiameter ,
+        ded:Field_MPF_PowderSupply ,
+        ded:Field_MPF_Dwell ,
+        ded:Field_Toolpath_FeedRate ;
+    ded:hasAdjustmentDirection "decrease laser power / increase feed rate / inspect material delivery" ;
+    ded:hasAdjustmentRange "5% to 10%" ;
+    ded:hasPriority "critical" ;
+    ded:hasRecommendationText "Immediately mark the interval as abnormal, reduce laser power by 5% to 10%, consider increasing feed rate by 5% to 8%, and inspect powder, nozzle, focus, and dwell conditions." ;
+    ded:hasRuleExpression "If G_High reaches the abnormal band, treat the region as an anomaly and trigger immediate corrective recommendations." .
+
+ded:AMH350_Inference_Rule_Table rdf:type owl:NamedIndividual , ded:KnowledgeBase ;
+    rdfs:label "AMH-350 inference rule table"@en ;
+    ded:hasKnowledge ded:Basis_AbsoluteThreshold ,
+        ded:Basis_SameParameterReference ,
+        ded:Basis_SamePathReference ,
+        ded:RecRule_Good_Maintain ,
+        ded:RecRule_Warning_AdjustHeatInput ,
+        ded:RecRule_Abnormal_ImmediateCorrection .

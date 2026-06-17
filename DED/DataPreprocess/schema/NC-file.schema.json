@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://nkust.edu.tw/mislab/final/schema/NC-file.schema.json",
+  "title": "NC File",
+  "description": "Metadata and controller setup extracted from a Siemens-style MPF program for laser additive manufacturing.",
+  "type": "object",
+  "required": [
+    "program_id",
+    "file_name",
+    "source_format",
+    "source_variant",
+    "cam_system",
+    "machine",
+    "machine_type",
+    "created_date",
+    "created_time",
+    "unit_system",
+    "coordinate_plane",
+    "coordinate_mode",
+    "work_offset",
+    "path_control_mode",
+    "transform_mode",
+    "home_position_used",
+    "has_laser_process",
+    "has_powder_supply"
+  ],
+  "properties": {
+    "program_id": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "source_format": {
+      "type": "string",
+      "enum": [
+        "Siemens MPF"
+      ]
+    },
+    "source_variant": {
+      "type": "string",
+      "enum": [
+        "original",
+        "modified",
+        "derived",
+        "unknown"
+      ]
+    },
+    "cam_system": {
+      "type": "string"
+    },
+    "source_cam_file": {
+      "type": "string"
+    },
+    "machine": {
+      "type": "string"
+    },
+    "machine_type": {
+      "type": "string",
+      "enum": [
+        "Laser-Directed-Energy-Deposition",
+        "Laser-Cladding",
+        "Hybrid-CNC",
+        "Unknown"
+      ]
+    },
+    "created_date": {
+      "type": "string"
+    },
+    "created_time": {
+      "type": "string"
+    },
+    "unit_system": {
+      "type": "string",
+      "enum": [
+        "mm"
+      ]
+    },
+    "coordinate_plane": {
+      "type": "string",
+      "enum": [
+        "G17",
+        "G18",
+        "G19"
+      ]
+    },
+    "coordinate_mode": {
+      "type": "string",
+      "enum": [
+        "G90",
+        "G91"
+      ]
+    },
+    "work_offset": {
+      "type": "string"
+    },
+    "path_control_mode": {
+      "type": "string"
+    },
+    "transform_mode": {
+      "type": "string"
+    },
+    "home_position_used": {
+      "type": "boolean"
+    },
+    "has_laser_process": {
+      "type": "boolean"
+    },
+    "has_powder_supply": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

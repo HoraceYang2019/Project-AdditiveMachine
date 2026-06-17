@@ -1,0 +1,329 @@
+@prefix ded: <http://nkust.edu.tw/mislab/ded/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ded:AMH350EmbodiedAILoopOntology rdf:type owl:Ontology ;
+    rdfs:label "AMH-350 embodied AI loop ontology"@en ;
+    rdfs:comment "Independent ontology for the AMH-350 sensing-identification-inference-evaluation-adaptation loop. The current repository already has stable sensing and alignment, while identification, full inference, evaluation, and adaptation remain staged implementation targets."@en .
+
+#################################################################
+# Classes
+#################################################################
+
+ded:EmbodiedAILoop rdf:type owl:Class ;
+    rdfs:label "Embodied AI loop"@en .
+
+ded:LoopStage rdf:type owl:Class ;
+    rdfs:label "Loop stage"@en .
+
+ded:SensingStage rdf:type owl:Class ;
+    rdfs:subClassOf ded:LoopStage ;
+    rdfs:label "Sensing stage"@en .
+
+ded:IdentificationStage rdf:type owl:Class ;
+    rdfs:subClassOf ded:LoopStage ;
+    rdfs:label "Identification stage"@en .
+
+ded:InferenceStage rdf:type owl:Class ;
+    rdfs:subClassOf ded:LoopStage ;
+    rdfs:label "Inference stage"@en .
+
+ded:EvaluationStage rdf:type owl:Class ;
+    rdfs:subClassOf ded:LoopStage ;
+    rdfs:label "Evaluation stage"@en .
+
+ded:AdaptationStage rdf:type owl:Class ;
+    rdfs:subClassOf ded:LoopStage ;
+    rdfs:label "Adaptation stage"@en .
+
+ded:InformationAsset rdf:type owl:Class ;
+    rdfs:label "Information asset"@en .
+
+ded:SensorAsset rdf:type owl:Class ;
+    rdfs:subClassOf ded:InformationAsset ;
+    rdfs:label "Sensor asset"@en .
+
+ded:ProcessAsset rdf:type owl:Class ;
+    rdfs:subClassOf ded:InformationAsset ;
+    rdfs:label "Process asset"@en .
+
+ded:StatusEntity rdf:type owl:Class ;
+    rdfs:label "Status entity"@en .
+
+ded:CauseHypothesis rdf:type owl:Class ;
+    rdfs:label "Cause hypothesis"@en .
+
+ded:ResponseAction rdf:type owl:Class ;
+    rdfs:label "Response action"@en .
+
+ded:EvaluationMetric rdf:type owl:Class ;
+    rdfs:label "Evaluation metric"@en .
+
+ded:BaselineReference rdf:type owl:Class ;
+    rdfs:label "Baseline reference"@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+ded:hasStage rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:EmbodiedAILoop ;
+    rdfs:range ded:LoopStage ;
+    rdfs:label "has stage"@en .
+
+ded:nextStage rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:LoopStage ;
+    rdfs:range ded:LoopStage ;
+    rdfs:label "next stage"@en .
+
+ded:consumesAsset rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:LoopStage ;
+    rdfs:range ded:InformationAsset ;
+    rdfs:label "consumes asset"@en .
+
+ded:producesAsset rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:LoopStage ;
+    rdfs:range ded:InformationAsset ;
+    rdfs:label "produces asset"@en .
+
+ded:detectsStatus rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:IdentificationStage ;
+    rdfs:range ded:StatusEntity ;
+    rdfs:label "detects status"@en .
+
+ded:infersCause rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:InferenceStage ;
+    rdfs:range ded:CauseHypothesis ;
+    rdfs:label "infers cause"@en .
+
+ded:recommendsAction rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:InferenceStage ;
+    rdfs:range ded:ResponseAction ;
+    rdfs:label "recommends action"@en .
+
+ded:evaluatesMetric rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:EvaluationStage ;
+    rdfs:range ded:EvaluationMetric ;
+    rdfs:label "evaluates metric"@en .
+
+ded:usesBaseline rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:EvaluationStage ;
+    rdfs:range ded:BaselineReference ;
+    rdfs:label "uses baseline"@en .
+
+ded:appliesAction rdf:type owl:ObjectProperty ;
+    rdfs:domain ded:AdaptationStage ;
+    rdfs:range ded:ResponseAction ;
+    rdfs:label "applies action"@en .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+ded:hasStageOrder rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:LoopStage ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has stage order"@en .
+
+ded:hasDescription rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "has description"@en .
+
+ded:mapsToPayloadKey rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "maps to payload key"@en .
+
+ded:mapsToField rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "maps to field"@en .
+
+ded:hasExpectedOutcome rdf:type owl:DatatypeProperty ;
+    rdfs:domain ded:ResponseAction ;
+    rdfs:range xsd:string ;
+    rdfs:label "has expected outcome"@en .
+
+#################################################################
+# Individuals: loop and stages
+#################################################################
+
+ded:Loop_AMH350_EmbodiedAI rdf:type owl:NamedIndividual , ded:EmbodiedAILoop ;
+    rdfs:label "AMH-350 embodied AI loop"@en ;
+    ded:hasStage ded:Stage_Sensing ,
+        ded:Stage_Identification ,
+        ded:Stage_Inference ,
+        ded:Stage_Evaluation ,
+        ded:Stage_Adaptation ;
+    ded:hasDescription "Closed-loop workflow from sensing to adaptation for the AMH-350 DED process." .
+
+ded:Stage_Sensing rdf:type owl:NamedIndividual , ded:SensingStage ;
+    rdfs:label "Sensing"@en ;
+    ded:hasStageOrder 1 ;
+    ded:consumesAsset ded:Asset_MPFProgram ,
+        ded:Asset_ThermalDataset ,
+        ded:Asset_EdgeDataset ;
+    ded:producesAsset ded:Asset_AlignedContext ;
+    ded:nextStage ded:Stage_Identification ;
+    ded:hasDescription "Collect and align sensor data and process context for one run." .
+
+ded:Stage_Identification rdf:type owl:NamedIndividual , ded:IdentificationStage ;
+    rdfs:label "Identification"@en ;
+    ded:hasStageOrder 2 ;
+    ded:consumesAsset ded:Asset_AlignedContext ;
+    ded:producesAsset ded:Asset_StatusReport ;
+    ded:detectsStatus ded:Status_RobotState ,
+        ded:Status_FilterBlocked ,
+        ded:Status_NozzleAbnormal ,
+        ded:Status_ProcessAbnormal ;
+    ded:nextStage ded:Stage_Inference ;
+    ded:hasDescription "Interpret aligned evidence into machine or process status." .
+
+ded:Stage_Inference rdf:type owl:NamedIndividual , ded:InferenceStage ;
+    rdfs:label "Inference"@en ;
+    ded:hasStageOrder 3 ;
+    ded:consumesAsset ded:Asset_AlignedContext ,
+        ded:Asset_StatusReport ;
+    ded:producesAsset ded:Asset_InferenceResult ;
+    ded:infersCause ded:Cause_HeatAccumulation ,
+        ded:Cause_EnergyDensityHigh ,
+        ded:Cause_FilterBlockage ,
+        ded:Cause_NozzleAnomaly ;
+    ded:recommendsAction ded:Action_AdjustLaserPower ,
+        ded:Action_AdjustFeedRate ,
+        ded:Action_InspectFilter ,
+        ded:Action_InspectNozzle ;
+    ded:nextStage ded:Stage_Evaluation ;
+    ded:hasDescription "Infer cause and produce one or more responses. In the current repository this stage is partially grounded by threshold preview and ontology rule-table integration, but not yet a full live inference engine." .
+
+ded:Stage_Evaluation rdf:type owl:NamedIndividual , ded:EvaluationStage ;
+    rdfs:label "Evaluation"@en ;
+    ded:hasStageOrder 4 ;
+    ded:consumesAsset ded:Asset_InferenceResult ;
+    ded:producesAsset ded:Asset_EvaluationResult ;
+    ded:evaluatesMetric ded:Metric_Quality ,
+        ded:Metric_Performance ;
+    ded:usesBaseline ded:Baseline_SameParameter ,
+        ded:Baseline_SameLayer ,
+        ded:Baseline_SamePathPosition ;
+    ded:nextStage ded:Stage_Adaptation ;
+    ded:hasDescription "Judge whether the inferred state affects quality or performance using same-parameter, same-layer, and same-path-position baselines." .
+
+ded:Stage_Adaptation rdf:type owl:NamedIndividual , ded:AdaptationStage ;
+    rdfs:label "Adaptation"@en ;
+    ded:hasStageOrder 5 ;
+    ded:consumesAsset ded:Asset_EvaluationResult ;
+    ded:producesAsset ded:Asset_AdaptationPlan ;
+    ded:appliesAction ded:Action_AdjustLaserPower ,
+        ded:Action_AdjustFeedRate ,
+        ded:Action_InspectFilter ,
+        ded:Action_InspectNozzle ;
+    ded:nextStage ded:Stage_Sensing ;
+    ded:hasDescription "Turn evaluation results into process or maintenance actions, optionally export a new MPF, and return to the next sensing cycle." .
+
+#################################################################
+# Individuals: assets
+#################################################################
+
+ded:Asset_MPFProgram rdf:type owl:NamedIndividual , ded:ProcessAsset ;
+    rdfs:label "MPF program"@en ;
+    ded:mapsToField "MPF / G-code" .
+
+ded:Asset_ThermalDataset rdf:type owl:NamedIndividual , ded:SensorAsset ;
+    rdfs:label "Thermal dataset"@en ;
+    ded:mapsToField "thermal.Time, thermal.G_High" .
+
+ded:Asset_EdgeDataset rdf:type owl:NamedIndividual , ded:SensorAsset ;
+    rdfs:label "Edge dataset"@en ;
+    ded:mapsToField "edge.sample_ms, edge.machine_x_mm, edge.machine_y_mm, edge.machine_z_mm, edge.g_high" .
+
+ded:Asset_AlignedContext rdf:type owl:NamedIndividual , ded:InformationAsset ;
+    rdfs:label "Aligned context"@en ;
+    ded:mapsToPayloadKey "aligned evidence" .
+
+ded:Asset_StatusReport rdf:type owl:NamedIndividual , ded:InformationAsset ;
+    rdfs:label "Status report"@en ;
+    ded:mapsToPayloadKey "identified_status" .
+
+ded:Asset_InferenceResult rdf:type owl:NamedIndividual , ded:InformationAsset ;
+    rdfs:label "Inference result"@en ;
+    ded:mapsToPayloadKey "state, cause, confidence, recommended_action, recommended_parameter_change" .
+
+ded:Asset_EvaluationResult rdf:type owl:NamedIndividual , ded:InformationAsset ;
+    rdfs:label "Evaluation result"@en ;
+    ded:mapsToPayloadKey "evaluation_result" .
+
+ded:Asset_AdaptationPlan rdf:type owl:NamedIndividual , ded:InformationAsset ;
+    rdfs:label "Adaptation plan"@en ;
+    ded:mapsToPayloadKey "adaptation_plan" .
+
+#################################################################
+# Individuals: status, cause, response
+#################################################################
+
+ded:Status_RobotState rdf:type owl:NamedIndividual , ded:StatusEntity ;
+    rdfs:label "Robot or motion status"@en ;
+    ded:hasDescription "Motion or machine state identified from the synchronized process context." .
+
+ded:Status_FilterBlocked rdf:type owl:NamedIndividual , ded:StatusEntity ;
+    rdfs:label "Filter blocked"@en ;
+    ded:hasDescription "Filter blockage or restricted flow state." .
+
+ded:Status_NozzleAbnormal rdf:type owl:NamedIndividual , ded:StatusEntity ;
+    rdfs:label "Nozzle abnormal"@en ;
+    ded:hasDescription "Nozzle condition abnormality." .
+
+ded:Status_ProcessAbnormal rdf:type owl:NamedIndividual , ded:StatusEntity ;
+    rdfs:label "Process abnormal"@en ;
+    ded:hasDescription "General process anomaly identified from thermal and Edge evidence." .
+
+ded:Cause_HeatAccumulation rdf:type owl:NamedIndividual , ded:CauseHypothesis ;
+    rdfs:label "Heat accumulation"@en .
+
+ded:Cause_EnergyDensityHigh rdf:type owl:NamedIndividual , ded:CauseHypothesis ;
+    rdfs:label "Energy density too high"@en .
+
+ded:Cause_FilterBlockage rdf:type owl:NamedIndividual , ded:CauseHypothesis ;
+    rdfs:label "Filter blockage"@en .
+
+ded:Cause_NozzleAnomaly rdf:type owl:NamedIndividual , ded:CauseHypothesis ;
+    rdfs:label "Nozzle anomaly"@en .
+
+ded:Action_AdjustLaserPower rdf:type owl:NamedIndividual , ded:ResponseAction ;
+    rdfs:label "Adjust laser power"@en ;
+    ded:mapsToField "laser_power_w" ;
+    ded:hasExpectedOutcome "Reduce excessive heat input or recover insufficient energy input." .
+
+ded:Action_AdjustFeedRate rdf:type owl:NamedIndividual , ded:ResponseAction ;
+    rdfs:label "Adjust feed rate"@en ;
+    ded:mapsToField "feed_rate_mm_min" ;
+    ded:hasExpectedOutcome "Correct residence time and energy density distribution." .
+
+ded:Action_InspectFilter rdf:type owl:NamedIndividual , ded:ResponseAction ;
+    rdfs:label "Inspect filter"@en ;
+    ded:mapsToField "maintenance.filter" ;
+    ded:hasExpectedOutcome "Recover stable flow and remove blockage risk." .
+
+ded:Action_InspectNozzle rdf:type owl:NamedIndividual , ded:ResponseAction ;
+    rdfs:label "Inspect nozzle"@en ;
+    ded:mapsToField "maintenance.nozzle" ;
+    ded:hasExpectedOutcome "Recover stable material delivery or beam condition." .
+
+#################################################################
+# Individuals: evaluation references
+#################################################################
+
+ded:Metric_Quality rdf:type owl:NamedIndividual , ded:EvaluationMetric ;
+    rdfs:label "Quality"@en .
+
+ded:Metric_Performance rdf:type owl:NamedIndividual , ded:EvaluationMetric ;
+    rdfs:label "Performance"@en .
+
+ded:Baseline_SameParameter rdf:type owl:NamedIndividual , ded:BaselineReference ;
+    rdfs:label "Same-parameter baseline"@en .
+
+ded:Baseline_SameLayer rdf:type owl:NamedIndividual , ded:BaselineReference ;
+    rdfs:label "Same-layer baseline"@en .
+
+ded:Baseline_SamePathPosition rdf:type owl:NamedIndividual , ded:BaselineReference ;
+    rdfs:label "Same-path-position baseline"@en .
