@@ -14,6 +14,7 @@ LPBF_Project/
 ├── 4. Coaxial_image/
 ├── 5. Global_image/
 └── 6. Measured_data/
+
 Folder Description
 資料夾	中文名稱	存放內容	常見格式
 1. Design	工件設計	原始工件幾何、CAD 模型及尺寸資料	.stl、.step、.stp、.iges
