@@ -1,1 +1,0 @@
-Purpose: user interface folder for providing user for operation.
