@@ -4,7 +4,7 @@ NAS Data
 
 開啟 NAS Data
 
-若連結無法開啟，請確認目前網路環境或 NAS 分享權限。
+http://163.18.48.141:8080/share.cgi?ssid=5a0ae56e4ac64e3b9478b6fbea83d3cf
 
 Folder Structure
 LPBF_Project/
