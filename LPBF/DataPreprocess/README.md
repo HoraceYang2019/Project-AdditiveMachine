@@ -4,7 +4,7 @@ NAS Data
 
 開啟 NAS Data
 
-http://163.18.48.141:8080/share.cgi?ssid=5a0ae56e4ac64e3b9478b6fbea83d3cf
+[http://163.18.48.141:8080/share.cgi?ssid=5a0ae56e4ac64e3b9478b6fbea83d3cf](http://163.18.48.141:8080/share.cgi?ssid=ed55ff2c295e434680f84b0651883d81)
 
 Folder Structure
 LPBF_Project/    
