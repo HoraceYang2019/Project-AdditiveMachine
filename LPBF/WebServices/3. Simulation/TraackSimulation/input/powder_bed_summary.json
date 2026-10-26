@@ -1,0 +1,62 @@
+{
+  "material": "Ti-6Al-4V",
+  "grid_shape": [
+    500,
+    100,
+    60
+  ],
+  "voxel_spacing_um": [
+    2.0,
+    2.0,
+    2.0
+  ],
+  "powder_z_um": [
+    30.0,
+    62.0
+  ],
+  "recoater_max_top_um": 62.0,
+  "measured_voxel_packing_fraction_30_62": 0.56950625,
+  "measured_voxel_porosity_fraction_30_62": 0.43049375,
+  "target_packing_fraction": 0.57,
+  "accepted_packing_range": [
+    0.56,
+    0.6
+  ],
+  "acceptance_status": "PASS",
+  "acceptance_passed": true,
+  "packing_in_spec": true,
+  "packing_error_percentage_points": -0.04937499999999595,
+  "particle_count": 9197,
+  "original_particle_count": 461,
+  "gap_fill_particle_count": 8736,
+  "gap_fill_diameter_range_um": [
+    4.0,
+    14.0
+  ],
+  "original_number_D10_D50_D90_um": [
+    15.435582938020474,
+    18.211960251406747,
+    27.764315761072265
+  ],
+  "final_psd_in_spec": false,
+  "actual_number_D10_D50_D90_um": [
+    4.175753869276756,
+    5.043291708403259,
+    10.467091869500422
+  ],
+  "requested_D10_range_um": [
+    15,
+    25
+  ],
+  "requested_D50_range_um": [
+    30,
+    40
+  ],
+  "requested_D90_range_um": [
+    45,
+    55
+  ],
+  "packing_30_84": 0.56950625,
+  "method": "random percentile-stratified PSD; best-of-N gravity deposition; not DEM",
+  "note": "Number quantiles. Fine-powder gap filling changes the overall PSD; it is geometry-only, not DEM."
+}
